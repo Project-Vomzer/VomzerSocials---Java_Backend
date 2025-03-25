@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.vomzersocials.data.models.Post;
 import org.vomzersocials.data.models.User;
 
+
 @Setter
 @Getter
 @Entity
