@@ -1,30 +1,27 @@
 package org.vomzersocials.utils;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-//import org.vomzersocials.user.data.model.User;
+import org.vomzersocials.data.models.Post;
+import org.vomzersocials.data.models.User;
+
 
 @Setter
 @Getter
 @Entity
 public class Like {
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    public Long getId() {
-        return id;
-    }
-//    @Id
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "Liker_Id", nullable = false)
-////    private User id;
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
 }
