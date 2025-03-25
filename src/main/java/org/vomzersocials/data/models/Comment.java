@@ -1,19 +1,34 @@
 package org.vomzersocials.data.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.vomzersocials.utils.Like;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
+
 @Getter
 @Setter
 public class Comment {
     @Id
-    private User id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
-    private List<Like> likes;
-    private Post replies;
+
+    @Column(nullable = false, length = 200)
+    private String content;
+
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
 }
