@@ -3,6 +3,8 @@ package org.vomzersocials.data.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.vomzersocials.utils.Like;
+import org.vomzersocials.utils.Role;
 
 import java.util.HashSet;
 import java.util.Set;
