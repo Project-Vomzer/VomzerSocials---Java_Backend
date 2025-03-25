@@ -1,11 +1,9 @@
 package org.vomzersocials.utils;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.vomzersocials.data.models.Post;
 import org.vomzersocials.user.data.model.User;
 
 @Setter
@@ -13,8 +11,12 @@ import org.vomzersocials.user.data.model.User;
 @Entity
 public class Like {
     @Id
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "Liker_Id", nullable = false)
-    private User id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    private Post post;
 
 }
