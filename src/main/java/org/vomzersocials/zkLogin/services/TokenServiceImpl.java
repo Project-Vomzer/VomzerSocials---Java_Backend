@@ -1,8 +1,8 @@
-package org.vomzersocials.user.services.implementations;
+package org.vomzersocials.zkLogin.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.vomzersocials.user.data.models.Token;
+import org.vomzersocials.zkLogin.models.Token;
 import org.vomzersocials.user.data.repositories.TokenRepository;
 import org.vomzersocials.user.exceptions.UsernameNotFoundException;
 import org.vomzersocials.user.services.interfaces.TokenService;

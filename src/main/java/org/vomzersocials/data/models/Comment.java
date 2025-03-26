@@ -1,20 +1,20 @@
-package org.vomzersocials.data.models;
+package org.vomzersocials.user.data.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.vomzersocials.utils.Like;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
+@Entity
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @UuidGenerator(style = UuidGenerator.Style.TIME) // Optional style
     private UUID id;
 
     @ManyToOne

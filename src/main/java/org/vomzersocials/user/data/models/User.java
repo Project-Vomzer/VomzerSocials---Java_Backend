@@ -6,9 +6,11 @@ import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.vomzersocials.user.media.models.Media;
 import org.vomzersocials.utils.Like;
 import org.vomzersocials.utils.Role;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Setter
@@ -26,6 +28,9 @@ public class User implements UserDetails {
     private Boolean isLoggedIn;
     private String suiAddress;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Media> mediaPosts = new HashSet<>();
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -41,10 +46,12 @@ public class User implements UserDetails {
     // Users Being Followed (Inverse of Following)
     @ManyToMany(mappedBy = "following")
     private Set<User> followers = new HashSet<>();
+    private String publicKey;
 
     // Likes (One User can Like Many Posts)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Like> likes = new HashSet<>();
+    private LocalDateTime dateOfCreation;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

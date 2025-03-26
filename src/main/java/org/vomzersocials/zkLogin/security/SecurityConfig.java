@@ -1,4 +1,4 @@
-package org.vomzersocials.user.security;
+package org.vomzersocials.zkLogin.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,7 @@
-package org.vomzersocials.user.services.implementations;
+package org.vomzersocials.zkLogin.services;
 
 import org.springframework.stereotype.Service;
 import org.vomzersocials.user.data.repositories.UserRepository;
-import org.vomzersocials.user.sui.SuiZkLoginClient;
 
 @Service
 public class ZkLoginService {

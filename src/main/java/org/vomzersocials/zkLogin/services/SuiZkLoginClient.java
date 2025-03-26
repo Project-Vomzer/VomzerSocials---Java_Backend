@@ -1,4 +1,4 @@
-package org.vomzersocials.user.sui;
+package org.vomzersocials.zkLogin.services;
 
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

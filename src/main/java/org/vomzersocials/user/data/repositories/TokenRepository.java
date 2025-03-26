@@ -1,7 +1,7 @@
 package org.vomzersocials.user.data.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.vomzersocials.user.data.models.Token;
+import org.vomzersocials.zkLogin.models.Token;
 
 import java.util.Optional;
 

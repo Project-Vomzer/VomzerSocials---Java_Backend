@@ -1,10 +1,11 @@
-package org.vomzersocials.data.models;
+package org.vomzersocials.user.data.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,10 +16,15 @@ import java.util.UUID;
 @Entity
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(
+            name = "author_id",
+            columnDefinition = "CHAR(36)"
+    )
     private User author;
 
     private int likes;

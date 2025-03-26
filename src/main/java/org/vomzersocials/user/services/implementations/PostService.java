@@ -1,4 +1,4 @@
-package org.vomzersocials.services.implementations;
+package org.vomzersocials.user.services.implementations;
 
 import org.springframework.stereotype.Service;
 

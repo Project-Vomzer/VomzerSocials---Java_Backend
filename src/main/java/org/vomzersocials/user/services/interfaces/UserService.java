@@ -1,5 +1,8 @@
 package org.vomzersocials.user.services.interfaces;
 
-public interface UserService {
+import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
+import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 
+public interface UserService {
+    RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest);
 }
