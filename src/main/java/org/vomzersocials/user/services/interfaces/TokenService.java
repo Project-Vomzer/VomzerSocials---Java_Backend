@@ -1,9 +1,8 @@
-package org.vomzersocials.services.interfaces;
+package org.vomzersocials.user.services.interfaces;
 
-import org.vomzersocials.data.models.Token;
+import org.vomzersocials.user.data.models.Token;
 
 public interface TokenService {
-
     String  createToken(String email);
     Token findByUserEmail(String email);
     void deleteToken(String id);

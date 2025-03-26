@@ -1,4 +1,4 @@
-package org.vomzersocials.data.models;
+package org.vomzersocials.user.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

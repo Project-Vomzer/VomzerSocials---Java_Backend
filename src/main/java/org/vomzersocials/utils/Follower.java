@@ -7,7 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import org.vomzersocials.data.models.User;
+import org.vomzersocials.user.data.models.User;
 
 @Entity
 @Setter
