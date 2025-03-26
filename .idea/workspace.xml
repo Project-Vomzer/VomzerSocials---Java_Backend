@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+
     <list default="true" id="bc18d1f4-b540-4940-9d8c-b0ea64cb00b8" name="Changes" comment="JWT Setup">
       <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
@@ -41,6 +42,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/utils/Like.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/utils/Like.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/services/implementations/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/services/implementations/UserServiceTest.java" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,9 +52,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+
         <option value="JUnit5 Test Class" />
         <option value="Interface" />
         <option value="Class" />
+
       </list>
     </option>
   </component>
@@ -67,12 +71,15 @@
   <component name="GitHubPullRequestSearchHistory"><![CDATA[{
   "lastFilter": {
     "state": "OPEN",
+
     "assignee": "johdanike"
+
   }
 }]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/johdanike/VomzerSocials-SuiHackerHouse.git",
+
     "accountId": "21f70173-cba1-45e4-adbd-60a833f4fa22"
   },
   "recentNewPullRequestHead": {
@@ -90,6 +97,7 @@
   "associatedIndex": 4
 }]]></component>
   <component name="ProjectId" id="2ulxijmH1HXaB6WLyCIWuhsJlvz" />
+
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -97,6 +105,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Application.Main.executor": "Run",
     "JUnit.UserServiceTest.test_thatUserCanRegister.executor": "Run",
@@ -112,11 +121,13 @@
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse/src/test/java",
     "last_opened_file_path": "C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse/src/test/resources",
+
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -200,10 +211,16 @@
       <set>
         <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.387" />
         <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.387" />
+
+    "settings.editor.selected.configurable": "language.sui.move",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="bc18d1f4-b540-4940-9d8c-b0ea64cb00b8" name="Changes" comment="" />
@@ -262,17 +279,20 @@
       <updated>1742918835704</updated>
     </task>
     <option name="localTasksCounter" value="7" />
+
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
+
     <MESSAGE value="Skeletal structure" />
     <MESSAGE value="User entity class added" />
     <MESSAGE value="Roles and other utils classes added" />
     <MESSAGE value="Other classes updated" />
     <MESSAGE value="JWT Setup" />
     <option name="LAST_COMMIT_MESSAGE" value="JWT Setup" />
+
   </component>
 </project>

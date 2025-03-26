@@ -1,6 +1,7 @@
 package org.vomzersocials.utils;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -17,7 +18,15 @@ public class Like {
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+
 }
