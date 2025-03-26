@@ -1,7 +1,8 @@
 package org.vomzersocials.services.implementations;
 
 import org.junit.jupiter.api.Test;
-import org.vomzersocials.data.models.User;
+import org.vomzersocials.user.data.models.User;
+import org.vomzersocials.user.services.implementations.UserService;
 import org.vomzersocials.utils.Role;
 
 import static org.junit.jupiter.api.Assertions.*;

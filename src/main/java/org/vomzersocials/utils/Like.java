@@ -1,30 +1,23 @@
 package org.vomzersocials.utils;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-//import org.vomzersocials.user.data.model.User;
+import org.hibernate.annotations.UuidGenerator;
+import org.vomzersocials.user.data.models.User;
+import java.util.UUID;
 
 @Setter
 @Getter
 @Entity
+@Table(name = "user_likes")
 public class Like {
     @Id
-    private Long id;
+    @UuidGenerator(style = UuidGenerator.Style.TIME) // Optional style
+    @Column(columnDefinition = "CHAR(36)")
+    private UUID id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-//    @Id
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "Liker_Id", nullable = false)
-////    private User id;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }
