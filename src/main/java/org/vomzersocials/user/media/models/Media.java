@@ -16,9 +16,9 @@ import java.util.UUID;
 @Table(name = "media")
 public class Media {
     @Id
-    @UuidGenerator
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "CHAR(36)")
-    private UUID id;
+    private String id;
 
     private String caption;
     private String filePath; // Store path to media file

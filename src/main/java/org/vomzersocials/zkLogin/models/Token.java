@@ -15,7 +15,7 @@ public class Token {
     @Id
     private String id;
     private String token;
-    private String ownerEmail;
+    private String userName;
     private LocalDateTime timeCreated =  LocalDateTime.now();
 }
 

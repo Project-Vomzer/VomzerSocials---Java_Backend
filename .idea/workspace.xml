@@ -4,36 +4,54 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="update">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/media/models/Media.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/media/repositories/MediaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/AuthService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Login components setup">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/AuthenticationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/Comment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/Follower.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/Like.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/AppConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/ZkLoginVerifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImplTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/AuthServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/JwtUtilTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/ZkLoginVerifierTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/services/implementations/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/services/implementations/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/PostService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controllers/authentication/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/authentication/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/AuthResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/dtos/AuthResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/models/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/authentication/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/authentication/dtos/requests/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/authentication/dtos/responses/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/responses/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/authentication/service/implementation/AuthenticationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/data/models/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/data/models/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/data/repositories/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/CommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/data/repositories/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/PostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/services/interfaces/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/services/interfaces/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/PostService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/ZkLoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/dtos/ZkLoginRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/CommentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/PostRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/TokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/TokenRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/RegisterUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/RegisterUserRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/responses/RegisterUserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/responses/RegisterUserResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/TokenServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/TokenServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/ZkLoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/ZkLoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/media/models/Media.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/media/models/Media.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/PostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/TokenService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/sui/SuiZkLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/SuiZkLoginClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/utils/Follower.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/utils/Following.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/Following.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/utils/Like.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/utils/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/utils/ValidationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/ValidationUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/models/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/models/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/SuiZkLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/SuiZkLoginClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/TokenServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/TokenServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/ZkLoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/ZkLoginService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/services/implementations/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/services/implementations/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/services/implementations/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/UserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,8 +61,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -80,81 +99,125 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.UserServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceTest.test_thatUserCanRegister.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceTest.test_thatUserCannotRegisterANullValue.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;Spring Boot.Main.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#2 on john&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;language.sui.move&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.AuthServiceTest.executor": "Run",
+    "JUnit.AuthServiceTest.testAuthenticateUser_InvalidProof.executor": "Run",
+    "JUnit.AuthServiceTest.testAuthenticateUser_Success.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_thatUserCanRegister.executor": "Run",
+    "JUnit.JwtUtilTest.executor": "Run",
+    "JUnit.JwtUtilTest.testGenerateToken.executor": "Run",
+    "JUnit.UserServiceTest.executor": "Run",
+    "JUnit.UserServiceTest.testRegisteredUserCanCreatePost.executor": "Run",
+    "JUnit.UserServiceTest.test_thatUserCanRegister.executor": "Run",
+    "JUnit.UserServiceTest.test_thatUserCannotRegisterANullValue.executor": "Run",
+    "JUnit.ZkLoginVerifierTest.executor": "Run",
+    "JUnit.ZkLoginVerifierTest.testVerifyProof_Failure.executor": "Run",
+    "JUnit.ZkLoginVerifierTest.testVerifyProof_Success.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "Spring Boot.Main.executor": "Run",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "#2 on john",
+    "go.import.settings.migrated": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_directory_selection": "C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse/src/test/java/org/vomzersocials",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="org.vomzersocials.user.services.interfaces" />
+      <recent name="org.vomzersocials.authentication.service.interface" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.vomzersocials.user.services.implementations" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.vomzersocials.user.services.implementations" />
+      <recent name="org.vomzersocials.zkLogin.security" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.vomzersocials.user.services.interfaces" />
+      <recent name="org.vomzersocials.user.services.implementations" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Main">
-    <configuration name="UserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.AuthServiceTest.testAuthenticateUser_InvalidProof">
+    <configuration name="AuthServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.vomzersocials.services.*" />
+          <option name="PATTERN" value="org.vomzersocials.zkLogin.security.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.services.UserServiceTest" />
+      <option name="PACKAGE_NAME" value="org.vomzersocials.zkLogin.security" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.zkLogin.security.AuthServiceTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserServiceTest.test_thatUserCanRegister" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AuthServiceTest.testAuthenticateUser_InvalidProof" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.vomzersocials.services.*" />
+          <option name="PATTERN" value="org.vomzersocials.zkLogin.security.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.services.UserServiceTest" />
-      <option name="METHOD_NAME" value="test_thatUserCanRegister" />
+      <option name="PACKAGE_NAME" value="org.vomzersocials.zkLogin.security" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.zkLogin.security.AuthServiceTest" />
+      <option name="METHOD_NAME" value="testAuthenticateUser_InvalidProof" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserServiceTest.test_thatUserCannotRegisterANullValue" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="JwtUtilTest.testGenerateToken" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.vomzersocials.services.*" />
+          <option name="PATTERN" value="org.vomzersocials.zkLogin.security.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.services.UserServiceTest" />
-      <option name="METHOD_NAME" value="test_thatUserCannotRegisterANullValue" />
+      <option name="PACKAGE_NAME" value="org.vomzersocials.zkLogin.security" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.zkLogin.security.JwtUtilTest" />
+      <option name="METHOD_NAME" value="testGenerateToken" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.UserServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -175,10 +238,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UserServiceTest" />
-        <item itemvalue="JUnit.UserServiceTest.test_thatUserCannotRegisterANullValue" />
-        <item itemvalue="JUnit.UserServiceTest.test_thatUserCanRegister" />
+        <item itemvalue="JUnit.AuthServiceTest.testAuthenticateUser_InvalidProof" />
+        <item itemvalue="JUnit.AuthServiceTest" />
         <item itemvalue="Spring Boot.Main" />
+        <item itemvalue="JUnit.UserServiceTest" />
+        <item itemvalue="JUnit.JwtUtilTest.testGenerateToken" />
       </list>
     </recent_temporary>
   </component>
@@ -202,7 +266,9 @@
       <option name="presentableId" value="Default" />
       <updated>1742873821570</updated>
       <workItem from="1742873823167" duration="18417000" />
-      <workItem from="1742988782626" duration="15153000" />
+      <workItem from="1742988782626" duration="25364000" />
+      <workItem from="1743053923305" duration="6982000" />
+      <workItem from="1743064537945" duration="14720000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -212,7 +278,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742874517507</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Login components setup">
+      <option name="closed" value="true" />
+      <created>1743023288901</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1743023288901</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,10 +295,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
     <MESSAGE value="ZK Login implementated- another" />
-    <option name="LAST_COMMIT_MESSAGE" value="ZK Login implementated- another" />
+    <MESSAGE value="Login components setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Login components setup" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/VomzerSocials_SuiHackerHouse$AuthServiceTest.ic" NAME="AuthServiceTest Coverage Results" MODIFIED="1743061976209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.vomzersocials.zkLogin.security.*</FILTER>
+    </SUITE>
   </component>
 </project>

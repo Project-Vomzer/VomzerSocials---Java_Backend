@@ -5,7 +5,7 @@ import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
 import org.vomzersocials.user.dtos.responses.LoginResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 
-public interface UserService {
+public interface AuthenticationService {
     RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest);
     LoginResponse loginUser(LoginRequest loginRequest);
 }

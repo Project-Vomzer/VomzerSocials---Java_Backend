@@ -2,7 +2,7 @@ package org.vomzersocials.user.dtos.responses;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.vomzersocials.utils.Role;
+import org.vomzersocials.user.utils.Role;
 
 @Setter
 @Getter

@@ -6,5 +6,5 @@ import org.vomzersocials.zkLogin.models.Token;
 import java.util.Optional;
 
 public interface TokenRepository extends JpaRepository<Token, String> {
-    Optional<Token> findByOwnerEmail(String lowerCase);
+    Optional<Token> findTokenByUserName(String lowerCase);
 }
