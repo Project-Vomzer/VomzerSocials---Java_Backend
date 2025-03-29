@@ -10,6 +10,5 @@ import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 public interface AuthenticationService {
     RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest);
     LoginResponse loginUser(LoginRequest loginRequest);
-
     LogoutUserResponse logoutUser(LogoutRequest logoutUserRequest);
 }

@@ -80,7 +80,7 @@ public class AuthenticationServiceImplTest {
     }
 
     @Test
-    public void staffWhenLoggedInCanLogout_test(){
+    public void userWhenLoggedInCanLogout_test(){
         userService.registerNewUser(registerUserRequest);
         userService.loginUser(loginRequest);
 

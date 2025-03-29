@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 public class CreatePostResponse {
+    private String id;
     private String title;
     private User author;
     private String content;

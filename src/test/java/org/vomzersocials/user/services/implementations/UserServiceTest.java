@@ -1,5 +1,6 @@
 package org.vomzersocials.user.services.implementations;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,20 +8,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
-import org.vomzersocials.user.dtos.requests.CreatePostRequest;
-import org.vomzersocials.user.dtos.requests.LoginRequest;
-import org.vomzersocials.user.dtos.requests.LogoutRequest;
-import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
-import org.vomzersocials.user.dtos.responses.CreatePostResponse;
-import org.vomzersocials.user.dtos.responses.LoginResponse;
-import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
-import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
+import org.vomzersocials.user.dtos.requests.*;
+import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.utils.Role;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@Slf4j
 public class UserServiceTest {
 
     @Autowired
@@ -37,6 +33,8 @@ public class UserServiceTest {
     private LogoutUserResponse logoutUserResponse;
     private CreatePostRequest createPostRequest;
     private CreatePostResponse createPostResponse;
+    private DeletePostRequest deletePostRequest;
+    private DeletePostResponse deletePostResponse;
 
     @BeforeEach
     public void setUp() {
@@ -55,6 +53,7 @@ public class UserServiceTest {
         logoutRequest.setUserName("johni");
 
         createPostRequest = new CreatePostRequest();
+        deletePostRequest = new DeletePostRequest();
     }
 
     @Test
@@ -133,6 +132,26 @@ public class UserServiceTest {
 
 
     }
+    @Test
+    public void test_userCanDeletePost(){
+        registerUserResponse = userService.registerNewUser(registerUserRequest);
+        loginResponse = userService.loginUser(loginRequest);
+        User testUser = userRepository.findUserByUserName(loginResponse.getUserName()).orElseThrow();
+
+        createPostRequest.setAuthor(testUser);
+        createPostRequest.setTitle("Sui");
+        createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
+        createPostResponse = userService.createPost(createPostRequest);
+        assertEquals("Sui", createPostResponse.getTitle());
+
+        log.info("Postid_test: {}", createPostResponse.getId());
+        deletePostRequest.setPostId(createPostResponse.getId());
+        deletePostRequest.setUserId(testUser.getId());
+
+        deletePostResponse = userService.deletePost(deletePostRequest);
+        assertEquals("Post deleted successfully", deletePostResponse.getMessage());
+    }
+
 
 
 
