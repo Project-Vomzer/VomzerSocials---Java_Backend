@@ -16,6 +16,10 @@ public class LoginResponse {
     private String userName;
 
 
+    public LoginResponse(String userName, String loggedInSuccessfully) {
+        this.userName = userName;
+        this.message = loggedInSuccessfully;
+    }
 }
 
 

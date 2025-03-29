@@ -1,136 +1,88 @@
 package org.vomzersocials.user.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.LoginRequest;
+import org.vomzersocials.user.dtos.requests.LogoutRequest;
+import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
 import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
 import org.vomzersocials.user.dtos.responses.LoginResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
+@Transactional
 public class AuthenticationServiceImpl implements org.vomzersocials.user.services.interfaces.AuthenticationService {
+
     @Autowired
     private UserRepository userRepository;
-    private String foundUserUserName;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest) {
-        doesUserAlreadyExist(registerUserRequest.getUserName());
-        nullOrWhiteSpaceChecker(registerUserRequest);
+        validateUserInput(registerUserRequest.getUserName(), registerUserRequest.getPassword());
 
-        User user = getUserDetailsForNewRegistration(registerUserRequest);
-
-        RegisterUserResponse registerStaffResponse = new RegisterUserResponse();
-        registerStaffResponse.setUserName(user.getUsername());
-        registerStaffResponse.setIsLoggedIn(false);
-        registerStaffResponse.setMessage("User is registered in successfully.");
-        foundUserUserName = registerStaffResponse.getUserName();
-
-        return registerStaffResponse;
-    }
-
-    private void doesUserAlreadyExist(String username) {
-        if (userRepository.findUserByUserName(username) != null ){
+        // Check if the user already exists
+        Optional<User> existingUser = userRepository.findUserByUserName(registerUserRequest.getUserName());
+        if (existingUser.isPresent()) {
             throw new IllegalArgumentException("Username already exists");
         }
-    }
 
-    private static void nullOrWhiteSpaceChecker(RegisterUserRequest registerUserRequest) {
-        if (containsWhiteSpace(registerUserRequest.getUserName()) ||
-                containsWhiteSpace(registerUserRequest.getPassword())){
-            throw new IllegalArgumentException("Username and password are required!");
-        }
-        if (registerUserRequest.getPassword().isEmpty() || registerUserRequest.getUserName().isEmpty()){
-            throw new IllegalArgumentException("Username or password cannot be empty");
-        }
-    }
-
-    private static boolean containsWhiteSpace(String username) {
-        Pattern pattern = Pattern.compile("(.*?)\\s(.*?)");
-        Matcher matcher = pattern.matcher(username);
-        return matcher.find();
-    }
-
-    private User getUserDetailsForNewRegistration(RegisterUserRequest registerUserRequest) {
         User user = new User();
         user.setUserName(registerUserRequest.getUserName());
-        user.setPassword(registerUserRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(registerUserRequest.getPassword()));
         user.setRole(registerUserRequest.getRole());
         user.setIsLoggedIn(false);
+        user.setDateOfCreation(LocalDateTime.now());
 
-        isRegisteredUserEntityMoreThan1();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        user.setDateOfCreation(LocalDate.parse(LocalDate.now().format(formatter), formatter).atStartOfDay());
         userRepository.save(user);
-        return user;
+
+        return new RegisterUserResponse(user.getUserName(), false, "User registered successfully.");
     }
 
-    private void isRegisteredUserEntityMoreThan1() {
-        if (userRepository.count() == 1){
-            throw new IllegalArgumentException("User already exists");
-        }
-    }
 
     public LoginResponse loginUser(LoginRequest userLoginRequest) {
-        User foundUser = getUser();
-        if (foundUser == null)
-            throw new IllegalArgumentException("User not found");
-        if (!foundUser.getPassword().equals(userLoginRequest.getPassword()) ||
-                !foundUser.getUsername().equals(userLoginRequest.getUsername()))
-            throw new IllegalArgumentException("Wrong username or password");
-        checkLoginDetails(userLoginRequest);
+        validateUserInput(userLoginRequest.getUsername(), userLoginRequest.getPassword());
+
+        User foundUser = userRepository.findUserByUserName(userLoginRequest.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (!passwordEncoder.matches(userLoginRequest.getPassword(), foundUser.getPassword())) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+
         foundUser.setIsLoggedIn(true);
         userRepository.save(foundUser);
-        return loginStaffIfCredentialsAreCorrect(userLoginRequest, foundUser);
+
+        return new LoginResponse(foundUser.getUserName(), "Logged in successfully");
     }
 
-    private LoginResponse loginStaffIfCredentialsAreCorrect(LoginRequest loginRequest, User foundUser) {
-        if (foundUser.getPassword().equals(loginRequest.getPassword()) &&
-                foundUser.getUsername().equals(loginRequest.getUsername())) {
-            foundUser.setIsLoggedIn(true);
-            LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setUserName(foundUser.getUsername());
-            loginResponse.setMessage("Logged in successfully");
-            return loginResponse;
-        }
-        return null;
-    }
+    public LogoutUserResponse logoutUser(LogoutRequest logoutRequest) {
+        User user = userRepository.findUserByUserName(logoutRequest.getUserName())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-    private void checkLoginDetails(LoginRequest loginRequest) {
-        if (containsWhiteSpace(loginRequest.getUsername()) || containsWhiteSpace(loginRequest.getPassword())
-                || loginRequest.getUsername().trim().equals("") || loginRequest.getPassword().trim().equals("")){
-            throw new IllegalArgumentException("Username or password cannot be empty");
-        }
-    }
-
-    private User getUser() {
-        String username = foundUserUserName;
-        return userRepository.findUserByUserName(username);
-    }
-
-    public LoginResponse logoutUser(LoginRequest loginRequest) {
-        User user = getUser();
         user.setIsLoggedIn(false);
-
-        LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setMessage("Logged out successfully");
         userRepository.save(user);
-        return loginResponse;
+
+        return new LogoutUserResponse(user.getUserName(), "Logged out successfully");
     }
 
+    private void validateUserInput(String username, String password) {
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username and password are required");
+        }
 
-    private void checkIfUserIsLoggedIn(){
-        User foundStaff = getUser();
-        System.out.println(foundStaff);
-        if (!foundStaff.getIsLoggedIn())
-            throw new IllegalArgumentException("Staff is not logged in...");
+        if (Pattern.compile("\\s").matcher(username).find() || Pattern.compile("\\s").matcher(password).find()) {
+            throw new IllegalArgumentException("Username and password cannot contain spaces");
+        }
     }
 }
