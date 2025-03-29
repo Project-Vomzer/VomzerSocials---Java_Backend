@@ -57,7 +57,7 @@ public class User{
 
     private int likeCount;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private  List<Media> mediaList = new ArrayList<>();
 
     private LocalDateTime dateOfCreation;
