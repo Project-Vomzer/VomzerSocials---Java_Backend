@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.vomzersocials.user.utils.Role;
+import org.vomzersocials.user.data.models.Role;
 
 @Setter
 @Getter

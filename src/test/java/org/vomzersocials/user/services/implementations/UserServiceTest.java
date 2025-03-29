@@ -10,7 +10,7 @@ import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.user.dtos.responses.*;
-import org.vomzersocials.user.utils.Role;
+import org.vomzersocials.user.data.models.Role;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -108,7 +108,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test_userNotLoggedIn_cannotCreateOrMakePost(){
+    public void test_thatUserNotLoggedIn_cannotCreateOrMakePost(){
         registerUserResponse = userService.registerNewUser(registerUserRequest);
         loginResponse = userService.loginUser(loginRequest);
 
@@ -133,7 +133,7 @@ public class UserServiceTest {
 
     }
     @Test
-    public void test_userCanDeletePost(){
+    public void test_thatUserCanDeletePost(){
         registerUserResponse = userService.registerNewUser(registerUserRequest);
         loginResponse = userService.loginUser(loginRequest);
         User testUser = userRepository.findUserByUserName(loginResponse.getUserName()).orElseThrow();
@@ -150,6 +150,19 @@ public class UserServiceTest {
 
         deletePostResponse = userService.deletePost(deletePostRequest);
         assertEquals("Post deleted successfully", deletePostResponse.getMessage());
+    }
+
+    @Test
+    public void test_thatUserCanEditPostCreated(){
+        registerUserResponse = userService.registerNewUser(registerUserRequest);
+        loginResponse = userService.loginUser(loginRequest);
+        User testUser = userRepository.findUserByUserName(loginResponse.getUserName()).orElseThrow();
+
+        createPostRequest.setAuthor(testUser);
+        createPostRequest.setTitle("Sui");
+        createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
+        createPostResponse = userService.createPost(createPostRequest);
+        assertEquals("Sui", createPostResponse.getTitle());
     }
 
 

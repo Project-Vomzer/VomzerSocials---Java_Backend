@@ -3,14 +3,11 @@ package org.vomzersocials.user.data.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.uuid.UuidGenerator;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
 import org.vomzersocials.user.media.models.Media;
 import org.vomzersocials.user.utils.Like;
-import org.vomzersocials.user.utils.Role;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -42,23 +39,27 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    // Users Following Others (Many-to-Many Self-Join)
     @ManyToMany
     @JoinTable(
             name = "user_following",
-            joinColumns = @JoinColumn(name = "user_id"),           // The owner’s join column
-            inverseJoinColumns = @JoinColumn(name = "following_id")  // The join column for the followed user
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id")
     )
     private Set<User> following = new HashSet<>();
 
-    // Users Being Followed (Inverse of Following)
     @ManyToMany(mappedBy = "following")
     private Set<User> followers = new HashSet<>();
+
     private String publicKey;
 
-    // Likes (One User can Like Many Posts)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Like> likes = new HashSet<>();
+
+    private int likeCount;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private  List<Media> mediaList = new ArrayList<>();
+
     private LocalDateTime dateOfCreation;
 
 //    @Override

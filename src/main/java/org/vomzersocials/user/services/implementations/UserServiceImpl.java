@@ -80,17 +80,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public DeletePostResponse deletePost(DeletePostRequest deletePostRequest) {
         User foundUser = userRepository.findUserById(deletePostRequest.getUserId());
-        if (!foundUser.getIsLoggedIn()) {
-            throw new IllegalArgumentException("User is not logged in");
-        }
+        if (!foundUser.getIsLoggedIn()) throw new IllegalArgumentException("User is not logged in");
 
         log.info("foundUser: " + foundUser);
         log.info("deletePostRequest: " + deletePostRequest.getPostId());
 
         Optional<Post> optionalPost = postRepository.findById(deletePostRequest.getPostId());
-        if (optionalPost.isEmpty()) {
-            throw new IllegalArgumentException("Post not found");
-        }
+        if (optionalPost.isEmpty()) throw new IllegalArgumentException("Post not found");
 
         Post foundPost = optionalPost.get();
         postRepository.delete(foundPost);
