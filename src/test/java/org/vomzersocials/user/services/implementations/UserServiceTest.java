@@ -108,5 +108,33 @@ public class UserServiceTest {
         assertEquals("User not found", exception.getMessage());
     }
 
+    @Test
+    public void test_userNotLoggedIn_cannotCreateOrMakePost(){
+        registerUserResponse = userService.registerNewUser(registerUserRequest);
+        loginResponse = userService.loginUser(loginRequest);
+
+        User testUser = userRepository.findUserByUserName(loginResponse.getUserName()).orElseThrow();
+        createPostRequest.setAuthor(testUser);
+        createPostRequest.setTitle("Sui");
+        createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
+        createPostResponse = userService.createPost(createPostRequest);
+        assertEquals("Sui", createPostResponse.getTitle());
+
+        logoutUserResponse = userService.logoutUser(logoutRequest);
+        assertEquals("Logged out successfully", logoutUserResponse.getMessage());
+
+        createPostRequest.setAuthor(testUser);
+        createPostRequest.setTitle("Sui-smart contract");
+        createPostRequest.setContent("Cheapest gas fees and fast contract execution");
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                userService.createPost(createPostRequest));
+        assertEquals("User is not logged in", exception.getMessage());
+
+
+    }
+
+
+
 
 }

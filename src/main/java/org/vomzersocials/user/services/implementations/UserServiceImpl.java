@@ -57,6 +57,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findUserByUserName(createPostRequest.getAuthor().getUserName())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        if (!user.getIsLoggedIn()) throw new IllegalArgumentException("User is not logged in");
+
         Post post = new Post();
         post.setAuthor(user);
         post.setTitle(createPostRequest.getTitle());
@@ -73,5 +75,7 @@ public class UserServiceImpl implements UserService {
         createPostResponse.setContent(savedPost.getContent());
         return createPostResponse;
     }
+
+
 
 }
