@@ -1,7 +1,6 @@
 package org.vomzersocials.zkLogin.security;
 
-import javax.naming.AuthenticationException; // Corrected import
-
+import org.springframework.security.authentication.BadCredentialsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,31 +13,28 @@ import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
 public class AuthService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
-    @Autowired
     private final ZkLoginVerifier zkLoginVerifier;
 
+    @Autowired
     public AuthService(JwtUtil jwtUtil, UserRepository userRepository, ZkLoginVerifier zkLoginVerifier) {
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
         this.zkLoginVerifier = zkLoginVerifier;
     }
 
-    public String authenticateUser(ZkLoginRequest zkLoginRequest) throws AuthenticationException {
+    public String authenticateUser(ZkLoginRequest zkLoginRequest) {
         boolean isValid = zkLoginVerifier.verifyProof(zkLoginRequest.getZkProof(), zkLoginRequest.getPublicKey());
-        log.info("Is valid is "+isValid);
+        log.info("ZK proof validation result: {}", isValid);
 
-
-        if (!isValid) { // Fixed the condition
-            throw new AuthenticationException("Invalid ZK proof");
+        if (!isValid) {
+            throw new BadCredentialsException("Invalid ZK proof");
         }
 
         User user = userRepository.findByPublicKey(zkLoginRequest.getPublicKey())
                 .orElseGet(() -> registerNewUser(zkLoginRequest.getPublicKey()));
 
-        return JwtUtil.generateAccessToken(user.getId());
+        return jwtUtil.generateAccessToken(user.getId());
     }
-
-
 
     private User registerNewUser(String publicKey) {
         User user = new User();

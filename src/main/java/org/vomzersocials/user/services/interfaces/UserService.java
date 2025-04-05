@@ -9,4 +9,5 @@ public interface UserService {
     LogoutUserResponse logoutUser(LogoutRequest logoutUserRequest);
     CreatePostResponse createPost(CreatePostRequest createPostRequest);
     DeletePostResponse deletePost(DeletePostRequest deletePostRequest);
+    EditPostResponse editPost(EditPostRequest editPostRequest);
 }

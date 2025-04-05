@@ -47,9 +47,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public CreatePostResponse createPost(CreatePostRequest createPostRequest) {
         if (createPostRequest.getAuthor() == null ||
-                createPostRequest.getTitle() == null || createPostRequest.getTitle().trim().isEmpty() ||
                 createPostRequest.getContent() == null || createPostRequest.getContent().trim().isEmpty()) {
-            throw new IllegalArgumentException("Author, title, and content are required");
+            throw new IllegalArgumentException("Author and content are required");
         }
 
         User user = userRepository.findUserByUserName(createPostRequest.getAuthor().getUserName())
@@ -59,7 +58,6 @@ public class UserServiceImpl implements UserService {
 
         Post post = new Post();
         post.setAuthor(user);
-        post.setTitle(createPostRequest.getTitle());
         post.setContent(createPostRequest.getContent());
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
@@ -70,7 +68,6 @@ public class UserServiceImpl implements UserService {
         CreatePostResponse createPostResponse = new CreatePostResponse();
         createPostResponse.setAuthor(savedPost.getAuthor());
         createPostResponse.setTimestamp(savedPost.getCreatedAt());
-        createPostResponse.setTitle(savedPost.getTitle());
         createPostResponse.setId(savedPost.getId());
         createPostResponse.setContent(savedPost.getContent());
         log.info("post id 2: {}", savedPost.getId());
@@ -97,6 +94,31 @@ public class UserServiceImpl implements UserService {
         return deletePostResponse;
     }
 
+    @Override
+    public EditPostResponse editPost(EditPostRequest editPostRequest) {
+        Post foundPost = postRepository.findById(editPostRequest.getPostId()).get();
+//        Post foundPost = findPostById(Long.valueOf(editPostRequest.getPostId()));
+//        if (foundPost == null) throw new IllegalArgumentException("Post not found");
+
+
+        foundPost.setContent(editPostRequest.getContent());
+        foundPost.setUpdatedAt(LocalDateTime.now());
+        postRepository.save(foundPost);
+        EditPostResponse editPostResponse = new EditPostResponse();
+        editPostResponse.setMessage("Post edited successfully");
+        editPostResponse.getIsEdited();
+        editPostResponse.setId(foundPost.getId());
+        editPostResponse.setContent(foundPost.getContent());
+        editPostResponse.setTimestamp(foundPost.getUpdatedAt());
+        return editPostResponse;
+    }
+
+    private Post findPostById(Long postId) {
+        for (Post post : postRepository.findAll()) {
+            if (post.getId().equals(postId)) return post;
+        }
+        return null;
+    }
 
 
 }

@@ -26,9 +26,6 @@ public class Post {
             columnDefinition = "CHAR(36)"
     )
     private User author;
-    @Column(nullable = false)
-    private String title;
-
     private int likes;
 
     @Column(nullable = false, length = 200)

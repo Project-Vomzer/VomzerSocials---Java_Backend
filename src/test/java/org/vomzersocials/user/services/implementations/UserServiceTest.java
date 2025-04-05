@@ -35,6 +35,8 @@ public class UserServiceTest {
     private CreatePostResponse createPostResponse;
     private DeletePostRequest deletePostRequest;
     private DeletePostResponse deletePostResponse;
+    private EditPostRequest editPostRequest;
+    private EditPostResponse editPostResponse;
 
     @BeforeEach
     public void setUp() {
@@ -68,12 +70,10 @@ public class UserServiceTest {
         user.setUserName(loginResponse.getUserName());
 
         createPostRequest.setAuthor(user);
-        createPostRequest.setTitle("Title");
         createPostRequest.setContent("Content");
 
         createPostResponse = userService.createPost(createPostRequest);
         assertNotNull(createPostResponse);
-        assertEquals("Title", createPostResponse.getTitle());
         assertEquals("Content", createPostResponse.getContent());
         assertEquals("johni", createPostResponse.getAuthor().getUserName());
     }
@@ -87,19 +87,17 @@ public class UserServiceTest {
 
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setAuthor(testUser);
-        postRequest.setTitle(" ");
         postRequest.setContent("");
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 userService.createPost(postRequest));
-        assertEquals("Author, title, and content are required", exception.getMessage());
+        assertEquals("Author and content are required", exception.getMessage());
     }
 
     @Test
     public void test_thatPostCreationFails_WhenUserNotFound() {
         CreatePostRequest postRequest = new CreatePostRequest();
         postRequest.setAuthor(new User()); // Creating a new user without saving it
-        postRequest.setTitle("Test Title");
         postRequest.setContent("Test Content");
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
@@ -114,16 +112,15 @@ public class UserServiceTest {
 
         User testUser = userRepository.findUserByUserName(loginResponse.getUserName()).orElseThrow();
         createPostRequest.setAuthor(testUser);
-        createPostRequest.setTitle("Sui");
         createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
         createPostResponse = userService.createPost(createPostRequest);
-        assertEquals("Sui", createPostResponse.getTitle());
+        assertEquals("A decentralised social media platform built on Java, React and Sui",
+                createPostResponse.getContent());
 
         logoutUserResponse = userService.logoutUser(logoutRequest);
         assertEquals("Logged out successfully", logoutUserResponse.getMessage());
 
         createPostRequest.setAuthor(testUser);
-        createPostRequest.setTitle("Sui-smart contract");
         createPostRequest.setContent("Cheapest gas fees and fast contract execution");
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
@@ -139,10 +136,10 @@ public class UserServiceTest {
         User testUser = userRepository.findUserByUserName(loginResponse.getUserName()).orElseThrow();
 
         createPostRequest.setAuthor(testUser);
-        createPostRequest.setTitle("Sui");
         createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
         createPostResponse = userService.createPost(createPostRequest);
-        assertEquals("Sui", createPostResponse.getTitle());
+        assertEquals("A decentralised social media platform built on Java, React and Sui",
+                createPostResponse.getContent());
 
         log.info("Postid_test: {}", createPostResponse.getId());
         deletePostRequest.setPostId(createPostResponse.getId());
@@ -159,10 +156,15 @@ public class UserServiceTest {
         User testUser = userRepository.findUserByUserName(loginResponse.getUserName()).orElseThrow();
 
         createPostRequest.setAuthor(testUser);
-        createPostRequest.setTitle("Sui");
         createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
         createPostResponse = userService.createPost(createPostRequest);
-        assertEquals("Sui", createPostResponse.getTitle());
+
+        editPostRequest.setPostId(createPostResponse.getId());
+        editPostRequest.setContent("Completely anonymous and decentralized it is! I love it!!!");
+        editPostResponse = userService.editPost(editPostRequest);
+        assertEquals("Completely anonymous and decentralized it is! I love it!!!",
+                editPostResponse.getContent());
+
     }
 
 
