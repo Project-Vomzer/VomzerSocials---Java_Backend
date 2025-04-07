@@ -96,29 +96,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public EditPostResponse editPost(EditPostRequest editPostRequest) {
-        Post foundPost = postRepository.findById(editPostRequest.getPostId()).get();
-//        Post foundPost = findPostById(Long.valueOf(editPostRequest.getPostId()));
-//        if (foundPost == null) throw new IllegalArgumentException("Post not found");
+        Post foundPost = postRepository.findById(editPostRequest.getPostId())
+                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 
+        log.info("Found post id: {}", foundPost.getId());
 
         foundPost.setContent(editPostRequest.getContent());
-        foundPost.setUpdatedAt(LocalDateTime.now());
         postRepository.save(foundPost);
+
         EditPostResponse editPostResponse = new EditPostResponse();
         editPostResponse.setMessage("Post edited successfully");
-        editPostResponse.getIsEdited();
         editPostResponse.setId(foundPost.getId());
         editPostResponse.setContent(foundPost.getContent());
         editPostResponse.setTimestamp(foundPost.getUpdatedAt());
         return editPostResponse;
     }
 
-    private Post findPostById(Long postId) {
-        for (Post post : postRepository.findAll()) {
-            if (post.getId().equals(postId)) return post;
-        }
-        return null;
-    }
 
 
 }

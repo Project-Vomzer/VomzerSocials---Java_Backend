@@ -159,6 +159,7 @@ public class UserServiceTest {
         createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
         createPostResponse = userService.createPost(createPostRequest);
 
+        editPostRequest = new EditPostRequest();
         editPostRequest.setPostId(createPostResponse.getId());
         editPostRequest.setContent("Completely anonymous and decentralized it is! I love it!!!");
         editPostResponse = userService.editPost(editPostRequest);

@@ -32,6 +32,7 @@ public class User{
     private String password;
     private Boolean isLoggedIn;
     private String suiAddress;
+    private String publicKey;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Media> mediaPosts = new HashSet<>();
@@ -50,8 +51,6 @@ public class User{
     @ManyToMany(mappedBy = "following")
     private Set<User> followers = new HashSet<>();
 
-    private String publicKey;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Like> likes = new HashSet<>();
 
@@ -61,6 +60,7 @@ public class User{
     private  List<Media> mediaList = new ArrayList<>();
 
     private LocalDateTime dateOfCreation;
+
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {

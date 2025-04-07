@@ -12,6 +12,8 @@ import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
 import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
 import org.vomzersocials.user.dtos.responses.LoginResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
+import org.vomzersocials.zkLogin.security.SuiZkLoginClient;
+import org.vomzersocials.zkLogin.security.ZkLoginService;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -26,6 +28,10 @@ public class AuthenticationServiceImpl implements org.vomzersocials.user.service
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private ZkLoginService zkLoginService;
+    @Autowired
+    private SuiZkLoginClient suiZkLoginClient;
 
     @Override
     public RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest) {
