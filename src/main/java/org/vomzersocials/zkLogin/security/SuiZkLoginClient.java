@@ -20,14 +20,13 @@ public class SuiZkLoginClient {
         ResponseEntity<String> response = restTemplate.exchange(SUI_RPC_URL, HttpMethod.POST, requestEntity, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            return parseSuiAddress(response.getBody()); // Extract the Sui address from the response
+            return parseSuiAddress(response.getBody());
         }
         return null;
     }
 
     private String parseSuiAddress(String response) {
-        // Extract user's Sui address from JSON response
-        return "0x1234..."; // Example (modify for real response parsing)
+        return "0x1234...";
     }
 }
 

@@ -1,7 +1,6 @@
 package org.vomzersocials.zkLogin.security;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.vomzersocials.user.data.models.User;
 
@@ -14,7 +13,7 @@ public class JwtUtilTest {
         User user = new User();
         user.setPublicKey("user_public_key");
 
-        String token = JwtUtil.generateAccessToken(user.getId().toString());
+        String token = JwtUtil.generateAccessToken(user.getId());
 
         assertNotNull(token);
     }

@@ -1,5 +1,8 @@
 package org.vomzersocials.zkLogin.security;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,60 +10,95 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
 
 import javax.naming.AuthenticationException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceTest {
+
     @Mock
     private UserRepository userRepository;
+
     @Mock
     private ZkLoginVerifier zkLoginVerifier;
+
     @InjectMocks
     private AuthService authService;
-    private JwtUtil jwtUtil = new JwtUtil();
+
     private ZkLoginRequest zkLoginRequest;
+    private String zkProof;
+    private String publicKey;
 
     @BeforeEach
     public void setUp() {
-
-        String zkProof = "valid_proof";
-        String publicKey = "user_public_key";
+        zkProof = "valid_proof";
+        publicKey = "user_public_key";
 
         zkLoginRequest = new ZkLoginRequest();
-
         zkLoginRequest.setPublicKey(publicKey);
         zkLoginRequest.setZkProof(zkProof);
     }
 
     @Test
-    void testAuthenticateUser_Success() throws javax.naming.AuthenticationException {
-        String zkProof = "valid_proof";
-        String publicKey = "user_public_key";
+    void testAuthenticateUser_Success() throws AuthenticationException {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setPublicKey(publicKey);
+        mockUser.setId("1"); // Use String for consistency
 
         when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(true);
-        when(userRepository.findByPublicKey(publicKey)).thenReturn(Optional.empty());
+        when(userRepository.findByPublicKey(publicKey)).thenReturn(Optional.of(mockUser));
 
-        String jwt = authService.authenticateUser(zkLoginRequest);
+        try (var jwtUtilMock = mockStatic(JwtUtil.class)) {
+            jwtUtilMock.when(() -> JwtUtil.generateAccessToken(mockUser.getId()))
+                    .thenReturn("mocked_jwt_token");
 
-        assertNotNull(jwt);
+            // Act
+            String jwt = authService.authenticateUser(zkLoginRequest);
+
+            // Assert
+            assertNotNull(jwt);
+            assertEquals("mocked_jwt_token", jwt);
+            verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
+            verify(userRepository).findByPublicKey(publicKey);
+        }
     }
 
     @Test
     void testAuthenticateUser_InvalidProof() {
-        String zkProof = "invalid_proof";
-        String publicKey = "user_public_key";
-
+        // Arrange
         when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(false);
 
+        // Act & Assert
         assertThrows(AuthenticationException.class, () -> authService.authenticateUser(zkLoginRequest));
+        verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
+        verify(userRepository, never()).findByPublicKey(any());
+    }
+
+    @Test
+    void testAuthenticateUser_UserNotFound() {
+        // Arrange
+        when(zkLoginVerifier.verifyProof(eq(zkProof), eq(publicKey))).thenReturn(true);
+        when(userRepository.findByPublicKey(eq(publicKey))).thenReturn(Optional.empty());
+
+        // Act & Assert
+        AuthenticationException exception = assertThrows(AuthenticationException.class,
+                () -> authService.authenticateUser(zkLoginRequest));
+        assertEquals("User not found", exception.getMessage()); // Adjust message as per implementation
+        verify(zkLoginVerifier).verifyProof(eq(zkProof), eq(publicKey));
+        verify(userRepository).findByPublicKey(eq(publicKey));
+    }
+
+    @Test
+    void testAuthenticateUser_NullRequest() {
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> authService.authenticateUser(null));
+        assertEquals("Login request cannot be null", exception.getMessage()); // Adjust message as per implementation
+        verifyNoInteractions(zkLoginVerifier, userRepository);
     }
 }

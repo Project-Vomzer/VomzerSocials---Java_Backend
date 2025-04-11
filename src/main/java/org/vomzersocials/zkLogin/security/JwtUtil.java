@@ -28,6 +28,7 @@ package org.vomzersocials.zkLogin.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.stereotype.Component;
+import org.vomzersocials.user.data.models.User;
 
 @Component
 public class JwtUtil {
@@ -40,4 +41,6 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC256("secret"));
     }
 
+//    public Object generateToken(User any) {
+//    }
 }

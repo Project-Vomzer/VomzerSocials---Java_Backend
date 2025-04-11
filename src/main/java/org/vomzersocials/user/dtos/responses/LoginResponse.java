@@ -2,7 +2,7 @@ package org.vomzersocials.user.dtos.responses;
 
 
 import lombok.*;
-import org.vomzersocials.user.utils.Role;
+import org.vomzersocials.user.data.models.Role;
 
 @Setter
 @Getter
@@ -16,6 +16,10 @@ public class LoginResponse {
     private String userName;
 
 
+    public LoginResponse(String userName, String loggedInSuccessfully) {
+        this.userName = userName;
+        this.message = loggedInSuccessfully;
+    }
 }
 
 

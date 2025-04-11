@@ -1,46 +1,38 @@
 package org.vomzersocials.zkLogin.security;
 
-import javax.naming.AuthenticationException; // Corrected import
-
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
 
+import javax.naming.AuthenticationException;
+
 @Service
-@Slf4j
 public class AuthService {
-    private final JwtUtil jwtUtil;
+
     private final UserRepository userRepository;
     private final ZkLoginVerifier zkLoginVerifier;
 
-    public AuthService(JwtUtil jwtUtil, UserRepository userRepository, ZkLoginVerifier zkLoginVerifier) {
-        this.jwtUtil = jwtUtil;
+    public AuthService(UserRepository userRepository, ZkLoginVerifier zkLoginVerifier) {
         this.userRepository = userRepository;
         this.zkLoginVerifier = zkLoginVerifier;
     }
 
-    public String authenticateUser(ZkLoginRequest zkLoginRequest) throws AuthenticationException {
-        boolean isValid = zkLoginVerifier.verifyProof(zkLoginRequest.getZkProof(), zkLoginRequest.getPublicKey());
-        log.info("Is valid is "+isValid);
-
-
-        if (!isValid) { // Fixed the condition
-            throw new AuthenticationException("Invalid ZK proof");
+    public String authenticateUser(ZkLoginRequest request) throws AuthenticationException {
+        if (request == null) {
+            throw new IllegalArgumentException("Login request cannot be null");
         }
 
-        User user = userRepository.findByPublicKey(zkLoginRequest.getPublicKey())
-                .orElseGet(() -> registerNewUser(zkLoginRequest.getPublicKey()));
+        String zkProof = request.getZkProof();
+        String publicKey = request.getPublicKey();
 
-        return JwtUtil.generateAccessToken(user.getId().toString());
-    }
+        if (!zkLoginVerifier.verifyProof(zkProof, publicKey)) {
+            throw new AuthenticationException("Invalid zero-knowledge proof");
+        }
 
+        User user = userRepository.findByPublicKey(publicKey)
+                .orElseThrow(() -> new AuthenticationException("User not found"));
 
-
-    private User registerNewUser(String publicKey) {
-        User user = new User();
-        user.setPublicKey(publicKey);
-        return userRepository.save(user);
+        return JwtUtil.generateAccessToken(user.getId());
     }
 }

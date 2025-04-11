@@ -14,15 +14,18 @@ public class ZkLoginService {
         this.userRepository = userRepository;
     }
 
-    public String verifyZkLogin(String zkProof) {
-        String suiAddress = suiZkLoginClient.verifyProof(zkProof);
+//    public String verifyZkLogin(String zkProof) {
+//        String suiAddress = suiZkLoginClient.verifyProof(zkProof);
+//
+//        if (suiAddress != null) {
+//            userRepository.updateUserSuiAddress(suiAddress);
+//        }
+//
+//        return suiAddress;
+//    }
 
-        if (suiAddress != null) {
-            // Store or update user info in the database
-            userRepository.updateUserSuiAddress(suiAddress);
-        }
-
-        return suiAddress;
+    public boolean verifyZkProof(String proofData){
+        return true;
     }
 }
 
