@@ -1,4 +1,4 @@
-package org.vomzersocials.user.media.models;
+package org.vomzersocials.user.utils;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,16 +18,19 @@ public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "CHAR(36)")
-    private UUID id; // Changed from String to UUID
-
-    private String caption;
+    private UUID id;
+    private String filename;
 
     @Column(nullable = false)
-    private String url; // Changed from filePath to url (for cloud/local storage consistency)
+    private String url;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MediaType mediaType; // Now explicitly stored as STRING
+    private MediaType mediaType;
+
+    @Lob
+    @Column(name = "data", columnDefinition = "LONGBLOB")
+    private byte[] data;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

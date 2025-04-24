@@ -1,4 +1,4 @@
-package org.vomzersocials.user.media.models;
+package org.vomzersocials.user.utils;
 
 public enum MediaType {
     IMAGE,

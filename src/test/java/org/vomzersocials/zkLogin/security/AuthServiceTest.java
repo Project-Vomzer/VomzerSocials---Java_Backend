@@ -45,10 +45,9 @@ public class AuthServiceTest {
 
     @Test
     void testAuthenticateUser_Success() throws AuthenticationException {
-        // Arrange
         User mockUser = new User();
         mockUser.setPublicKey(publicKey);
-        mockUser.setId("1"); // Use String for consistency
+        mockUser.setId("1");
 
         when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(true);
         when(userRepository.findByPublicKey(publicKey)).thenReturn(Optional.of(mockUser));
@@ -56,11 +55,7 @@ public class AuthServiceTest {
         try (var jwtUtilMock = mockStatic(JwtUtil.class)) {
             jwtUtilMock.when(() -> JwtUtil.generateAccessToken(mockUser.getId()))
                     .thenReturn("mocked_jwt_token");
-
-            // Act
             String jwt = authService.authenticateUser(zkLoginRequest);
-
-            // Assert
             assertNotNull(jwt);
             assertEquals("mocked_jwt_token", jwt);
             verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
@@ -70,10 +65,7 @@ public class AuthServiceTest {
 
     @Test
     void testAuthenticateUser_InvalidProof() {
-        // Arrange
         when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(false);
-
-        // Act & Assert
         assertThrows(AuthenticationException.class, () -> authService.authenticateUser(zkLoginRequest));
         verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
         verify(userRepository, never()).findByPublicKey(any());
@@ -81,11 +73,8 @@ public class AuthServiceTest {
 
     @Test
     void testAuthenticateUser_UserNotFound() {
-        // Arrange
         when(zkLoginVerifier.verifyProof(eq(zkProof), eq(publicKey))).thenReturn(true);
         when(userRepository.findByPublicKey(eq(publicKey))).thenReturn(Optional.empty());
-
-        // Act & Assert
         AuthenticationException exception = assertThrows(AuthenticationException.class,
                 () -> authService.authenticateUser(zkLoginRequest));
         assertEquals("User not found", exception.getMessage()); // Adjust message as per implementation
@@ -95,7 +84,6 @@ public class AuthServiceTest {
 
     @Test
     void testAuthenticateUser_NullRequest() {
-        // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> authService.authenticateUser(null));
         assertEquals("Login request cannot be null", exception.getMessage()); // Adjust message as per implementation

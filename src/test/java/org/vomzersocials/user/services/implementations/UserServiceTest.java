@@ -168,6 +168,19 @@ public class UserServiceTest {
 
     }
 
+    @Test
+    public void test_thatUserCanAddImages_toIntendedPosts(){
+        registerUserResponse = userService.registerNewUser(registerUserRequest);
+        loginResponse = userService.loginUser(loginRequest);
+        User testUser = userRepository.findUserByUserName(loginResponse.getUserName()).orElseThrow();
+
+        createPostRequest.setAuthor(testUser);
+        createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
+        createPostResponse = userService.createPost(createPostRequest);
+
+
+    }
+
 
 
 
