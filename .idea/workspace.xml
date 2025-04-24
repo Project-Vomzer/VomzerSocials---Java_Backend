@@ -4,27 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="ZK Login AuthService Tests passed">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/MediaController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/walrus/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/walrus/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/walrus/walrus-config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Walrus client service integrated&#10;Implementation in progress">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/S3Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/media/models/Media.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/Media.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/media/models/MediaType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/MediaType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/media/repositories/MediaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/MediaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/UserServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/controller/ZkLoginVerifierControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/controller/ZkLoginVerifierControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/AuthServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/AuthServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +58,10 @@
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="true" />
   </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -307,7 +295,8 @@
       <workItem from="1745336877033" duration="2271000" />
       <workItem from="1745340841387" duration="5203000" />
       <workItem from="1745348880533" duration="13106000" />
-      <workItem from="1745437126137" duration="12498000" />
+      <workItem from="1745437126137" duration="13182000" />
+      <workItem from="1745464825523" duration="3377000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -397,7 +386,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744378412228</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Walrus client service integrated&#10;Implementation in progress">
+      <option name="closed" value="true" />
+      <created>1745464372263</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1745464372263</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -418,7 +415,8 @@
     <MESSAGE value="User can edit posts" />
     <MESSAGE value="ZK Login AuthService Tests passing" />
     <MESSAGE value="ZK Login AuthService Tests passed" />
-    <option name="LAST_COMMIT_MESSAGE" value="ZK Login AuthService Tests passed" />
+    <MESSAGE value="Walrus client service integrated&#10;Implementation in progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="Walrus client service integrated&#10;Implementation in progress" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
