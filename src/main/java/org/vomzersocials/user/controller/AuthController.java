@@ -12,7 +12,7 @@ import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 import org.vomzersocials.user.services.interfaces.UserService;
 //import org.vomzersocials.zkLogin.dtos.AuthResponse;
 //import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
-//import org.vomzersocials.zkLogin.security.ZkLoginService;
+//import org.vomzersocials.zkLogin.services.ZkLoginService;
 
 @RestController
 @RequestMapping("/auth")

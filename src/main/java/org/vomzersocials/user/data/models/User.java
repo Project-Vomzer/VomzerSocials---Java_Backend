@@ -3,11 +3,10 @@ package org.vomzersocials.user.data.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.vomzersocials.user.enums.Role;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
-import org.vomzersocials.user.utils.Media;
-import org.vomzersocials.user.utils.Like;
 
 import java.time.LocalDateTime;
 import java.util.*;

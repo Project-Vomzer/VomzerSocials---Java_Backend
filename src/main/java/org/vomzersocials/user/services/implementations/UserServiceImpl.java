@@ -10,11 +10,10 @@ import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
 import org.vomzersocials.user.services.interfaces.UserService;
-import org.vomzersocials.user.utils.Post;
+import org.vomzersocials.user.data.models.Post;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Slf4j

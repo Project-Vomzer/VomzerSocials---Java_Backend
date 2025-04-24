@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.vomzersocials.user.services.implementations.MediaService;
-import org.vomzersocials.user.utils.Media;
-import org.vomzersocials.user.utils.MediaType;
+import org.vomzersocials.user.data.models.Media;
+import org.vomzersocials.user.enums.MediaType;
 
 import java.io.IOException;
 import java.util.List;

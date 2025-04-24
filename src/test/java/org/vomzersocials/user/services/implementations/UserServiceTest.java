@@ -10,7 +10,7 @@ import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.user.dtos.responses.*;
-import org.vomzersocials.user.data.models.Role;
+import org.vomzersocials.user.enums.Role;
 
 import static org.junit.jupiter.api.Assertions.*;
 

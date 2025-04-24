@@ -13,7 +13,7 @@ import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
 import org.vomzersocials.user.dtos.responses.LoginResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 import org.vomzersocials.zkLogin.security.SuiZkLoginClient;
-import org.vomzersocials.zkLogin.security.ZkLoginService;
+import org.vomzersocials.zkLogin.services.ZkLoginService;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

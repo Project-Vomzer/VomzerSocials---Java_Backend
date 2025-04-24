@@ -11,7 +11,7 @@ import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
 import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
 import org.vomzersocials.user.dtos.responses.LoginResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
-import org.vomzersocials.user.data.models.Role;
+import org.vomzersocials.user.enums.Role;
 
 import static org.junit.jupiter.api.Assertions.*;
 

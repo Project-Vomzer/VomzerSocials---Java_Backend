@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
+import org.vomzersocials.user.springSecurity.JwtUtil;
+import org.vomzersocials.zkLogin.services.AuthService;
 
 import javax.naming.AuthenticationException;
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package org.vomzersocials.user.dtos.requests;
 
 import lombok.*;
-import org.vomzersocials.user.data.models.Role;
+import org.vomzersocials.user.enums.Role;
 
 @Setter
 @Getter
