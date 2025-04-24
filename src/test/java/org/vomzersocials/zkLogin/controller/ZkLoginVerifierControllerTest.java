@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ZkLoginVerifierController.class)
-@AutoConfigureMockMvc(addFilters = false)  // Disable security filters for testing
+@AutoConfigureMockMvc(addFilters = false)
 @Import(ZkLoginVerifierControllerTest.TestConfig.class)
 public class ZkLoginVerifierControllerTest {
 
@@ -35,14 +35,9 @@ public class ZkLoginVerifierControllerTest {
 
     @Test
     void testVerifyProof_Success() throws Exception {
-        // Prepare the request payload.
         ZkProofRequest request = new ZkProofRequest("valid_base64_proof", "valid_public_key");
-
-        // When the verifier is called with these parameters, return true.
         when(zkLoginVerifier.verifyProof(eq("valid_base64_proof"), eq("valid_public_key")))
                 .thenReturn(true);
-
-        // Perform POST request to /zklogin/verify with CSRF token.
         mockMvc.perform(post("/zklogin/verify")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -53,14 +48,9 @@ public class ZkLoginVerifierControllerTest {
 
     @Test
     void testVerifyProof_Failure() throws Exception {
-        // Prepare the request payload.
         ZkProofRequest request = new ZkProofRequest("invalid_proof", "some_public_key");
-
-        // When the verifier is called with these parameters, return false.
         when(zkLoginVerifier.verifyProof(eq("invalid_proof"), eq("some_public_key")))
                 .thenReturn(false);
-
-        // Perform POST request to /zklogin/verify with CSRF token.
         mockMvc.perform(post("/zklogin/verify")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -69,7 +59,6 @@ public class ZkLoginVerifierControllerTest {
                 .andExpect(content().string("Invalid Proof"));
     }
 
-    // Test configuration class to provide mocks as beans
     @org.springframework.boot.test.context.TestConfiguration
     static class TestConfig {
         @Bean
