@@ -1,5 +1,4 @@
-package org.vomzersocials.utils;
-
+package org.vomzersocials.user.utils;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,15 +6,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import org.vomzersocials.user.data.model.User;
+import org.vomzersocials.user.data.models.User;
 
-@Entity
+
 @Setter
 @Getter
-public class Follower {
+@Entity
+public class Following {
     @Id
     @ManyToOne
-    @JoinColumn(name = "id_id")
+    @JoinColumn(name = "Followed_User_Id")
     private User id;
-    private Boolean isFollowing;
+    private Boolean isFollowed;
 }

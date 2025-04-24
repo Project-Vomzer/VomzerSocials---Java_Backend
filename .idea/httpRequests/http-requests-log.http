@@ -1,0 +1,68 @@
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+Content-Length: 69
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Femi",
+  "password": "password",
+  "role": "ADMIN"
+}
+
+<> 2025-03-29T044341.400.txt
+
+###
+
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+Content-Length: 69
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Femi",
+  "password": "password",
+  "role": "ADMIN"
+}
+
+<> 2025-03-29T044311.400.txt
+
+###
+
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+Content-Length: 69
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Femi",
+  "password": "password",
+  "role": "ADMIN"
+}
+
+<> 2025-03-29T044234.400.txt
+
+###
+
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+Content-Length: 68
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Ade",
+  "password": "password",
+  "role": "ADMIN"
+}
+
+<> 2025-03-29T044223.400.txt
+
+###
+

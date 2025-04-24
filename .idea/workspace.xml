@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Still battling docker - retouched">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Dockerfile" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Mr-Stanley&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/johdanike/VomzerSocials-SuiHackerHouse.git&quot;,
+    &quot;accountId&quot;: &quot;21f70173-cba1-45e4-adbd-60a833f4fa22&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;johdanike&quot;,
+    &quot;repository&quot;: &quot;VomzerSocials-SuiHackerHouse&quot;
+  }
+}</component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2unAAJxAQABslfHyf5fmiwiGSNb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;HTTP Request.generated-requests | #4.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthServiceTest.testAuthenticateUser_InvalidProof.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthServiceTest.testAuthenticateUser_Success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.staffWhenLoggedInCanLogout_test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCanLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCanRegister.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCannotRegisterANullValue.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtUtilTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtUtilTest.testGenerateToken.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeletedFromS3_test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.mediaCanBeSearched.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.searchReturnsMultipleResults.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.searchReturnsNoMatch.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testRegisteredUserCanCreatePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatPostCanBeCreated_UserNotFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserCanEditPostCreated.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserCanRegister.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserCannotPostEmptyContent.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserCannotRegisterANullValue.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserNotLoggedIn_cannotCreateOrMakePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_userCanDeletePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_userNotLoggedIn_cannotCreateOrMakePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierControllerTest.testVerifyProof_Failure.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierControllerTest.testVerifyProof_Success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierTest.testVerifyProof_Failure.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierTest.testVerifyProof_Success.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Main.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;john&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse/src/test/java/org/vomzersocials/user/services/implementations&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL USER/Desktop/VomzerSocials-SUI_Hacker_House&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.vomzersocials.user.dtos.responses" />
+      <recent name="org.vomzersocials.user.data.models" />
+      <recent name="org.vomzersocials.user.dtos.requests" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="org.vomzersocials.user.services.interfaces" />
+      <recent name="org.vomzersocials.authentication.service.interface" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.vomzersocials.user.services.implementations" />
+      <recent name="org.vomzersocials.user.dtos.responses" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.vomzersocials.user.services.implementations" />
+      <recent name="org.vomzersocials.zkLogin.controller" />
+      <recent name="org.vomzersocials.zkLogin.security" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.vomzersocials.user.services.interfaces" />
+      <recent name="org.vomzersocials.user.services.implementations" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.MediaServiceTest">
+    <configuration name="MediaServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.MediaServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MediaServiceTest.alreadyUploadedMediaCanBeDeletedFromS3_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.MediaServiceTest" />
+      <option name="METHOD_NAME" value="alreadyUploadedMediaCanBeDeletedFromS3_test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MediaServiceTest.mediaCanBeSearched" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.MediaServiceTest" />
+      <option name="METHOD_NAME" value="mediaCanBeSearched" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MediaServiceTest.searchReturnsMultipleResults" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.MediaServiceTest" />
+      <option name="METHOD_NAME" value="searchReturnsMultipleResults" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MediaServiceTest.searchReturnsNoMatch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.MediaServiceTest" />
+      <option name="METHOD_NAME" value="searchReturnsNoMatch" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.vomzersocials.Main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.MediaServiceTest" />
+        <item itemvalue="JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeletedFromS3_test" />
+        <item itemvalue="JUnit.MediaServiceTest.searchReturnsMultipleResults" />
+        <item itemvalue="JUnit.MediaServiceTest.searchReturnsNoMatch" />
+        <item itemvalue="JUnit.MediaServiceTest.mediaCanBeSearched" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.387" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.387" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SuiMoveProjectSettingsService_1">
+    <option name="localSuiPath" value="C:\Users\DELL USER\sui-clis\sui-testnet-1.43.1.exe" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="" />
+      <created>1742873821570</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1742873821570</updated>
+      <workItem from="1742873823167" duration="18417000" />
+      <workItem from="1742988782626" duration="25364000" />
+      <workItem from="1743053923305" duration="6982000" />
+      <workItem from="1743064537945" duration="20180000" />
+      <workItem from="1743178256324" duration="1925000" />
+      <workItem from="1743186762888" duration="593000" />
+      <workItem from="1743190593536" duration="37000" />
+      <workItem from="1743191525758" duration="33000" />
+      <workItem from="1743191667231" duration="125000" />
+      <workItem from="1743216804135" duration="35243000" />
+      <workItem from="1743266843640" duration="425000" />
+      <workItem from="1743558042263" duration="1464000" />
+      <workItem from="1743603721020" duration="1707000" />
+      <workItem from="1743769862936" duration="913000" />
+      <workItem from="1743790918825" duration="15624000" />
+      <workItem from="1744112836768" duration="59000" />
+      <workItem from="1744369777018" duration="5817000" />
+      <workItem from="1744698709583" duration="13045000" />
+      <workItem from="1745334517164" duration="1843000" />
+      <workItem from="1745336710492" duration="139000" />
+      <workItem from="1745336877033" duration="2271000" />
+      <workItem from="1745340841387" duration="5203000" />
+      <workItem from="1745348880533" duration="13106000" />
+      <workItem from="1745437126137" duration="13182000" />
+      <workItem from="1745464825523" duration="20603000" />
+      <workItem from="1745492318258" duration="3654000" />
+      <workItem from="1745496080688" duration="6704000" />
+    </task>
+    <task id="LOCAL-00001" summary="update">
+      <option name="closed" value="true" />
+      <created>1742874517507</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1742874517507</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Login components setup">
+      <option name="closed" value="true" />
+      <created>1743023288901</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1743023288901</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Zk login test failed because of zk proof returning false">
+      <option name="closed" value="true" />
+      <created>1743097087374</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743097087375</updated>
+    </task>
+    <task id="LOCAL-00004" summary="User can create post and cannot post blank contents">
+      <option name="closed" value="true" />
+      <created>1743225661343</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1743225661345</updated>
+    </task>
+    <task id="LOCAL-00005" summary="User not logged in cannot create post">
+      <option name="closed" value="true" />
+      <created>1743226379040</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743226379040</updated>
+    </task>
+    <task id="LOCAL-00006" summary="User can create a text post and delete it">
+      <option name="closed" value="true" />
+      <created>1743231124995</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1743231124995</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Media updated">
+      <option name="closed" value="true" />
+      <created>1743237779133</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1743237779134</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Edit post method created">
+      <option name="closed" value="true" />
+      <created>1743863939776</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1743863939776</updated>
+    </task>
+    <task id="LOCAL-00009" summary="User can edit posts">
+      <option name="closed" value="true" />
+      <created>1744027674915</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744027674915</updated>
+    </task>
+    <task id="LOCAL-00010" summary="ZK Login AuthService Tests passing">
+      <option name="closed" value="true" />
+      <created>1744378124162</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1744378124162</updated>
+    </task>
+    <task id="LOCAL-00011" summary="ZK Login AuthService Tests passed">
+      <option name="closed" value="true" />
+      <created>1744378412228</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1744378412228</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Walrus client service integrated&#10;Implementation in progress">
+      <option name="closed" value="true" />
+      <created>1745464372263</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1745464372263</updated>
+    </task>
+    <task id="LOCAL-00013" summary="S3Presigner configured in the media service">
+      <option name="closed" value="true" />
+      <created>1745470053737</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1745470053737</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Docker errors">
+      <option name="closed" value="true" />
+      <created>1745486695676</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1745486695677</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Still battling docker">
+      <option name="closed" value="true" />
+      <created>1745498252786</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1745498252786</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Still battling docker - retouched">
+      <option name="closed" value="true" />
+      <created>1745498486864</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1745498486864</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <MESSAGE value="ZK Login implementated- another" />
+    <MESSAGE value="Login components setup" />
+    <MESSAGE value="Zk login test failed because of zk proof returning false" />
+    <MESSAGE value="Removed zklogin, now working with just spring boot and BCrypt - User can create post" />
+    <MESSAGE value="User can create post and cannot post blank contents" />
+    <MESSAGE value="User not logged in cannot create post" />
+    <MESSAGE value="User can create a text post and delete it" />
+    <MESSAGE value="Media updated" />
+    <MESSAGE value="Edit post method created" />
+    <MESSAGE value="Test failing" />
+    <MESSAGE value="User can edit posts" />
+    <MESSAGE value="ZK Login AuthService Tests passing" />
+    <MESSAGE value="ZK Login AuthService Tests passed" />
+    <MESSAGE value="Walrus client service integrated&#10;Implementation in progress" />
+    <MESSAGE value="S3Presigner configured in the media service" />
+    <MESSAGE value="Docker errors" />
+    <MESSAGE value="Still battling docker" />
+    <MESSAGE value="Still battling docker - retouched" />
+    <option name="LAST_COMMIT_MESSAGE" value="Still battling docker - retouched" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>false</integration-enabled>
+    <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="testUser.following" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/VomzerSocials_SuiHackerHouse$AuthServiceTest.ic" NAME="AuthServiceTest Coverage Results" MODIFIED="1743061976209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.vomzersocials.zkLogin.security.*</FILTER>
+    </SUITE>
+  </component>
+</project>
