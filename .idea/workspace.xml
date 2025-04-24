@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Docker errors">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/AwsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/PostSecurity.java" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Still battling docker - retouched">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/S3Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/S3Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/MediaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/MediaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/MediaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/MediaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/PostService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/MediaServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/MediaServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/walrus/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/walrus/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +165,7 @@
       <recent name="org.vomzersocials.user.services.implementations" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Main">
+  <component name="RunManager" selected="JUnit.MediaServiceTest">
     <configuration name="MediaServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
@@ -265,8 +255,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeletedFromS3_test" />
         <item itemvalue="JUnit.MediaServiceTest" />
+        <item itemvalue="JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeletedFromS3_test" />
         <item itemvalue="JUnit.MediaServiceTest.searchReturnsMultipleResults" />
         <item itemvalue="JUnit.MediaServiceTest.searchReturnsNoMatch" />
         <item itemvalue="JUnit.MediaServiceTest.mediaCanBeSearched" />
@@ -318,7 +308,7 @@
       <workItem from="1745437126137" duration="13182000" />
       <workItem from="1745464825523" duration="20603000" />
       <workItem from="1745492318258" duration="3654000" />
-      <workItem from="1745496080688" duration="897000" />
+      <workItem from="1745496080688" duration="3697000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -432,7 +422,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745486695677</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Still battling docker">
+      <option name="closed" value="true" />
+      <created>1745498252786</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1745498252786</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Still battling docker - retouched">
+      <option name="closed" value="true" />
+      <created>1745498486864</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1745498486864</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -456,7 +462,9 @@
     <MESSAGE value="Walrus client service integrated&#10;Implementation in progress" />
     <MESSAGE value="S3Presigner configured in the media service" />
     <MESSAGE value="Docker errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="Docker errors" />
+    <MESSAGE value="Still battling docker" />
+    <MESSAGE value="Still battling docker - retouched" />
+    <option name="LAST_COMMIT_MESSAGE" value="Still battling docker - retouched" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
