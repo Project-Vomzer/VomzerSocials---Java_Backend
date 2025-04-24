@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Still battling docker - retouched">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -308,7 +307,7 @@
       <workItem from="1745437126137" duration="13182000" />
       <workItem from="1745464825523" duration="20603000" />
       <workItem from="1745492318258" duration="3654000" />
-      <workItem from="1745496080688" duration="3697000" />
+      <workItem from="1745496080688" duration="4543000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
