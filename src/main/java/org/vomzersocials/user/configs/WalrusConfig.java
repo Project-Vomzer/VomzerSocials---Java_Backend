@@ -29,8 +29,8 @@ public class WalrusConfig {
     @Value("${walrus.cdn-url}")
     private String cdnUrl;
 
-    @Bean
-    public S3Presigner s3Presigner() {
+    @Bean(name = "walrusPresigner")
+    public S3Presigner walrusPresigner() {
         return S3Presigner.builder()
                 .endpointOverride(URI.create(endpoint))
                 .region(Region.of("us-east-1"))
@@ -40,8 +40,8 @@ public class WalrusConfig {
                 .build();
     }
 
-    @Bean
-    public S3Client s3Client() {
+    @Bean(name = "walrusS3Client")
+    public S3Client walrusS3Client() {
         return S3Client.builder()
                 .region(Region.of("us-east-1"))
                 .endpointOverride(URI.create(endpoint))
@@ -60,5 +60,4 @@ public class WalrusConfig {
     public String cdnUrl() {
         return cdnUrl;
     }
-
 }

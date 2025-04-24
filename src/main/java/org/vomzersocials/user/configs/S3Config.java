@@ -29,8 +29,8 @@ public class S3Config {
     @Value("${aws.s3.bucketName}")
     private String bucketName;
 
-    @Bean
-    public S3Client s3Client() {
+    @Bean(name = "awsS3Client")
+    public S3Client awsS3Client() {
         return S3Client.builder()
                 .region(Region.of(region))
                 .endpointOverride(URI.create(s3Endpoint))
@@ -39,8 +39,13 @@ public class S3Config {
                 .build();
     }
 
-    @Bean
-    public S3Presigner s3Presigner() {
-        return S3Presigner.create();
+    @Bean(name = "awsPresigner")
+    public S3Presigner awsPresigner() {
+        return S3Presigner.builder()
+                .region(Region.of(region))
+                .endpointOverride(URI.create(s3Endpoint))
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(accessKeyId, secretAccessKey)))
+                .build();
     }
 }

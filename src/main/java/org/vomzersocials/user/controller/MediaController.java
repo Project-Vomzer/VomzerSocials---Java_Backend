@@ -85,7 +85,7 @@ public class MediaController {
 
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
 
-            Page<Media> mediaPage = mediaService.getFilteredMedia(search, mediaType, pageable);
+            Page<Media> mediaPage = mediaService.searchForMedia(search, mediaType, pageable);
             List<Media> mediaList = mediaPage.getContent();
 
             if (mediaList.isEmpty()) {

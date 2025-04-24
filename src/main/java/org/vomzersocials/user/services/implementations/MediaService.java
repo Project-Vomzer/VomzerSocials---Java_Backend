@@ -3,7 +3,6 @@ package org.vomzersocials.user.services.implementations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +41,7 @@ public class MediaService {
     String cdnUrl;
 
 
-    public Page<Media> getFilteredMedia(String search, MediaType mediaType, Pageable pageable) {
+    public Page<Media> searchForMedia(String search, MediaType mediaType, Pageable pageable) {
         if (search != null && mediaType != null) {
             return mediaRepository
                     .findByFilenameContainingIgnoreCaseAndMediaType(search, mediaType, pageable);
@@ -116,4 +115,14 @@ public class MediaService {
         return preSignedRequest.url().toString();
     }
 
+//    public Media deleteMedia(String filename) {
+//        if (filename != null) {
+//            throw new IllegalArgumentException("No filename provided");
+//        }
+//        Media foundMedia = mediaRepository.findMediaByFilename(filename);
+//        if (foundMedia == null) {
+//            throw new IllegalArgumentException("Media already exists");
+//        }
+//
+//    }
 }

@@ -15,5 +15,6 @@ public interface MediaRepository extends JpaRepository<Media, UUID> {
     Page<Media> findByFilenameContainingIgnoreCase(String filename, Pageable pageable);
     Page<Media> findByMediaType(MediaType mediaType, Pageable pageable);
     Page<Media> findByFilenameContainingIgnoreCaseAndMediaType(String filename, MediaType mediaType, Pageable pageable);
-
+    Media deleteMediaByFilename(String filename);
+    Media findMediaByFilename(String filename);
 }
