@@ -2,8 +2,9 @@ package org.vomzersocials.user.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.vomzersocials.user.utils.Media;
@@ -20,31 +21,42 @@ import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequ
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 public class MediaService {
 
     @Autowired
-    private MediaRepository mediaRepository;
+    MediaRepository mediaRepository;
 
     @Autowired
-    private S3Client s3Client;
+    S3Client s3Client;
 
     @Autowired
-    private S3Presigner s3Presigner;
+    S3Presigner s3Presigner;
 
     @Value("${vomzer.bucket-name}")
-    private String bucketName;
+    String bucketName;
 
     @Value("${vomzer.cdn-url}")
-    private String cdnUrl;
+    String cdnUrl;
 
-    public List<Media> getAll(int page, int size) {
-        Page<Media> mediaPage = mediaRepository.findAll(PageRequest.of(page, size));
-        return mediaPage.getContent();
+
+    public Page<Media> getFilteredMedia(String search, MediaType mediaType, Pageable pageable) {
+        if (search != null && mediaType != null) {
+            return mediaRepository
+                    .findByFilenameContainingIgnoreCaseAndMediaType(search, mediaType, pageable);
+        } else if (search != null) {
+            return mediaRepository
+                    .findByFilenameContainingIgnoreCase(search, pageable);
+        } else if (mediaType != null) {
+            return mediaRepository
+                    .findByMediaType(mediaType, pageable);
+        } else {
+            return mediaRepository.findAll(pageable);
+        }
     }
+
 
     public Media uploadMedia(MultipartFile file) throws IOException {
         String contentType = file.getContentType();
@@ -85,7 +97,7 @@ public class MediaService {
         return mediaRepository.save(media);
     }
 
-    public String generatePresignedUploadUrl(String originalFilename, String folder, String contentType) {
+    public String generatePreSignedUploadUrl(String originalFilename, String folder, String contentType) {
         String key = folder + "/" + UUID.randomUUID() + "-" + originalFilename;
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()

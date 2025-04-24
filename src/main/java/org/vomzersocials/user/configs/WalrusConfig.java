@@ -33,7 +33,7 @@ public class WalrusConfig {
     public S3Presigner s3Presigner() {
         return S3Presigner.builder()
                 .endpointOverride(URI.create(endpoint))
-                .region(Region.of("us-east-1"))  // Specify a region (it can be any region if Walrus ignores it)
+                .region(Region.of("us-east-1"))
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(accessKey, secretKey)
                 ))
@@ -43,7 +43,7 @@ public class WalrusConfig {
     @Bean
     public S3Client s3Client() {
         return S3Client.builder()
-                .region(Region.of("us-east-1")) // Dummy region; Walrus doesn't enforce this
+                .region(Region.of("us-east-1"))
                 .endpointOverride(URI.create(endpoint))
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(accessKey, secretKey)
