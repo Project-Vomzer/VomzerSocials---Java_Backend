@@ -16,6 +16,6 @@ public class ZkLoginVerifier {
 
     public boolean verifyProof(String zkProof, String publicKey) {
         String suiAddress = suiZkLoginClient.verifyProof(zkProof);
-        return suiAddress != null; // Simplified: you can return more detailed checks if needed
+        return suiAddress != null;
     }
 }

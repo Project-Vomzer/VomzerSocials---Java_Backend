@@ -9,15 +9,23 @@ import org.springframework.stereotype.Component;
 public class JwtUtil {
 
     @Value("${jwt.secret}")
-    private String jwtSecret;
+    private static String jwtSecret;
 
     @Value("${jwt.issuer}")
-    private String issuer;
+    private static String issuer;
 
-    public String generateAccessToken(String id) {
+    public static String generateAccessToken(String id) {
         return JWT.create()
                 .withClaim("user_id", id)
                 .withIssuer(issuer)
                 .sign(Algorithm.HMAC256(jwtSecret));
+    }
+
+    public String extractUserId(String token) {
+        return JWT.decode(token).getClaim("user_id").asString();
+    }
+
+    public boolean validateToken(String token) {
+        return JWT.decode(token).getClaim("user_id") != null;
     }
 }
