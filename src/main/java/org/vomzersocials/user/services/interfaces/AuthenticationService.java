@@ -9,6 +9,7 @@ import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 import org.vomzersocials.user.dtos.responses.TokenPair;
 
 public interface AuthenticationService {
+
     RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest);
     LoginResponse loginUser(LoginRequest loginRequest);
     LogoutUserResponse logoutUser(LogoutRequest logoutUserRequest);

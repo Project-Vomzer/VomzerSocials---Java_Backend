@@ -1,5 +1,7 @@
 package org.vomzersocials.user.springSecurity;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -7,7 +9,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
@@ -28,7 +29,11 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        signingKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        if (keyBytes.length < 32) {
+            throw new IllegalArgumentException("Secret key must be at least 256 bits (32 bytes)");
+        }
+        signingKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateAccessToken(String username) {
@@ -51,8 +56,8 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser()
-                    .verifyWith((SecretKey) signingKey)
+            Jwts.parserBuilder() // ✅ use parserBuilder for 0.11.2
+                    .setSigningKey(signingKey)
                     .build()
                     .parseClaimsJws(token);
             return true;
@@ -62,11 +67,10 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser()
-                .verifyWith((SecretKey) signingKey)
+        Jws<Claims> jws = Jwts.parserBuilder()
+                .setSigningKey(signingKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .parseClaimsJws(token);
+        return jws.getBody().getSubject();
     }
 }

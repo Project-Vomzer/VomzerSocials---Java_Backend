@@ -20,6 +20,12 @@ public class LoginResponse {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
+
+    public LoginResponse(String userName, String loggedInSuccessfully, String accessToken) {
+        this.username = userName;
+        this.message = loggedInSuccessfully;
+        this.accessToken = accessToken;
+    }
 }
 
 

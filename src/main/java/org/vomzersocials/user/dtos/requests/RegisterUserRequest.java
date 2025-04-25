@@ -12,4 +12,5 @@ public class RegisterUserRequest {
     private String password;
     private Role role;
     private String zkProof;
+    private String publicKey;
 }

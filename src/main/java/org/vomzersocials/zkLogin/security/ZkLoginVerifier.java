@@ -1,12 +1,14 @@
 package org.vomzersocials.zkLogin.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
 public class ZkLoginVerifier {
 
-    private final RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
     private final SuiZkLoginClient suiZkLoginClient;
 
     public ZkLoginVerifier(RestTemplate restTemplate, SuiZkLoginClient suiZkLoginClient) {
@@ -15,7 +17,8 @@ public class ZkLoginVerifier {
     }
 
     public boolean verifyProof(String zkProof, String publicKey) {
-        String suiAddress = suiZkLoginClient.verifyProof(zkProof);
+        String suiAddress = suiZkLoginClient.verifyProof(zkProof, publicKey);
         return suiAddress != null;
     }
+
 }

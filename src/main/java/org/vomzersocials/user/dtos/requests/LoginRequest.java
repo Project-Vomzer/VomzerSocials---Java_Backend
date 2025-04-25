@@ -9,9 +9,8 @@ import org.vomzersocials.user.enums.Role;
 @AllArgsConstructor
 @ToString
 public class LoginRequest {
-    private String message;
-    private String jwtToken;
-    private Role role;
     private String username;
     private String password;
+    private String zkProof;
+    private String publicKey;
 }
