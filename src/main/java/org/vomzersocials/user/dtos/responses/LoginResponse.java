@@ -7,18 +7,18 @@ import org.vomzersocials.user.enums.Role;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class LoginResponse {
+    private String username;
     private String message;
-    private String jwtToken;
-    private Role role;
-    private String userName;
+    private String accessToken;
+    private String refreshToken;
 
-
-    public LoginResponse(String userName, String loggedInSuccessfully) {
-        this.userName = userName;
-        this.message = loggedInSuccessfully;
+    public LoginResponse(String username, String message, String accessToken, String refreshToken) {
+        this.username = username;
+        this.message = message;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 }
 

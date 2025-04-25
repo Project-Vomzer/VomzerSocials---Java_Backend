@@ -101,7 +101,7 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
 
 
     public void deletePostWithMedia(UUID postId){
-        Post post = postRepository.findById(postId)
+        Post post = postRepository.findById(String.valueOf(postId))
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
     }
 }

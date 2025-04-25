@@ -2,8 +2,6 @@ package org.vomzersocials.user.services.implementations;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.vomzersocials.user.data.repositories.PostRepository;
-import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;

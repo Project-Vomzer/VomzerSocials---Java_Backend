@@ -12,8 +12,10 @@ import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
 import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
 import org.vomzersocials.user.dtos.responses.LoginResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
+import org.vomzersocials.user.dtos.responses.TokenPair;
 import org.vomzersocials.zkLogin.security.SuiZkLoginClient;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
+import org.vomzersocials.user.springSecurity.JwtUtil;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -28,10 +30,15 @@ public class AuthenticationServiceImpl implements org.vomzersocials.user.service
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
     private ZkLoginService zkLoginService;
+
     @Autowired
     private SuiZkLoginClient suiZkLoginClient;
+
+    @Autowired
+    private JwtUtil jwtUtil;  // Inject JwtUtil
 
     @Override
     public RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest) {
@@ -55,23 +62,27 @@ public class AuthenticationServiceImpl implements org.vomzersocials.user.service
         return new RegisterUserResponse(user.getUserName(), false, "User registered successfully.");
     }
 
+    @Override
+    public LoginResponse loginUser(LoginRequest loginRequest) {
+        validateUserInput(loginRequest.getUsername(), loginRequest.getPassword());
 
-    public LoginResponse loginUser(LoginRequest userLoginRequest) {
-        validateUserInput(userLoginRequest.getUsername(), userLoginRequest.getPassword());
-
-        User foundUser = userRepository.findUserByUserName(userLoginRequest.getUsername())
+        User foundUser = userRepository.findUserByUserName(loginRequest.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        if (!passwordEncoder.matches(userLoginRequest.getPassword(), foundUser.getPassword())) {
+        if (!passwordEncoder.matches(loginRequest.getPassword(), foundUser.getPassword())) {
             throw new IllegalArgumentException("Invalid username or password");
         }
 
         foundUser.setIsLoggedIn(true);
         userRepository.save(foundUser);
 
-        return new LoginResponse(foundUser.getUserName(), "Logged in successfully");
+        // Generate the JWT token
+        String accessToken = jwtUtil.generateAccessToken(foundUser.getUserName());
+
+        return new LoginResponse(foundUser.getUserName(), "Logged in successfully", accessToken);
     }
 
+    @Override
     public LogoutUserResponse logoutUser(LogoutRequest logoutRequest) {
         User user = userRepository.findUserByUserName(logoutRequest.getUserName())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -80,6 +91,38 @@ public class AuthenticationServiceImpl implements org.vomzersocials.user.service
         userRepository.save(user);
 
         return new LogoutUserResponse(user.getUserName(), "Logged out successfully");
+    }
+
+    @Override
+    public String generateAccessToken(String username) {
+        return jwtUtil.generateAccessToken(username);
+    }
+
+    @Override
+    public boolean validateAccessToken(String token) {
+        return jwtUtil.validateToken(token);
+    }
+
+    @Override
+    public String generateRefreshToken(String userId) {
+        return jwtUtil.generateRefreshToken(userId);
+    }
+
+    @Override
+    public boolean validateRefreshToken(String token) {
+        return jwtUtil.validateToken(token);
+    }
+
+    @Override
+    public TokenPair refreshTokens(String refreshToken) {
+        if (!validateRefreshToken(refreshToken)) {
+            throw new IllegalArgumentException("Invalid/expired refresh token");
+        }
+        String userId = jwtUtil.extractUsername(refreshToken);
+        return new TokenPair(
+                jwtUtil.generateAccessToken(userId),
+                jwtUtil.generateRefreshToken(userId)
+        );
     }
 
     private void validateUserInput(String username, String password) {
