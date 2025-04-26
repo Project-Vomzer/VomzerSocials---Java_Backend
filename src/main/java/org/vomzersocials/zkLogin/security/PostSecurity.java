@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.vomzersocials.user.data.repositories.PostRepository;
-import org.vomzersocials.user.utils.Post;
+import org.vomzersocials.user.data.models.Post;
 
 import java.util.Optional;
 

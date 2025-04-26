@@ -4,8 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.vomzersocials.user.data.models.User;
-import org.vomzersocials.user.utils.Media;
-import org.vomzersocials.user.utils.MediaType;
+import org.vomzersocials.user.data.models.Media;
+import org.vomzersocials.user.enums.MediaType;
 
 import java.util.List;
 import java.util.UUID;

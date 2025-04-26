@@ -1,4 +1,4 @@
-package org.vomzersocials.user.data.models;
+package org.vomzersocials.user.enums;
 
 public enum Role {
     ADMIN,

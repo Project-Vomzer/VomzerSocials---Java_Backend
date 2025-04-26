@@ -1,14 +1,10 @@
-package org.vomzersocials.user.utils;
+package org.vomzersocials.user.data.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.UuidGenerator;
-import org.vomzersocials.user.data.models.User;
 
-import java.util.UUID;
-
-@Entity  // Add missing @Entity annotation
+@Entity
 @Getter @Setter
 public class Comment {
     @Id
@@ -24,5 +20,4 @@ public class Comment {
     @JoinColumn(name = "user_id", columnDefinition = "CHAR(36)")
     private User user;
 
-    // ... other fields
 }

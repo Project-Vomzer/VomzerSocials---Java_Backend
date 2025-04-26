@@ -3,11 +3,10 @@ package org.vomzersocials.user.data.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.vomzersocials.user.enums.Role;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
-import org.vomzersocials.user.utils.Media;
-import org.vomzersocials.user.utils.Like;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -16,7 +15,6 @@ import java.util.*;
 @Getter
 @Entity
 @Table(name = "users")
-//public class User implements UserDetails {
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -60,42 +58,5 @@ public class User{
     private  List<Media> mediaList = new ArrayList<>();
 
     private LocalDateTime dateOfCreation;
-
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority(role.name()));
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return this.userName;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-////        return UserDetails.super.isAccountNonExpired();
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-////        return UserDetails.super.isAccountNonLocked();
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-////        return UserDetails.super.isCredentialsNonExpired();
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-////        return UserDetails.super.isEnabled();
-//        return this.isLoggedIn;
-//    }
-
-
 
 }

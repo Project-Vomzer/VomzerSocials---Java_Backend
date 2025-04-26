@@ -2,23 +2,29 @@ package org.vomzersocials.user.dtos.responses;
 
 
 import lombok.*;
-import org.vomzersocials.user.data.models.Role;
+import org.vomzersocials.user.enums.Role;
 
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class LoginResponse {
+    private String username;
     private String message;
-    private String jwtToken;
-    private Role role;
-    private String userName;
+    private String accessToken;
+    private String refreshToken;
 
+    public LoginResponse(String username, String message, String accessToken, String refreshToken) {
+        this.username = username;
+        this.message = message;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
 
-    public LoginResponse(String userName, String loggedInSuccessfully) {
-        this.userName = userName;
+    public LoginResponse(String userName, String loggedInSuccessfully, String accessToken) {
+        this.username = userName;
         this.message = loggedInSuccessfully;
+        this.accessToken = accessToken;
     }
 }
 

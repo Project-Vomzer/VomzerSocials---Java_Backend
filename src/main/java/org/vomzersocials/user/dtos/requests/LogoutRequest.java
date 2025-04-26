@@ -6,6 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class LogoutRequest {
-    public String userName;
+    private String username;
+    private String refreshToken;
     private String message;
 }

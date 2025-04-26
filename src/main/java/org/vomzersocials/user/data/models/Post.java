@@ -1,11 +1,10 @@
-package org.vomzersocials.user.utils;
+package org.vomzersocials.user.data.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.vomzersocials.user.data.models.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

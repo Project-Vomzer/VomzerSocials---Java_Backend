@@ -1,13 +1,9 @@
-package org.vomzersocials.user.utils;
+package org.vomzersocials.user.data.models;
 
 import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.UuidGenerator;
-import org.vomzersocials.user.data.models.User;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "user_likes")  // Remove apostrophe from table name
