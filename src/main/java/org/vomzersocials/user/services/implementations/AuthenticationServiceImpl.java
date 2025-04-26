@@ -1,5 +1,7 @@
 package org.vomzersocials.user.services.implementations;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
 import org.vomzersocials.user.dtos.responses.LoginResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 import org.vomzersocials.user.dtos.responses.TokenPair;
+import org.vomzersocials.user.enums.LoginMethod;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
 import org.vomzersocials.zkLogin.security.SuiZkLoginClient;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
@@ -33,7 +36,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final SuiZkLoginClient suiZkLoginClient;
     private final JwtUtil jwtUtil;
 
-    public AuthenticationServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, ZkLoginService zkLoginService, SuiZkLoginClient suiZkLoginClient, JwtUtil jwtUtil) {
+    public AuthenticationServiceImpl(UserRepository userRepository,
+                                     BCryptPasswordEncoder passwordEncoder,
+                                     ZkLoginService zkLoginService,
+                                     SuiZkLoginClient suiZkLoginClient,
+                                     JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.zkLoginService = zkLoginService;
@@ -44,7 +51,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest) {
         validateUserInput(registerUserRequest.getUserName(), registerUserRequest.getPassword());
-
         Optional<User> existingUser = userRepository.findUserByUserName(registerUserRequest.getUserName());
         if (existingUser.isPresent()) {
             throw new IllegalArgumentException("Username already exists");
@@ -52,7 +58,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String suiAddress = verifyZkProofAndRegisterOrThrow(registerUserRequest.getZkProof(), registerUserRequest.getUserName(), registerUserRequest.getPublicKey());
         User user = getUserDetails(registerUserRequest, suiAddress);
         return getRegisterUserResponse(registerUserRequest, user);
-//        return new RegisterUserResponse(user.getUserName(), false, "User registered successfully.");
     }
 
     private static RegisterUserResponse getRegisterUserResponse(RegisterUserRequest registerUserRequest, User user) {
@@ -77,14 +82,34 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return user;
     }
 
-
     @Override
     public LoginResponse loginUser(LoginRequest loginRequest) {
-        validateUserInput(loginRequest.getUsername(), loginRequest.getPassword());
+        LoginMethod loginMethod;
+        try {
+            // Convert string to enum
+            loginMethod = LoginMethod.valueOf(loginRequest.getLoginMethod());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid login method", e);
+        }
 
-        String suiAddress = verifyZkProofOrThrow(loginRequest.getZkProof(), loginRequest.getPublicKey());
-        User foundUser = (User) userRepository.findUserBySuiAddress(suiAddress)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User foundUser;
+        if (loginMethod == LoginMethod.STANDARD_LOGIN) {
+            // Handle standard login
+            validateUserInput(loginRequest.getUsername(), loginRequest.getPassword());
+            foundUser = userRepository.findUserByUserName(loginRequest.getUsername())
+                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
+            if (!passwordEncoder.matches(loginRequest.getPassword(), foundUser.getPassword())) {
+                throw new IllegalArgumentException("Invalid credentials");
+            }
+        } else if (loginMethod == LoginMethod.ZK_LOGIN) {
+            // Handle zkLogin
+            String suiAddress = verifyZkProofOrThrow(loginRequest.getZkProof(), loginRequest.getPublicKey());
+            foundUser = (User) userRepository.findUserBySuiAddress(suiAddress)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        } else {
+            throw new IllegalArgumentException("Unsupported login method");
+        }
+
         foundUser.setIsLoggedIn(true);
         userRepository.save(foundUser);
         String accessToken = jwtUtil.generateAccessToken(foundUser.getUserName());
@@ -94,13 +119,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public LogoutUserResponse logoutUser(LogoutRequest logoutRequest) {
-        User user = userRepository.findUserByUserName(logoutRequest.getUserName())
+        // 1) Look up the user
+        User user = userRepository.findUserByUserName(logoutRequest.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        // 2) Flip your “isLoggedIn” flag
         user.setIsLoggedIn(false);
         userRepository.save(user);
+
+        // 3) Return a response so the client can drop its tokens
         return new LogoutUserResponse(user.getUserName(), "Logged out successfully");
     }
+
+
 
     @Override
     public String generateAccessToken(String username) {

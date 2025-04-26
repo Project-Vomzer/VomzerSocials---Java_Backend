@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-// Follower.java
 @Entity
 @Getter
 @Setter

@@ -23,7 +23,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody ZkLoginRequest request) {
         try {
-            // Authenticate and get JWT token
             String jwtToken = zkLoginAuthService.authenticateUser(request);
             return ResponseEntity.ok(new JwtResponse(jwtToken)); // Return JWT token in response
         } catch (Exception e) {

@@ -22,7 +22,7 @@ public class ValidationUtils {
             return false;
         }
 
-        String passwordRegex = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@#$%^&+=!])[A-Za-z\\d@#$%^&+=!]{8,16}$";
+        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])[A-Za-z\\d@#$%^&+=!]{8,16}$";
         Pattern pattern = Pattern.compile(passwordRegex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
@@ -38,5 +38,6 @@ public class ValidationUtils {
         Matcher matcher = pattern.matcher(username);
         return matcher.matches();
     }
+
 
 }

@@ -13,4 +13,5 @@ public class LoginRequest {
     private String password;
     private String zkProof;
     private String publicKey;
+    private String loginMethod;
 }

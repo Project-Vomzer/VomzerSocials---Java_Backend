@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity  // Add missing @Entity annotation
+@Entity
 @Getter @Setter
 public class Comment {
     @Id
@@ -20,5 +20,4 @@ public class Comment {
     @JoinColumn(name = "user_id", columnDefinition = "CHAR(36)")
     private User user;
 
-    // ... other fields
 }
