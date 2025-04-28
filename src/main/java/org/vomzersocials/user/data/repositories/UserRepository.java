@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.vomzersocials.user.data.models.User;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
