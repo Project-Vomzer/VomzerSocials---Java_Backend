@@ -4,19 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="User can now login and logout with unit tests passing">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/VerifiedAddressResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/SuiZkLoginClientTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/services/ZkLoginServiceTest.java" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Zklogin fully integrated and functional">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/AuthenticationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/SuiZkLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/SuiZkLoginClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/ZkLoginVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/security/ZkLoginVerifier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/ZkLoginAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/ZkLoginAuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/ZkLoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/zkLogin/services/ZkLoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/AuthServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/AuthServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/JwtUtilTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/JwtUtilTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/SuiZkLoginClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/zkLogin/security/SuiZkLoginClientTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application-test.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +108,10 @@
     "JUnit.AuthenticationServiceImplTest.test_userCanLoginWithZkLogin.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.userWhenLoggedInCanLogout_test.executor": "Run",
     "JUnit.JwtUtilTest.executor": "Run",
+    "JUnit.JwtUtilTest.expiredTokenIsInvalid_test.executor": "Run",
+    "JUnit.JwtUtilTest.generateAndValidateAccessToken.executor": "Run",
     "JUnit.JwtUtilTest.testGenerateToken.executor": "Run",
+    "JUnit.JwtUtilTest.validateAndExtractUsername_test.executor": "Run",
     "JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeletedFromS3_test.executor": "Run",
     "JUnit.MediaServiceTest.executor": "Run",
     "JUnit.MediaServiceTest.mediaCanBeSearched.executor": "Run",
@@ -118,6 +124,7 @@
     "JUnit.UserServiceTest.test_thatPostCanBeCreated_UserNotFound.executor": "Run",
     "JUnit.UserServiceTest.test_thatUserCanEditPostCreated.executor": "Run",
     "JUnit.UserServiceTest.test_thatUserCanRegister.executor": "Run",
+    "JUnit.UserServiceTest.test_thatUserCanRegister_andCreatePost.executor": "Debug",
     "JUnit.UserServiceTest.test_thatUserCannotPostEmptyContent.executor": "Run",
     "JUnit.UserServiceTest.test_thatUserCannotRegisterANullValue.executor": "Run",
     "JUnit.UserServiceTest.test_thatUserNotLoggedIn_cannotCreateOrMakePost.executor": "Run",
@@ -198,7 +205,38 @@
       <recent name="org.vomzersocials.user.services.implementations" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AuthenticationServiceImplTest">
+  <component name="RunManager" selected="JUnit.UserServiceTest">
+    <configuration name="AuthServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.zkLogin.security.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.zkLogin.security" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.zkLogin.security.AuthServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthServiceTest.testAuthenticateUser_Success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.zkLogin.security.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.zkLogin.security" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.zkLogin.security.AuthServiceTest" />
+      <option name="METHOD_NAME" value="testAuthenticateUser_Success" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AuthenticationServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
@@ -210,53 +248,6 @@
       <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
       <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.AuthenticationServiceImplTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AuthenticationServiceImplTest.test_thatUserCanLoginWithZkLogin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="VomzerSocials-SuiHackerHouse" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.AuthenticationServiceImplTest" />
-      <option name="METHOD_NAME" value="test_thatUserCanLoginWithZkLogin" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SuiZkLoginClientTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="VomzerSocials-SuiHackerHouse" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.vomzersocials.zkLogin.security.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.zkLogin.security" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.zkLogin.security.SuiZkLoginClientTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SuiZkLoginClientTest.verifyProof_errorResponse_returnsNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="VomzerSocials-SuiHackerHouse" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.vomzersocials.zkLogin.security.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.zkLogin.security" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.zkLogin.security.SuiZkLoginClientTest" />
-      <option name="METHOD_NAME" value="verifyProof_errorResponse_returnsNull" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -276,6 +267,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserServiceTest.test_thatUserCanRegister_andCreatePost" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.UserServiceTest" />
+      <option name="METHOD_NAME" value="test_thatUserCanRegister_andCreatePost" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="VomzerSocials-SuiHackerHouse" />
@@ -286,11 +293,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AuthenticationServiceImplTest" />
-        <item itemvalue="JUnit.AuthenticationServiceImplTest.test_thatUserCanLoginWithZkLogin" />
-        <item itemvalue="JUnit.SuiZkLoginClientTest.verifyProof_errorResponse_returnsNull" />
-        <item itemvalue="JUnit.SuiZkLoginClientTest" />
         <item itemvalue="JUnit.UserServiceTest" />
+        <item itemvalue="JUnit.AuthServiceTest" />
+        <item itemvalue="JUnit.AuthServiceTest.testAuthenticateUser_Success" />
+        <item itemvalue="JUnit.UserServiceTest.test_thatUserCanRegister_andCreatePost" />
+        <item itemvalue="JUnit.AuthenticationServiceImplTest" />
       </list>
     </recent_temporary>
   </component>
@@ -344,7 +351,7 @@
       <workItem from="1745651423335" duration="7334000" />
       <workItem from="1745660790012" duration="10833000" />
       <workItem from="1745730936629" duration="1271000" />
-      <workItem from="1745773197398" duration="16782000" />
+      <workItem from="1745773197398" duration="41107000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -514,7 +521,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745660484653</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Zklogin fully integrated and functional">
+      <option name="closed" value="true" />
+      <created>1745838764227</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1745838764227</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -556,7 +571,8 @@
     <MESSAGE value="Updated JwtUtils service" />
     <MESSAGE value="zklogin successfully integrated and setup&#10;Attempting to run the program" />
     <MESSAGE value="User can now login and logout with unit tests passing" />
-    <option name="LAST_COMMIT_MESSAGE" value="User can now login and logout with unit tests passing" />
+    <MESSAGE value="Zklogin fully integrated and functional" />
+    <option name="LAST_COMMIT_MESSAGE" value="Zklogin fully integrated and functional" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

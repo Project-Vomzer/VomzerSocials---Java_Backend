@@ -7,10 +7,12 @@ import org.vomzersocials.user.dtos.responses.LoginResponse;
 import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 import org.vomzersocials.user.dtos.responses.TokenPair;
+import reactor.core.publisher.Mono;
 
 public interface AuthenticationService {
 
-    RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest);
+//    RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest);
+    Mono<RegisterUserResponse> registerNewUser(RegisterUserRequest request);
     LoginResponse loginUser(LoginRequest loginRequest);
     LogoutUserResponse logoutUser(LogoutRequest logoutUserRequest);
     String generateAccessToken(String userId);

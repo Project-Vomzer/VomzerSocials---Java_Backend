@@ -5,35 +5,43 @@ import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.springSecurity.JwtUtil;
+import org.vomzersocials.zkLogin.security.ZkLoginVerifier;
 
 @Service
 public class ZkLoginAuthService {
 
-    private final ZkLoginService zkLoginService;
+    private final ZkLoginVerifier zkLoginVerifier;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
-    public ZkLoginAuthService(ZkLoginService zkLoginService, UserRepository userRepository, JwtUtil jwtUtil) {
-        this.zkLoginService = zkLoginService;
+    public ZkLoginAuthService(UserRepository userRepository, JwtUtil jwtUtil, ZkLoginVerifier zkLoginVerifier, ZkLoginVerifier zkLoginVerifier1) {
+        this.zkLoginVerifier = zkLoginVerifier;
         this.userRepository = userRepository;
         this.jwtUtil       = jwtUtil;
     }
 
-    public String authenticate(ZkLoginRequest req) {
-        if (req == null) {
-            throw new IllegalArgumentException("Login request cannot be null");
-        }
+//    public String authenticate(ZkLoginRequest req) {
+//        if (req == null) throw new IllegalArgumentException("Login request cannot be null");
+//
+//        String suiAddress = String.valueOf(zkLoginService.loginViaZkProof(req.getZkProof(), req.getPublicKey()));
+//        if (suiAddress == null) throw new IllegalArgumentException("Invalid zero-knowledge proof");
+//
+//        User user = (User) userRepository
+//                .findUserBySuiAddress(suiAddress)
+//                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+//
+//        return jwtUtil.generateAccessToken(user.getUserName());
+//    }
 
-        String suiAddress = String.valueOf(zkLoginService.loginViaZkProof(req.getZkProof(), req.getPublicKey()));
-        if (suiAddress == null) {
-            throw new IllegalArgumentException("Invalid zero-knowledge proof");
-        }
+    public String authenticate(ZkLoginRequest req){
+        if (req == null) throw new IllegalArgumentException("Login request cannot be null");
+        boolean ok = zkLoginVerifier.verifyProof(req.getZkProof(), req.getPublicKey());
+        if (!ok) throw new IllegalArgumentException("Invalid proof");
 
-        User user = (User) userRepository
-                .findUserBySuiAddress(suiAddress)
+        User user = userRepository.findByPublicKey(req.getPublicKey())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        return jwtUtil.generateAccessToken(user.getUserName());
+        return jwtUtil.generateAccessToken(user.getId());
     }
 
     public String authenticateUser(ZkLoginRequest request) {

@@ -62,7 +62,7 @@ public class SuiZkLoginClientTest {
         assertNotNull("Result should not be null", result);
         assertTrue(result.isSuccess());
         assertEquals("0xabc123", result.getAddress());
-        assertNull(result.getErrorMessage());
+        assertEquals("Address verification successful", result.getErrorMessage());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package org.vomzersocials.zkLogin.security;
 
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -7,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ZkLoginVerifier {
 
+    @Setter
     @Autowired
     private RestTemplate restTemplate;
     private final SuiZkLoginClient suiZkLoginClient;

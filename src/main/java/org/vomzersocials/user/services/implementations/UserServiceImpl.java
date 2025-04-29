@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest) {
-        return authenticationService.registerNewUser(registerUserRequest);
+        return authenticationService.registerNewUser(registerUserRequest).block();
     }
 
     @Override

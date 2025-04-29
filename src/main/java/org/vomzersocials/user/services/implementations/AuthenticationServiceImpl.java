@@ -1,8 +1,17 @@
 package org.vomzersocials.user.services.implementations;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.vomzersocials.user.services.interfaces.AuthenticationService;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+import reactor.util.retry.Retry;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.LoginRequest;
@@ -13,11 +22,11 @@ import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 import org.vomzersocials.user.dtos.responses.TokenPair;
 import org.vomzersocials.user.enums.LoginMethod;
-import org.vomzersocials.user.services.interfaces.AuthenticationService;
 import org.vomzersocials.zkLogin.security.VerifiedAddressResult;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -31,29 +40,50 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ZkLoginService zkLoginService;
+    private final WalletApiClient walletApiClient;
     private final JwtUtil jwtUtil;
 
-    public AuthenticationServiceImpl(UserRepository userRepository,
-                                     BCryptPasswordEncoder passwordEncoder,
-                                     ZkLoginService zkLoginService,
-                                     JwtUtil jwtUtil) {
+    public AuthenticationServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, ZkLoginService zkLoginService,
+                                     WalletApiClient walletApiClient, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.zkLoginService = zkLoginService;
+        this.walletApiClient = walletApiClient;
         this.jwtUtil = jwtUtil;
     }
 
     @Override
-    public RegisterUserResponse registerNewUser(RegisterUserRequest request) {
+    public Mono<RegisterUserResponse> registerNewUser(RegisterUserRequest request) {
         validateUserInput(request.getUserName(), request.getPassword());
-        if (userRepository.findUserByUserName(request.getUserName()).isPresent()) {
-            throw new IllegalArgumentException("Username already exists");
-        }
-        String suiAddress = verifyZkProofAndRegisterOrThrow(
-                request.getZkProof(), request.getUserName(), request.getPublicKey());
-        User user = createUser(request, suiAddress);
-        return buildRegisterResponse(request, user);
+
+        return findExistingUser(request.getUserName())
+                .flatMap(existingUser -> {
+                    if (existingUser.isPresent()) {
+                        return Mono.error(new IllegalArgumentException("Username already exists"));
+                    }
+                    return getOGenerateSuiAddress(request)
+                            .map(address -> {
+                                User user = createUser(request, address);
+                                return registerNewUserResponse(request, user);
+                            });
+                });
     }
+
+    private Mono<Optional<User>> findExistingUser(String userName) {
+        return Mono.fromCallable(() -> userRepository.findUserByUserName(userName))
+                .subscribeOn(Schedulers.boundedElastic());
+    }
+
+    private Mono<String> getOGenerateSuiAddress(RegisterUserRequest request) {
+        if (request.getZkProof() != null && !request.getZkProof().isEmpty()) {
+            String suiAddress = verifyZkProofAndRegisterOrThrow(
+                    request.getZkProof(), request.getUserName(), request.getPublicKey());
+            return Mono.just(suiAddress);
+        } else {
+            return walletApiClient.generateSuiAddress();
+        }
+    }
+
 
     @Override
     public LoginResponse loginUser(LoginRequest request) {
@@ -122,17 +152,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setIsLoggedIn(false);
         user.setDateOfCreation(LocalDateTime.now());
 
-        userRepository.save(user);  // save, but ignore returned value
-        return user;               // return the original user instance
+        userRepository.save(user);
+        return user;
     }
 
-    private RegisterUserResponse buildRegisterResponse(RegisterUserRequest req, User user) {
-        RegisterUserResponse resp = new RegisterUserResponse();
-        resp.setUserName(user.getUserName());
-        resp.setRole(req.getRole());
-        resp.setIsLoggedIn(false);
-        resp.setMessage("User registered successfully.");
-        return resp;
+    private RegisterUserResponse registerNewUserResponse(RegisterUserRequest req, User user) {
+        RegisterUserResponse response = new RegisterUserResponse();
+        response.setUserName(user.getUserName());
+        response.setRole(req.getRole());
+        response.setIsLoggedIn(false);
+        response.setMessage("User registered successfully.");
+        return response;
     }
 
     private User loginStandard(LoginRequest req) {
@@ -171,4 +201,33 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new IllegalArgumentException("Invalid username or password");
         }
     }
+
+
+    @Component
+    public static class WalletApiClient {
+        private final WebClient webClient;
+
+        public WalletApiClient(WebClient.Builder webClientBuilder,
+                               @Value("${wallet.api.base:http://localhost:3000/api}")
+                               String baseUrl) {
+            this.webClient = webClientBuilder.baseUrl(baseUrl).build();
+        }
+
+        public Mono<String> generateSuiAddress() {
+            return webClient.post()
+                    .uri("/wallets")
+                    .retrieve()
+                    .bodyToMono(WalletResponse.class)
+                    .map(WalletResponse::getAddress)
+                    .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(2)))
+                    .timeout(Duration.ofSeconds(5));
+        }
+
+        @Setter
+        @Getter
+        private static class WalletResponse {
+            private String address;
+        }
+    }
+
 }

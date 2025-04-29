@@ -26,7 +26,9 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "wallet.api.base=http://mock-wallet-api"
+})
 @Slf4j
 public class AuthenticationServiceImplTest {
 
@@ -84,7 +86,7 @@ public class AuthenticationServiceImplTest {
 
     @Test
     public void test_thatUserCanRegister() {
-        RegisterUserResponse response = authenticationService.registerNewUser(registerUserRequest);
+        RegisterUserResponse response = authenticationService.registerNewUser(registerUserRequest).block();
         assertEquals("User registered successfully.", response.getMessage());
     }
 
@@ -99,7 +101,7 @@ public class AuthenticationServiceImplTest {
 
     @Test
     public void test_thatUserCanLoginWithStandardLoginDetails() {
-        RegisterUserResponse reg = authenticationService.registerNewUser(registerUserRequest);
+        RegisterUserResponse reg = authenticationService.registerNewUser(registerUserRequest).block();
         assertEquals("User registered successfully.", reg.getMessage());
 
         User dummyUser = new User();
@@ -148,7 +150,7 @@ public class AuthenticationServiceImplTest {
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         // Register the user
-        RegisterUserResponse regResp = authenticationService.registerNewUser(registerUserRequest);
+        RegisterUserResponse regResp = authenticationService.registerNewUser(registerUserRequest).block();
         assertEquals("User registered successfully.", regResp.getMessage());
 
         // Stub find by Sui address after registration
