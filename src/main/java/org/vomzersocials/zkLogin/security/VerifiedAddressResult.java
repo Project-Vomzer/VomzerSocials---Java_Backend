@@ -10,6 +10,10 @@ public class VerifiedAddressResult {
     private String address;
     private String errorMessage;
 
+    public VerifiedAddressResult() {
+
+    }
+
     public static VerifiedAddressResult success(String address) {
         return new VerifiedAddressResult(true, address, "Address verification successful");
     }

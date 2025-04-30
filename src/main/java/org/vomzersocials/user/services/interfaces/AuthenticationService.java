@@ -11,13 +11,13 @@ import reactor.core.publisher.Mono;
 
 public interface AuthenticationService {
 
-//    RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest);
-    Mono<RegisterUserResponse> registerNewUser(RegisterUserRequest request);
-    LoginResponse loginUser(LoginRequest loginRequest);
-    LogoutUserResponse logoutUser(LogoutRequest logoutUserRequest);
     String generateAccessToken(String userId);
-    boolean validateAccessToken(String accessToken);
+Mono<RegisterUserResponse> registerNewUser(RegisterUserRequest req);
+    Mono<LoginResponse>      loginUser(LoginRequest req);
+    Mono<LogoutUserResponse> logoutUser(LogoutRequest req);
+    boolean validateAccessToken(String token);
     String generateRefreshToken(String userId);
-    boolean validateRefreshToken(String refreshToken);
-    TokenPair refreshTokens(String refreshToken);
+    boolean validateRefreshToken(String token);
+    Mono<TokenPair>          refreshTokens(String refreshToken);
+
 }

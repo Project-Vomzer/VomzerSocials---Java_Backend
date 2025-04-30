@@ -29,6 +29,8 @@ public class User{
     private String userName;
     private String password;
     private Boolean isLoggedIn;
+
+    @Column(nullable = false, unique = true)
     private String suiAddress;
     private String publicKey;
 

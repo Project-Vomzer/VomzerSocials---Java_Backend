@@ -20,19 +20,6 @@ public class ZkLoginAuthService {
         this.jwtUtil       = jwtUtil;
     }
 
-//    public String authenticate(ZkLoginRequest req) {
-//        if (req == null) throw new IllegalArgumentException("Login request cannot be null");
-//
-//        String suiAddress = String.valueOf(zkLoginService.loginViaZkProof(req.getZkProof(), req.getPublicKey()));
-//        if (suiAddress == null) throw new IllegalArgumentException("Invalid zero-knowledge proof");
-//
-//        User user = (User) userRepository
-//                .findUserBySuiAddress(suiAddress)
-//                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-//
-//        return jwtUtil.generateAccessToken(user.getUserName());
-//    }
-
     public String authenticate(ZkLoginRequest req){
         if (req == null) throw new IllegalArgumentException("Login request cannot be null");
         boolean ok = zkLoginVerifier.verifyProof(req.getZkProof(), req.getPublicKey());

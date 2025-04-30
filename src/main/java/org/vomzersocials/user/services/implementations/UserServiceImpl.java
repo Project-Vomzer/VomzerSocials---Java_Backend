@@ -28,12 +28,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResponse loginUser(LoginRequest loginRequest) {
-        return authenticationService.loginUser(loginRequest);
+        return authenticationService.loginUser(loginRequest).block();
     }
 
     @Override
     public LogoutUserResponse logoutUser(LogoutRequest logoutUserRequest) {
-        return authenticationService.logoutUser(logoutUserRequest);
+        return authenticationService.logoutUser(logoutUserRequest).block();
     }
 
     @Override

@@ -1,32 +1,142 @@
 package org.vomzersocials.user.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.vomzersocials.user.dtos.responses.JwtResponse;
-import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
-import org.vomzersocials.zkLogin.services.ZkLoginAuthService;
+import reactor.core.publisher.Mono;
 
-import javax.naming.AuthenticationException;
+import java.net.URI;
+import java.time.Duration;
+import java.util.Map;
 
+import org.vomzersocials.user.dtos.requests.*;
+import org.vomzersocials.user.dtos.responses.*;
+import org.vomzersocials.user.services.interfaces.AuthenticationService;
+
+@CrossOrigin(origins = "*")   // or more restrictive in prod
 @RestController
 @RequestMapping("/api/auth")
+@Slf4j
 public class AuthController {
 
-    private final ZkLoginAuthService zkLoginAuthService;
 
-    public AuthController(ZkLoginAuthService zkLoginAuthService) {
-        this.zkLoginAuthService = zkLoginAuthService;
+    private final AuthenticationService auth;
+
+    public AuthController(AuthenticationService auth) {
+        this.auth = auth;
     }
 
-    // Endpoint for user login
+
+//    @PostMapping("/register")
+//    public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest req) {
+//        return Mono.defer(() -> auth.registerNewUser(req))
+//                .map(dto -> ResponseEntity
+//                        .created(URI.create("/api/users/" + dto.getUserName()))
+//                        .body((Object) dto))
+//                .onErrorResume(IllegalArgumentException.class, illegalArgumentException -> {
+//                    Map<String, String> err = Map.of("error", illegalArgumentException.getMessage());
+//                    return Mono.just(ResponseEntity
+//                            .badRequest()
+//                            .body((Object) err));
+//                })
+//                .onErrorResume(ex -> {
+//                    log.error("Registration failure", ex);
+//                    Map<String, String> err = Map.of("error", "Internal server error");
+//                    return Mono.just(ResponseEntity
+//                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                            .body((Object) err));
+//                });
+//    }
+@PostMapping("/register")
+public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest req) {
+    return Mono.defer(() -> auth.registerNewUser(req))
+            .map(dto -> ResponseEntity.created(URI.create("/api/users/" + dto.getUserName()))
+                    .body((Object) dto))
+            .onErrorResume(IllegalArgumentException.class, ex -> {
+                log.warn("Registration error: {}", ex.getMessage());
+                Map<String, String> err = Map.of("error", ex.getMessage());
+                return Mono.just(ResponseEntity.badRequest().body((Object) err));
+            })
+            .onErrorResume(ex -> {
+                log.error("Registration failure", ex);
+                Map<String, String> err = Map.of("error", "Internal server error");
+                return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Object) err));
+            });
+}
+
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody ZkLoginRequest request) {
-        try {
-            String jwtToken = zkLoginAuthService.authenticateUser(request);
-            return ResponseEntity.ok(new JwtResponse(jwtToken)); // Return JWT token in response
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request error: " + e.getMessage());
+    public Mono<ResponseEntity<Object>> login(@RequestBody LoginRequest req) {
+        return auth.loginUser(req)
+                .map(resp -> {
+                    ResponseCookie cookie = ResponseCookie.from("refreshToken", resp.getRefreshToken())
+                            .httpOnly(true).secure(true)
+                            .path("/").maxAge(Duration.ofDays(7))
+                            .sameSite("Strict").build();
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                            .body((Object) resp);
+                })
+                .onErrorResume(IllegalArgumentException.class, ex ->
+                        Mono.<ResponseEntity<Object>>just(
+                                ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                        .body((Object) Map.of("error", ex.getMessage()))
+                        ))
+                .onErrorResume(ex -> {
+                    log.error("Login failure", ex);
+                    return Mono.<ResponseEntity<Object>>just(
+                            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                    .body((Object) Map.of("error", "Internal server error"))
+                    );
+                });
+    }
+
+    @PostMapping("/logout")
+    public Mono<ResponseEntity<Object>> logout(@RequestBody LogoutRequest req) {
+        return auth.logoutUser(req)
+                .map(resp -> ResponseEntity.ok((Object) resp))
+                .onErrorResume(IllegalArgumentException.class, ex ->
+                        Mono.<ResponseEntity<Object>>just(
+                                ResponseEntity.badRequest()
+                                        .body((Object) Map.of("error", ex.getMessage()))
+                        ))
+                .onErrorResume(ex -> {
+                    log.error("Logout failure", ex);
+                    return Mono.<ResponseEntity<Object>>just(
+                            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                    .body((Object) Map.of("error", "Internal server error"))
+                    );
+                });
+    }
+
+    @PostMapping("/refresh-token")
+    public Mono<ResponseEntity<Object>> refreshToken(
+            @CookieValue(name = "refreshToken", required = false) String refreshToken
+    ) {
+        if (refreshToken == null || refreshToken.isBlank()) {
+            return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
         }
+
+        return auth.refreshTokens(refreshToken)
+                .map(tokens -> {
+                    ResponseCookie cookie = ResponseCookie.from("refreshToken", tokens.getRefreshToken())
+                            .httpOnly(true).secure(true)
+                            .path("/").maxAge(Duration.ofDays(7))
+                            .sameSite("Strict").build();
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                            .body((Object) tokens);
+                })
+                .onErrorResume(IllegalArgumentException.class, ex ->
+                        Mono.<ResponseEntity<Object>>just(
+                                ResponseEntity.badRequest()
+                                        .body((Object) Map.of("error", ex.getMessage()))
+                        ))
+                .onErrorResume(ex -> {
+                    log.error("Refresh failure", ex);
+                    return Mono.<ResponseEntity<Object>>just(
+                            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                    .body((Object) Map.of("error", "Internal server error"))
+                    );
+                });
     }
 }

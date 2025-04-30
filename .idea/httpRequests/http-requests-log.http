@@ -1,3 +1,788 @@
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 121
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "john_do21",
+  "password": "StrongPass123!",
+  "role": "SUBSCRIBER",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-04-30T105403.201.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 121
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "john_doe1",
+  "password": "StrongPass123!",
+  "role": "SUBSCRIBER",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-04-30T105118.201.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 120
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "john_doe",
+  "password": "StrongPass123!",
+  "role": "SUBSCRIBER",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-04-30T105108.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 120
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "john_doe",
+  "password": "StrongPass123!",
+  "role": "SUBSCRIBER",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-04-30T105058.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 120
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "john_doe",
+  "password": "StrongPass123!",
+  "role": "SUBSCRIBER",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-04-30T104957.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 134
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "john_doe",
+  "password": "StrongPass123!",
+  "role": "SUBSCRIBER",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-04-30T104745.201.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 115
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Tybravo12",
+  "password": "afineWomanis1",
+  "role": "ADMIN",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-04-30T103527.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 75
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "johndoe",
+  "password": "JohnDoe123!",
+  "role": "ADMIN"
+}
+
+<> 2025-04-30T062126.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 127
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "johndoe",
+  "password": "JohnDoe123!",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+<> 2025-04-30T062100.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 111
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "johndoe",
+  "password": "JohnDoe123!",
+  "role": "ADMIN",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-04-30T062037.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 111
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "johndoe",
+  "password": "JohnDoe123!",
+  "role": "ADMIN",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-04-29T230201.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 124
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "johndoe",
+  "password": "JohnDoe123!",
+  "role": "ADMIN",
+  "zkProof": "zkproof",
+  "publicKey": "public"
+}
+
+<> 2025-04-29T230117.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 115
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "johndoe",
+  "password": "JohnDoe123!",
+  "role": "ADMIN",
+  "zkProof": null,
+  "publicKey": null
+}
+
+<> 2025-04-29T225847.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 115
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "johndoe",
+  "password": "JohnDoe123!",
+  "role": "ADMIN",
+  "zkProof": null,
+  "publicKey": null
+}
+
+<> 2025-04-29T220439.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 115
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "johndoe",
+  "password": "JohnDoe123!",
+  "role": "ADMIN",
+  "zkProof": null,
+  "publicKey": null
+}
+
+<> 2025-04-29T220358.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 116
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "johndoe",
+  "password": "Password123!",
+  "role": "ADMIN",
+  "zkProof": null,
+  "publicKey": null
+}
+
+<> 2025-04-29T220006.500.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 152
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+    "userName": "johndoe",
+    "password": "StrongPassword123!",
+    "role": "ADMIN",
+    "zkProof": "zkProofData",
+    "publicKey": "publicKeyData"
+}
+
+<> 2025-04-29T215443.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 152
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+    "userName": "johndoe",
+    "password": "StrongPassword123!",
+    "role": "ADMIN",
+    "zkProof": "zkProofData",
+    "publicKey": "publicKeyData"
+}
+
+<> 2025-04-29T215406.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 152
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+    "userName": "johndoe",
+    "password": "StrongPassword123!",
+    "role": "ADMIN",
+    "zkProof": "zkProofData",
+    "publicKey": "publicKeyData"
+}
+
+<> 2025-04-29T215316.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 152
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+    "userName": "johndoe",
+    "password": "StrongPassword123!",
+    "role": "ADMIN",
+    "zkProof": "zkProofData",
+    "publicKey": "publicKeyData"
+}
+
+<> 2025-04-29T215249.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 151
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+    "userName": "johndoe",
+    "password": "StrongPassword123!",
+    "role": "USER",
+    "zkProof": "zkProofData",
+    "publicKey": "publicKeyData"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 151
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+    "userName": "johndoe",
+    "password": "StrongPassword123!",
+    "role": "USER",
+    "zkProof": "zkProofData",
+    "publicKey": "publicKeyData"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+<> 2025-04-29T212854.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+<> 2025-04-29T212703.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+<> 2025-04-29T212701.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+<> 2025-04-29T212546.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+<> 2025-04-29T210929.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+<> 2025-04-29T210440.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+<> 2025-04-29T205905.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+<> 2025-04-29T205220.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 93
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "",
+  "password": "",
+  "role": "ADMIN",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 111
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "john",
+  "password": "16res",
+  "role": "ADMIN",
+  "zkProof": "zk",
+  "publicKey": "pubblic"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Content-Length: 134
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "Baliques Adewumi",
+  "password": "Bimbim101",
+  "role": "ADMIN",
+  "zkProof": "zkProof",
+  "publicKey": "publicKey"
+}
+
+###
+
 POST http://localhost:8081/auth/register
 Content-Type: application/json
 Content-Length: 69

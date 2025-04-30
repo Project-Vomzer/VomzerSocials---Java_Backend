@@ -48,7 +48,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void testAuthenticateUser_Success() throws IllegalArgumentException {
+    public void testAuthenticateUser_Success() throws IllegalArgumentException {
         User mockUser = new User();
         mockUser.setPublicKey(publicKey);
         mockUser.setId("1");
@@ -69,7 +69,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void testAuthenticateUser_InvalidProof() {
+    public void testAuthenticateUser_InvalidProof() {
         when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(false);
         assertThrows(IllegalArgumentException.class, () -> authService.authenticateUser(zkLoginRequest));
         verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
@@ -77,7 +77,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void testAuthenticateUser_UserNotFound() {
+    public void testAuthenticateUser_UserNotFound() {
         when(zkLoginVerifier.verifyProof(eq(zkProof), eq(publicKey))).thenReturn(true);
         when(userRepository.findByPublicKey(eq(publicKey))).thenReturn(Optional.empty());
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
@@ -88,7 +88,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void testAuthenticateUser_NullRequest() {
+    public void testAuthenticateUser_NullRequest() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> authService.authenticateUser(null));
         assertEquals("Login request cannot be null", exception.getMessage());

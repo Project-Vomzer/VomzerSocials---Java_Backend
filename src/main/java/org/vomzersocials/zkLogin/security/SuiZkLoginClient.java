@@ -83,10 +83,22 @@ public class SuiZkLoginClient {
             }
 
             JsonNode result = root.path("result");
-            if (result.isTextual()) {
+//            if (result.isTextual()) {
+//                return VerifiedAddressResult.success(result.asText());
+//            } else {
+//                return VerifiedAddressResult.failed("Bad result format");
+//            }
+            if (result.isObject()) {
+                JsonNode addressNode = result.get("address");
+                if (addressNode != null && addressNode.isTextual()) {
+                    return VerifiedAddressResult.success(addressNode.asText());
+                } else {
+                    return VerifiedAddressResult.failed("Address field missing or invalid");
+                }
+            } else if (result.isTextual()) {
                 return VerifiedAddressResult.success(result.asText());
             } else {
-                return VerifiedAddressResult.failed("Bad result format");
+                return VerifiedAddressResult.failed("Unexpected result format");
             }
         } catch (Exception e) {
             log.error("Proof verification failed", e);
