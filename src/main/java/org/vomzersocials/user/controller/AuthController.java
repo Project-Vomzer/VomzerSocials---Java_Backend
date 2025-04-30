@@ -1,5 +1,6 @@
 package org.vomzersocials.user.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
 
-@CrossOrigin(origins = "*")   // or more restrictive in prod
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 @Slf4j
@@ -47,26 +48,26 @@ public class AuthController {
 //                            .body((Object) err));
 //                });
 //    }
-@PostMapping("/register")
-public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest req) {
-    return Mono.defer(() -> auth.registerNewUser(req))
-            .map(dto -> ResponseEntity.created(URI.create("/api/users/" + dto.getUserName()))
-                    .body((Object) dto))
-            .onErrorResume(IllegalArgumentException.class, ex -> {
-                log.warn("Registration error: {}", ex.getMessage());
-                Map<String, String> err = Map.of("error", ex.getMessage());
-                return Mono.just(ResponseEntity.badRequest().body((Object) err));
-            })
-            .onErrorResume(ex -> {
-                log.error("Registration failure", ex);
-                Map<String, String> err = Map.of("error", "Internal server error");
-                return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Object) err));
-            });
-}
+    @PostMapping("/register")
+    public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest req) {
+        return Mono.defer(() -> auth.registerNewUser(req))
+                .map(dto -> ResponseEntity.created(URI.create("/api/users/" + dto.getUserName()))
+                        .body((Object) dto))
+                .onErrorResume(IllegalArgumentException.class, ex -> {
+                    log.warn("Registration error: {}", ex.getMessage());
+                    Map<String, String> err = Map.of("error", ex.getMessage());
+                    return Mono.just(ResponseEntity.badRequest().body((Object) err));
+                })
+                .onErrorResume(ex -> {
+                    log.error("Registration failure", ex);
+                    Map<String, String> err = Map.of("error", "Internal server error");
+                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Object) err));
+                });
+    }
 
     @PostMapping("/login")
-    public Mono<ResponseEntity<Object>> login(@RequestBody LoginRequest req) {
-        return auth.loginUser(req)
+    public Mono<ResponseEntity<Object>> login(@RequestBody LoginRequest loginRequest) {
+        return auth.loginUser(loginRequest)
                 .map(resp -> {
                     ResponseCookie cookie = ResponseCookie.from("refreshToken", resp.getRefreshToken())
                             .httpOnly(true).secure(true)
@@ -91,19 +92,19 @@ public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest re
     }
 
     @PostMapping("/logout")
-    public Mono<ResponseEntity<Object>> logout(@RequestBody LogoutRequest req) {
-        return auth.logoutUser(req)
+    public Mono<ResponseEntity<Object>> logout(@Valid @RequestBody LogoutRequest logoutRequest) {
+        return auth.logoutUser(logoutRequest)
                 .map(resp -> ResponseEntity.ok((Object) resp))
-                .onErrorResume(IllegalArgumentException.class, ex ->
+                .onErrorResume(IllegalArgumentException.class, illegalArgumentException ->
                         Mono.<ResponseEntity<Object>>just(
                                 ResponseEntity.badRequest()
-                                        .body((Object) Map.of("error", ex.getMessage()))
+                                        .body((Object) Map.of("error", illegalArgumentException.getMessage()))
                         ))
-                .onErrorResume(ex -> {
-                    log.error("Logout failure", ex);
+                .onErrorResume(logoutFailure -> {
+                    log.error("Logout failure", logoutFailure);
                     return Mono.<ResponseEntity<Object>>just(
                             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                    .body((Object) Map.of("error", "Internal server error"))
+                                    .body((Object) Map.of("error", "Internal server error" + logoutFailure.getMessage()))
                     );
                 });
     }

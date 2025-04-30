@@ -57,16 +57,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Mono<RegisterUserResponse> registerNewUser(RegisterUserRequest request) {
         try {
-            validateUserInput(request.getUserName(), request.getPassword());
-
+//            validateUserInput(request.getUserName(), request.getPassword());
             return findExistingUser(request.getUserName())
                     .flatMap(existingUser -> {
                         if (existingUser.isPresent()) {
                             return Mono.error(new IllegalArgumentException("Username already exists"));
                         }
-                        return getGenerateSuiAddress(request) // Get Sui address (via zkProof or Wallet)
+                        return getGeneratedSuiAddress(request)
                                 .flatMap(address -> Mono.fromCallable(() -> {
-                                    User user = createUser(request, address); // Create user with address
+                                    User user = createUser(request, address);
                                     return registerNewUserResponse(request, user);
                                 }).subscribeOn(Schedulers.boundedElastic()));
                     });
@@ -87,7 +86,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .subscribeOn(Schedulers.boundedElastic());
     }
 
-    private Mono<String> getGenerateSuiAddress(RegisterUserRequest request) {
+    private Mono<String> getGeneratedSuiAddress(RegisterUserRequest request) {
         if (request.getZkProof() != null && !request.getZkProof().isEmpty()) {
             String suiAddress = verifyZkProofAndRegisterOrThrow(
                     request.getZkProof(), request.getUserName(), request.getPublicKey());
