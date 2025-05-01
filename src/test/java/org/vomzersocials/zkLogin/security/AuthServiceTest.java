@@ -12,10 +12,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
+import org.vomzersocials.user.enums.Role;
 import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 import org.vomzersocials.zkLogin.services.ZkLoginAuthService;
+import reactor.test.StepVerifier;
 
+
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,6 +71,28 @@ public class AuthServiceTest {
         verify(userRepository).findByPublicKey(publicKey);
         verify(jwtUtil).generateAccessToken("1");
     }
+
+    @Test
+    public void testAuthenticateUser_Success() {
+        User mockUser = new User();
+        mockUser.setPublicKey(publicKey);
+        mockUser.setUserName("john");
+        mockUser.setRole(Role.SUBSCRIBER); // or whatever role you're using
+
+        when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(true);
+        when(userRepository.findByPublicKey(publicKey)).thenReturn(Optional.of(mockUser));
+        when(jwtUtil.generateAccessToken("john", List.of("USER")))
+                .thenReturn("mocked_jwt_token");
+
+        StepVerifier.create(authService.authenticateUser(zkLoginRequest))
+                .expectNext("mocked_jwt_token")
+                .verifyComplete();
+
+        verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
+        verify(userRepository).findByPublicKey(publicKey);
+        verify(jwtUtil).generateAccessToken("john", List.of("USER"));
+    }
+
 
     @Test
     public void testAuthenticateUser_InvalidProof() {

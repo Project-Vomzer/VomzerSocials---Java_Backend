@@ -245,6 +245,7 @@ import org.vomzersocials.zkLogin.security.VerifiedAddressResult;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -279,7 +280,6 @@ public class AuthenticationServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        userRepository.deleteAll();
         registerUserRequest = new RegisterUserRequest();
         registerUserRequest.setUserName("Johni1");
         registerUserRequest.setPassword("Password@12");
@@ -304,7 +304,7 @@ public class AuthenticationServiceImplTest {
                 eq("mock-public-key"))
         ).thenReturn("mock-sui-address");
         when(zkLoginService.loginViaZkProof(anyString(), anyString())).thenReturn(VerifiedAddressResult.success("mock-sui-address"));
-        when(jwtUtil.generateAccessToken(anyString())).thenReturn("mock-access-token");
+        when(jwtUtil.generateAccessToken(anyString(), Collections.singletonList(anyString()))).thenReturn("mock-access-token");
         when(jwtUtil.generateRefreshToken(anyString())).thenReturn("mock-refresh-token");
     }
 
@@ -461,5 +461,22 @@ public void test_refreshTokensGenerationIsSuccess() {
                 authenticationService.logoutUser(request).block());  // Use .block() here
         assertEquals("User not found", exception.getMessage());
     }
+
+//    @Test
+//    public void test_thatInvalidZkProofLogin_throwsException() {
+//        when(zkLoginService.loginViaZkProof("bad-zk-proof", "mock-public-key"))
+//                .thenReturn(VerifiedAddressResult.failure("Invalid proof"));
+//
+//        LoginRequest req = new LoginRequest();
+//        req.setZkProof("bad-zk-proof");
+//        req.setPublicKey("mock-public-key");
+//        req.setLoginMethod("ZK_LOGIN");
+//
+//        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+//                () -> authenticationService.loginUser(req).block());
+//
+//        assertEquals("Invalid zkLogin proof", ex.getMessage());
+//    }
+
 
 }

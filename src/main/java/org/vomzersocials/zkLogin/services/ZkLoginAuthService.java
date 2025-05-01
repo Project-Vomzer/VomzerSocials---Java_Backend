@@ -6,6 +6,10 @@ import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 import org.vomzersocials.zkLogin.security.ZkLoginVerifier;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+
+import java.util.List;
 
 @Service
 public class ZkLoginAuthService {
@@ -20,18 +24,24 @@ public class ZkLoginAuthService {
         this.jwtUtil       = jwtUtil;
     }
 
-    public String authenticate(ZkLoginRequest req){
-        if (req == null) throw new IllegalArgumentException("Login request cannot be null");
-        boolean ok = zkLoginVerifier.verifyProof(req.getZkProof(), req.getPublicKey());
-        if (!ok) throw new IllegalArgumentException("Invalid proof");
+    public Mono<String> authenticate(ZkLoginRequest req) {
+        if (req == null) {
+            return Mono.error(new IllegalArgumentException("Login request cannot be null"));
+        }
 
-        User user = userRepository.findByPublicKey(req.getPublicKey())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return Mono.fromCallable(() -> {
+                    boolean ok = zkLoginVerifier.verifyProof(req.getZkProof(), req.getPublicKey());
+                    if (!ok) throw new IllegalArgumentException("Invalid proof");
 
-        return jwtUtil.generateAccessToken(user.getId());
+                    User user = userRepository.findByPublicKey(req.getPublicKey())
+                            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                    return jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                })
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
+
     public String authenticateUser(ZkLoginRequest request) {
-            return authenticate(request);
+            return authenticate(request).block();
     }
 }

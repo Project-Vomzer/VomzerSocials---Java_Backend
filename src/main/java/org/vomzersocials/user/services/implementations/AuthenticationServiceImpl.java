@@ -29,6 +29,7 @@ import org.vomzersocials.user.springSecurity.JwtUtil;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.vomzersocials.user.utils.ValidationUtils.isValidPassword;
@@ -107,8 +108,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     User user = (method == LoginMethod.STANDARD_LOGIN) ? loginStandard(request) : loginWithZk(request);
                     user.setIsLoggedIn(true);
                     userRepository.save(user);
-                    String token = jwtUtil.generateAccessToken(user.getUserName());
-                    return new LoginResponse(user.getUserName(), "Logged in successfully", token);
+                    String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                    String refreshToken = jwtUtil.generateRefreshToken(user.getUserName());
+
+                    return new LoginResponse(user.getUserName(), "Logged in successfully", accessToken, refreshToken, user.getRole());
                 }).subscribeOn(Schedulers.boundedElastic()));
     }
 
@@ -125,7 +128,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String generateAccessToken(String username) {
-        return jwtUtil.generateAccessToken(username);
+        User user = userRepository.findUserByUserName(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        String role = user.getRole().name();
+        return jwtUtil.generateAccessToken(username, List.of(role));
     }
 
     @Override
@@ -150,11 +157,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         String username = jwtUtil.extractUsername(refreshToken);
-        String newAccessToken = jwtUtil.generateAccessToken(username);
-        String newRefreshToken = jwtUtil.generateRefreshToken(username);
-        TokenPair pair = new TokenPair(newAccessToken, newRefreshToken);
-
-        return Mono.just(pair);
+        return Mono.fromCallable(() -> {
+            User user = userRepository.findUserByUserName(username)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
+            String role = user.getRole().name();
+            String newAccessToken = jwtUtil.generateAccessToken(username, List.of(role));
+            String newRefreshToken = jwtUtil.generateRefreshToken(username);
+//            TokenPair pair = new TokenPair(newAccessToken, newRefreshToken);
+            return new TokenPair(newAccessToken, newRefreshToken);
+        })
+                .subscribeOn(Schedulers.boundedElastic());
+//        return Mono.just(pair);
     }
 
 

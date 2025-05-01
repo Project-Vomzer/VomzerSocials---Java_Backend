@@ -156,6 +156,14 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+        <groupId>io.projectreactor</groupId>
+        <artifactId>reactor-test</artifactId>
+        <version>3.5.11</version> <!-- Use version matching your reactor-core -->
+        <scope>test</scope>
+    </dependency>
+
+
 
         <!-- WebFlux (for WebClient, etc.) -->
         <dependency>

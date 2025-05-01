@@ -1,6 +1,5 @@
 package org.vomzersocials.user.dtos.responses;
 
-
 import lombok.*;
 import org.vomzersocials.user.enums.Role;
 
@@ -13,18 +12,22 @@ public class LoginResponse {
     private String message;
     private String accessToken;
     private String refreshToken;
+    private Role role;
 
-    public LoginResponse(String username, String message, String accessToken, String refreshToken) {
+
+    public LoginResponse(String username, String message, String accessToken, String refreshToken, Role role) {
         this.username = username;
         this.message = message;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.role = role;
     }
 
-    public LoginResponse(String userName, String loggedInSuccessfully, String accessToken) {
+    public LoginResponse(String userName, String loggedInSuccessfully, String accessToken, Role role) {
         this.username = userName;
         this.message = loggedInSuccessfully;
         this.accessToken = accessToken;
+        this.role = role;
     }
 }
 
