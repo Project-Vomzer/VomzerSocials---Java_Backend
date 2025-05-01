@@ -9,9 +9,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class AppConfig {
 
-
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
+
 }

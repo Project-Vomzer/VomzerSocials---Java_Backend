@@ -13,6 +13,6 @@ public class WebClientConfig {
     public WebClient.Builder webClientBuilder() {
         return WebClient.builder()
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .baseUrl("https://fullnode.mainnet.sui.io:443"); // Optional: set default base URL
+                .baseUrl("https://fullnode.mainnet.sui.io:443");
     }
 }
