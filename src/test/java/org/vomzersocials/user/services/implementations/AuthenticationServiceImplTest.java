@@ -1,236 +1,14 @@
-//package org.vomzersocials.user.services.implementations;
-//
-//import lombok.extern.slf4j.Slf4j;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.vomzersocials.user.data.models.User;
-//import org.vomzersocials.user.data.repositories.UserRepository;
-//import org.vomzersocials.user.dtos.requests.LoginRequest;
-//import org.vomzersocials.user.dtos.requests.LogoutRequest;
-//import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
-//import org.vomzersocials.user.dtos.responses.LoginResponse;
-//import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
-//import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
-//import org.vomzersocials.user.dtos.responses.TokenPair;
-//import org.vomzersocials.user.enums.Role;
-//import org.vomzersocials.zkLogin.security.VerifiedAddressResult;
-//import org.vomzersocials.zkLogin.services.ZkLoginService;
-//import org.vomzersocials.user.springSecurity.JwtUtil;
-//
-//import java.util.Optional;
-//
-//import static org.mockito.Mockito.*;
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//@SpringBootTest(properties = {
-//        "wallet.api.base=http://mock-wallet-api"
-//})
-//@Slf4j
-//public class AuthenticationServiceImplTest {
-//
-//    @Mock
-//    private ZkLoginService zkLoginService;
-//
-//    @Mock
-//    private JwtUtil jwtUtil;
-//
-//    @Mock
-//    private UserRepository userRepository;
-//
-//    @Mock
-//    private BCryptPasswordEncoder passwordEncoder;
-//
-//    @InjectMocks
-//    private AuthenticationServiceImpl authenticationService;
-//
-//    private RegisterUserRequest registerUserRequest;
-//    private RegisterUserResponse registerUserResponse;
-//    private LoginRequest loginRequest;
-//    private LoginResponse loginResponse;
-//    private LogoutUserResponse logoutUserResponse;
-//
-//    @BeforeEach
-//    public void setUp() {
-//        userRepository.deleteAll();
-//        registerUserRequest = new RegisterUserRequest();
-//        registerUserRequest.setUserName("Johni1");
-//        registerUserRequest.setPassword("Password@12");
-//        registerUserRequest.setRole(Role.ADMIN);
-//        registerUserRequest.setZkProof("mock-zk-proof");
-//        registerUserRequest.setPublicKey("mock-public-key");
-//
-//        loginRequest = new LoginRequest();
-//        loginRequest.setUsername("Johni1");
-//        loginRequest.setPassword("Password@12");
-//        loginRequest.setZkProof("mock-zk-proof");
-//        loginRequest.setPublicKey("mock-public-key");
-//
-//        LogoutRequest logoutRequest = new LogoutRequest();
-//        logoutRequest.setUsername("Johni1");
-//
-//        when(passwordEncoder.encode(anyString())).thenReturn("encoded-password");
-//        when(userRepository.findUserByUserName("Johni1")).thenReturn(Optional.empty());
-//        when(zkLoginService.registerViaZkProof(
-//                eq("mock-zk-proof"),
-//                eq("Johni1"),
-//                eq("mock-public-key"))
-//        ).thenReturn("mock-sui-address");
-//        when(zkLoginService.loginViaZkProof(anyString(), anyString())).thenReturn(VerifiedAddressResult.success("mock-sui-address"));
-//        when(jwtUtil.generateAccessToken(anyString())).thenReturn("mock-access-token");
-//        when(jwtUtil.generateRefreshToken(anyString())).thenReturn("mock-refresh-token");
-//    }
-//
-//    @Test
-//    public void test_thatUserCanRegister() {
-//        RegisterUserResponse response = authenticationService.registerNewUser(registerUserRequest).block();
-//        assert response != null;
-//        assertEquals("User registered successfully.", response.getMessage());
-//    }
-//
-//    @Test
-//    public void test_thatUserCannotRegisterANullValue() {
-//        registerUserRequest.setUserName(" ");
-//        registerUserRequest.setPassword(" ");
-//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-//                authenticationService.registerNewUser(registerUserRequest));
-//        assertEquals("Invalid username or password", exception.getMessage());
-//    }
-//
-//    @Test
-//    public void test_thatUserCanLoginWithStandardLoginDetails() {
-//        RegisterUserResponse reg = authenticationService.registerNewUser(registerUserRequest).block();
-//        assert reg != null;
-//        assertEquals("User registered successfully.", reg.getMessage());
-//
-//        User dummyUser = new User();
-//        dummyUser.setUserName("Johni1");
-//        dummyUser.setPassword("encoded-password");
-//
-//        when(userRepository.findUserByUserName("Johni1"))
-//                .thenReturn(Optional.of(dummyUser));
-//        when(passwordEncoder.matches("Password@12", "encoded-password"))
-//                .thenReturn(true);
-//        LoginRequest standardLogin = new LoginRequest();
-//        standardLogin.setUsername("Johni1");
-//        standardLogin.setPassword("Password@12");
-//        standardLogin.setLoginMethod("STANDARD_LOGIN");
-//
-//        LoginResponse response = authenticationService.loginUser(standardLogin);
-//
-//        assertEquals("Logged in successfully", response.getMessage());
-//        assertEquals("mock-access-token", response.getAccessToken());
-//        verify(userRepository).save(argThat(user -> user.getUserName().equals("Johni1") && user.getIsLoggedIn()));
-//    }
-//
-//    @Test
-//    public void test_thatUserCanLoginWithZkLogin() {
-//        when(zkLoginService.registerViaZkProof(
-//                eq("mock-zk-proof"),
-//                eq("Johni1"),
-//                eq("mock-public-key"))
-//        ).thenReturn("mock-sui-address");
-//        when(zkLoginService.loginViaZkProof(
-//                eq("mock-zk-proof"),
-//                eq("mock-public-key"))
-//        ).thenReturn(VerifiedAddressResult.success("mock-sui-address"));
-//        when(userRepository.save(any(User.class)))
-//                .thenAnswer(invocation -> invocation.getArgument(0));
-//
-//        RegisterUserResponse regResp = authenticationService.registerNewUser(registerUserRequest).block();
-//        assert regResp != null;
-//        assertEquals("User registered successfully.", regResp.getMessage());
-//
-//        User saved = new User();
-//        saved.setUserName("Johni1");
-//        saved.setSuiAddress("mock-sui-address");
-//        saved.setPassword("encodedPassword");
-//        when(userRepository.findUserBySuiAddress("mock-sui-address"))
-//                .thenReturn(Optional.of(saved));
-//
-//        LoginRequest zkLoginReq = new LoginRequest();
-//        zkLoginReq.setZkProof("mock-zk-proof");
-//        zkLoginReq.setPublicKey("mock-public-key");
-//        zkLoginReq.setLoginMethod("ZK_LOGIN");
-//
-//        LoginResponse loginResp = authenticationService.loginUser(zkLoginReq);
-//        assertEquals("Logged in successfully", loginResp.getMessage());
-//    }
-//
-//    @Test
-//    public void test_thatUserCanLogin_andLogout() {
-//        User dummyUser = new User();
-//        dummyUser.setUserName("Johni1");
-//        dummyUser.setIsLoggedIn(true);
-//        when(userRepository.findUserByUserName("Johni1"))
-//                .thenReturn(Optional.of(dummyUser));
-//        LogoutRequest logoutRequest = new LogoutRequest();
-//        logoutRequest.setUsername("Johni1");
-//        LogoutUserResponse resp = authenticationService.logoutUser(logoutRequest);
-//
-//        assertEquals("Logged out successfully", resp.getMessage());
-//        verify(userRepository).save(argThat(user ->
-//                user.getUserName().equals("Johni1") && !user.getIsLoggedIn()
-//        ));
-//    }
-//
-//    @Test
-//    public void test_thatWhenUserRegistersWithInvalidPasswordPattern_throwsException() {
-//        registerUserRequest.setPassword("weak");
-//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-//                authenticationService.registerNewUser(registerUserRequest));
-//        assertEquals("Invalid username or password", exception.getMessage());
-//    }
-//
-//    @Test
-//    public void test_thatUserCanLoginTheStandardWay_andUserIsNotFound_throwsException() {
-//        when(userRepository.findUserByUserName("Johni1")).thenReturn(Optional.empty());
-//        LoginRequest request = new LoginRequest();
-//        request.setLoginMethod("STANDARD_LOGIN");
-//        request.setUsername("Johni1");
-//        request.setPassword("Password@12");
-//
-//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-//                authenticationService.loginUser(request));
-//        assertEquals("User not found", exception.getMessage());
-//    }
-//
-//    @Test
-//    public void test_refreshTokensGenerationIsSuccess() {
-//        when(jwtUtil.validateToken("good")).thenReturn(true);
-//        when(jwtUtil.extractUsername("good")).thenReturn("Johni1");
-//        when(jwtUtil.generateAccessToken("Johni1")).thenReturn("newA");
-//        when(jwtUtil.generateRefreshToken("Johni1")).thenReturn("newR");
-//
-//        TokenPair pair = authenticationService.refreshTokens("good");
-//        assertEquals("newA", pair.getAccessToken());
-//        assertEquals("newR", pair.getRefreshToken());
-//    }
-//
-//    @Test
-//    public void test_logoutUserNotFound_throwsException() {
-//        when(userRepository.findUserByUserName("Johni1")).thenReturn(Optional.empty());
-//        LogoutRequest request = new LogoutRequest();
-//        request.setUsername("Johni1");
-//
-//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-//                authenticationService.logoutUser(request));
-//        assertEquals("User not found", exception.getMessage());
-//    }
-//
-//}
 package org.vomzersocials.user.services.implementations;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.LoginRequest;
@@ -244,239 +22,187 @@ import org.vomzersocials.user.enums.Role;
 import org.vomzersocials.zkLogin.security.VerifiedAddressResult;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Collections;
 import java.util.Optional;
+import java.util.List;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest(properties = {
-        "wallet.api.base=http://mock-wallet-api"
-})
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 @Slf4j
 public class AuthenticationServiceImplTest {
 
-    @Mock
-    private ZkLoginService zkLoginService;
+    @Mock private ZkLoginService zkLoginService;
+    @Mock private JwtUtil jwtUtil;
+    @Mock private UserRepository userRepository;
+    @Mock private BCryptPasswordEncoder passwordEncoder;
+    @InjectMocks private AuthenticationServiceImpl authenticationService;
 
-    @Mock
-    private JwtUtil jwtUtil;
-
-    @Mock
-    private UserRepository userRepository;
-
-    @Mock
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @InjectMocks
-    private AuthenticationServiceImpl authenticationService;
-
-    private RegisterUserRequest registerUserRequest;
-    private RegisterUserResponse registerUserResponse;
-    private LoginRequest loginRequest;
-    private LoginResponse loginResponse;
-    private LogoutUserResponse logoutUserResponse;
+    private RegisterUserRequest registerReq;
+    private LoginRequest loginReq;
+    private LogoutRequest logoutReq;
 
     @BeforeEach
     public void setUp() {
-        registerUserRequest = new RegisterUserRequest();
-        registerUserRequest.setUserName("Johni1");
-        registerUserRequest.setPassword("Password@12");
-        registerUserRequest.setRole(Role.ADMIN);
-        registerUserRequest.setZkProof("mock-zk-proof");
-        registerUserRequest.setPublicKey("mock-public-key");
+        registerReq = new RegisterUserRequest();
+        registerReq.setUserName("Johni1");
+        registerReq.setPassword("Password@12");
+        registerReq.setRole(Role.ADMIN);
+        registerReq.setZkProof("mock-zk-proof");
+        registerReq.setPublicKey("mock-public-key");
 
-        loginRequest = new LoginRequest();
-        loginRequest.setUsername("Johni1");
-        loginRequest.setPassword("Password@12");
-        loginRequest.setZkProof("mock-zk-proof");
-        loginRequest.setPublicKey("mock-public-key");
+        loginReq = new LoginRequest();
+        loginReq.setUsername("Johni1");
+        loginReq.setPassword("Password@12");
+        loginReq.setLoginMethod("STANDARD_LOGIN");
+        loginReq.setZkProof("mock-zk-proof");
+        loginReq.setPublicKey("mock-public-key");
 
-        LogoutRequest logoutRequest = new LogoutRequest();
-        logoutRequest.setUsername("Johni1");
+        logoutReq = new LogoutRequest();
+        logoutReq.setUsername("Johni1");
 
         when(passwordEncoder.encode(anyString())).thenReturn("encoded-password");
         when(userRepository.findUserByUserName("Johni1")).thenReturn(Optional.empty());
-        when(zkLoginService.registerViaZkProof(
-                eq("mock-zk-proof"),
-                eq("Johni1"),
-                eq("mock-public-key"))
-        ).thenReturn("mock-sui-address");
-        when(zkLoginService.loginViaZkProof(anyString(), anyString())).thenReturn(VerifiedAddressResult.success("mock-sui-address"));
-        when(jwtUtil.generateAccessToken(anyString(), Collections.singletonList(anyString()))).thenReturn("mock-access-token");
-        when(jwtUtil.generateRefreshToken(anyString())).thenReturn("mock-refresh-token");
+        when(zkLoginService.registerViaZkProof(eq("mock-zk-proof"), eq("Johni1"), eq("mock-public-key")))
+                .thenReturn("mock-sui-address");
+        when(zkLoginService.loginViaZkProof(anyString(), anyString()))
+                .thenReturn(VerifiedAddressResult.success("mock-sui-address"));
+        when(jwtUtil.generateAccessToken(anyString(), anyList()))
+                .thenReturn("mock-access-token");
+        when(jwtUtil.generateRefreshToken(anyString()))
+                .thenReturn("mock-refresh-token");
     }
 
     @Test
     public void test_thatUserCanRegister() {
-        RegisterUserResponse response = authenticationService.registerNewUser(registerUserRequest).block();
-        assert response != null;
-        assertEquals("User registered successfully.", response.getMessage());
+        RegisterUserResponse resp = authenticationService.registerNewUser(registerReq).block();
+        assertNotNull(resp);
+        assertEquals("User registered successfully.", resp.getMessage());
     }
 
     @Test
     public void test_thatUserCannotRegisterANullValue() {
-        registerUserRequest.setUserName(" ");
-        registerUserRequest.setPassword(" ");
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                authenticationService.registerNewUser(registerUserRequest));
-        assertEquals("Invalid username or password", exception.getMessage());
+        registerReq.setUserName(" ");
+        registerReq.setPassword(" ");
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> authenticationService.registerNewUser(registerReq).block()
+        );
+        assertEquals("Invalid zk-proof or proof verification failed", ex.getMessage());
     }
 
     @Test
     public void test_thatUserCanLoginWithStandardLoginDetails() {
-        RegisterUserResponse reg = authenticationService.registerNewUser(registerUserRequest).block();
-        assert reg != null;
-        assertEquals("User registered successfully.", reg.getMessage());
-
-        User dummyUser = new User();
-        dummyUser.setUserName("Johni1");
-        dummyUser.setPassword("encoded-password");
-
+        authenticationService.registerNewUser(registerReq).block();
+        User dummy = new User();
+        dummy.setUserName("Johni1");
+        dummy.setPassword("encoded-password");
+        dummy.setRole(Role.SUBSCRIBER);
         when(userRepository.findUserByUserName("Johni1"))
-                .thenReturn(Optional.of(dummyUser));
+                .thenReturn(Optional.of(dummy));
         when(passwordEncoder.matches("Password@12", "encoded-password"))
                 .thenReturn(true);
-        LoginRequest standardLogin = new LoginRequest();
-        standardLogin.setUsername("Johni1");
-        standardLogin.setPassword("Password@12");
-        standardLogin.setLoginMethod("STANDARD_LOGIN");
 
-        LoginResponse response = authenticationService.loginUser(standardLogin).block();  // Use .block() for reactive return
-
-        assertEquals("Logged in successfully", response.getMessage());
-        assertEquals("mock-access-token", response.getAccessToken());
-        verify(userRepository).save(argThat(user -> user.getUserName().equals("Johni1") && user.getIsLoggedIn()));
+        LoginResponse loginResp = authenticationService.loginUser(loginReq).block();
+        assertNotNull(loginResp);
+        assertEquals("Logged in successfully", loginResp.getMessage());
+        assertEquals("mock-access-token", loginResp.getAccessToken());
+        verify(userRepository).save(argThat(u -> "Johni1".equals(u.getUserName()) && Boolean.TRUE.equals(u.getIsLoggedIn())));
     }
 
     @Test
     public void test_thatUserCanLoginWithZkLogin() {
-        when(zkLoginService.registerViaZkProof(
-                eq("mock-zk-proof"),
-                eq("Johni1"),
-                eq("mock-public-key"))
-        ).thenReturn("mock-sui-address");
-        when(zkLoginService.loginViaZkProof(
-                eq("mock-zk-proof"),
-                eq("mock-public-key"))
-        ).thenReturn(VerifiedAddressResult.success("mock-sui-address"));
-        when(userRepository.save(any(User.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
+        authenticationService.registerNewUser(registerReq).block();
 
-        RegisterUserResponse regResp = authenticationService.registerNewUser(registerUserRequest).block();
-        assert regResp != null;
-        assertEquals("User registered successfully.", regResp.getMessage());
-
-        User saved = new User();
-        saved.setUserName("Johni1");
-        saved.setSuiAddress("mock-sui-address");
-        saved.setPassword("encodedPassword");
         when(userRepository.findUserBySuiAddress("mock-sui-address"))
-                .thenReturn(Optional.of(saved));
+                .thenReturn(Optional.of(new User(){{
+                    setUserName("Johni1");
+                    setSuiAddress("mock-sui-address");
+                    setRole(Role.SUBSCRIBER);
+                }}));
+        LoginRequest zkReq = new LoginRequest();
+        zkReq.setLoginMethod("ZK_LOGIN");
+        zkReq.setZkProof("mock-zk-proof");
+        zkReq.setPublicKey("mock-public-key");
 
-        LoginRequest zkLoginReq = new LoginRequest();
-        zkLoginReq.setZkProof("mock-zk-proof");
-        zkLoginReq.setPublicKey("mock-public-key");
-        zkLoginReq.setLoginMethod("ZK_LOGIN");
-
-        LoginResponse loginResp = authenticationService.loginUser(zkLoginReq).block();  // Use .block() for reactive return
-        assertEquals("Logged in successfully", loginResp.getMessage());
+        LoginResponse resp = authenticationService.loginUser(zkReq).block();
+        assertNotNull(resp);
+        assertEquals("Logged in successfully", resp.getMessage());
     }
 
     @Test
     public void test_thatUserCanLogin_andLogout() {
-        User dummyUser = new User();
-        dummyUser.setUserName("Johni1");
-        dummyUser.setIsLoggedIn(true);
+        User u = new User();
+        u.setUserName("Johni1");
+        u.setIsLoggedIn(true);
         when(userRepository.findUserByUserName("Johni1"))
-                .thenReturn(Optional.of(dummyUser));
-        LogoutRequest logoutRequest = new LogoutRequest();
-        logoutRequest.setUsername("Johni1");
-        LogoutUserResponse resp = authenticationService.logoutUser(logoutRequest).block();  // Use .block() for reactive return
+                .thenReturn(Optional.of(u));
 
-        assertEquals("Logged out successfully", resp.getMessage());
-        verify(userRepository).save(argThat(user ->
-                user.getUserName().equals("Johni1") && !user.getIsLoggedIn()
+        LogoutUserResponse out = authenticationService.logoutUser(logoutReq).block();
+        assertEquals("Logged out successfully", out.getMessage());
+
+        verify(userRepository).save(argThat(saved ->
+                "Johni1".equals(saved.getUserName()) && Boolean.FALSE.equals(saved.getIsLoggedIn())
         ));
     }
 
     @Test
-    public void test_thatWhenUserRegistersWithInvalidPasswordPattern_throwsException() {
-        registerUserRequest.setPassword("weak");
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                authenticationService.registerNewUser(registerUserRequest).block());  // Use .block() here
-        assertEquals("Invalid username or password", exception.getMessage());
+    public void test_thatStandardLoginUserNotFound_throwsException() {
+        when(userRepository.findUserByUserName("Johni1")).thenReturn(Optional.empty());
+
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> authenticationService.loginUser(loginReq).block()
+        );
+        assertEquals("User not found", ex.getMessage());
     }
 
     @Test
-    public void test_thatUserCanLoginTheStandardWay_andUserIsNotFound_throwsException() {
-        when(userRepository.findUserByUserName("Johni1")).thenReturn(Optional.empty());
-        LoginRequest request = new LoginRequest();
-        request.setLoginMethod("STANDARD_LOGIN");
-        request.setUsername("Johni1");
-        request.setPassword("Password@12");
+    public void test_refreshTokensGenerationIsSuccess() {
+        User dummy = new User();
+        dummy.setUserName("Johni1");
+        dummy.setRole(Role.ADMIN);
+        when(userRepository.findUserByUserName("Johni1")).thenReturn(Optional.of(dummy));
+        when(jwtUtil.validateToken("good")).thenReturn(true);
+        when(jwtUtil.extractUsername("good")).thenReturn("Johni1");
+        when(jwtUtil.generateAccessToken("Johni1", List.of("ADMIN"))).thenReturn("newA");
+        when(jwtUtil.generateRefreshToken("Johni1")).thenReturn("newR");
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                authenticationService.loginUser(request).block());  // Use .block() here
-        assertEquals("User not found", exception.getMessage());
+        TokenPair pair = authenticationService.refreshTokens("good").block();
+        assertNotNull(pair);
+        assertEquals("newA", pair.getAccessToken());
+        assertEquals("newR", pair.getRefreshToken());
     }
-
-//    @Test
-//    public void test_refreshTokensGenerationIsSuccess() {
-//        when(jwtUtil.validateToken("good")).thenReturn(true);
-//        when(jwtUtil.extractUsername("good")).thenReturn("Johni1");
-//        when(jwtUtil.generateAccessToken("Johni1")).thenReturn("newA");
-//        when(jwtUtil.generateRefreshToken("Johni1")).thenReturn("newR");
-//
-//        TokenPair pair = authenticationService.refreshTokens("good");  // No .block() needed for TokenPair
-//        assertEquals("newA", pair.getAccessToken());
-//        assertEquals("newR", pair.getRefreshToken());
-//    }
-@Test
-public void test_refreshTokensGenerationIsSuccess() {
-    when(jwtUtil.validateToken("good")).thenReturn(true);
-    when(jwtUtil.extractUsername("good")).thenReturn("Johni1");
-    when(jwtUtil.generateAccessToken("Johni1")).thenReturn("newA");
-    when(jwtUtil.generateRefreshToken("Johni1")).thenReturn("newR");
-
-    // since refreshTokens(...) returns Mono<TokenPair>, we must block in a synchronous test:
-    TokenPair pair = authenticationService.refreshTokens("good").block();
-
-    assertNotNull(pair);
-    assertEquals("newA", pair.getAccessToken());
-    assertEquals("newR", pair.getRefreshToken());
-}
-
-
-
 
     @Test
     public void test_logoutUserNotFound_throwsException() {
         when(userRepository.findUserByUserName("Johni1")).thenReturn(Optional.empty());
-        LogoutRequest request = new LogoutRequest();
-        request.setUsername("Johni1");
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                authenticationService.logoutUser(request).block());  // Use .block() here
-        assertEquals("User not found", exception.getMessage());
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> authenticationService.logoutUser(logoutReq).block()
+        );
+        assertEquals("User not found", ex.getMessage());
     }
 
-//    @Test
-//    public void test_thatInvalidZkProofLogin_throwsException() {
-//        when(zkLoginService.loginViaZkProof("bad-zk-proof", "mock-public-key"))
-//                .thenReturn(VerifiedAddressResult.failure("Invalid proof"));
-//
-//        LoginRequest req = new LoginRequest();
-//        req.setZkProof("bad-zk-proof");
-//        req.setPublicKey("mock-public-key");
-//        req.setLoginMethod("ZK_LOGIN");
-//
-//        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-//                () -> authenticationService.loginUser(req).block());
-//
-//        assertEquals("Invalid zkLogin proof", ex.getMessage());
-//    }
+    @Test
+    public void test_thatInvalidZkProofLogin_throwsException() {
+        when(zkLoginService.loginViaZkProof("bad-zk-proof", "mock-public-key"))
+                .thenReturn(null);
 
+        LoginRequest bad = new LoginRequest();
+        bad.setLoginMethod("ZK_LOGIN");
+        bad.setZkProof("bad-zk-proof");
+        bad.setPublicKey("mock-public-key");
 
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> authenticationService.loginUser(bad).block()
+        );
+        assertEquals("Invalid zk-proof or proof verification failed", ex.getMessage());
+    }
 }

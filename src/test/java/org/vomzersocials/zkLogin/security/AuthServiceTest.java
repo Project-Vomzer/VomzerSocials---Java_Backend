@@ -16,8 +16,8 @@ import org.vomzersocials.user.enums.Role;
 import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 import org.vomzersocials.zkLogin.services.ZkLoginAuthService;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-
 
 import java.util.List;
 import java.util.Optional;
@@ -52,36 +52,15 @@ public class AuthServiceTest {
     }
 
     @Test
-    public void testAuthenticateUser_Success() throws IllegalArgumentException {
-        User mockUser = new User();
-        mockUser.setPublicKey(publicKey);
-        mockUser.setId("1");
-
-        when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(true);
-        when(userRepository.findByPublicKey(publicKey)).thenReturn(Optional.of(mockUser));
-
-        when(jwtUtil.generateAccessToken("1"))
-                .thenReturn("mocked_jwt_token");
-
-        String jwt = authService.authenticateUser(zkLoginRequest);
-
-        assertNotNull(jwt);
-        assertEquals("mocked_jwt_token", jwt);
-        verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
-        verify(userRepository).findByPublicKey(publicKey);
-        verify(jwtUtil).generateAccessToken("1");
-    }
-
-    @Test
     public void testAuthenticateUser_Success() {
         User mockUser = new User();
         mockUser.setPublicKey(publicKey);
         mockUser.setUserName("john");
-        mockUser.setRole(Role.SUBSCRIBER); // or whatever role you're using
+        mockUser.setRole(Role.SUBSCRIBER);
 
-        when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(true);
+        when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(Mono.just(true));
         when(userRepository.findByPublicKey(publicKey)).thenReturn(Optional.of(mockUser));
-        when(jwtUtil.generateAccessToken("john", List.of("USER")))
+        when(jwtUtil.generateAccessToken("john", List.of("SUBSCRIBER")))
                 .thenReturn("mocked_jwt_token");
 
         StepVerifier.create(authService.authenticateUser(zkLoginRequest))
@@ -90,34 +69,43 @@ public class AuthServiceTest {
 
         verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
         verify(userRepository).findByPublicKey(publicKey);
-        verify(jwtUtil).generateAccessToken("john", List.of("USER"));
+        verify(jwtUtil).generateAccessToken("john", List.of("SUBSCRIBER"));
     }
-
 
     @Test
     public void testAuthenticateUser_InvalidProof() {
-        when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(false);
-        assertThrows(IllegalArgumentException.class, () -> authService.authenticateUser(zkLoginRequest));
+        when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(Mono.just(false));
+
+        StepVerifier.create(authService.authenticateUser(zkLoginRequest))
+                .expectErrorMatches(throwable -> throwable instanceof IllegalArgumentException &&
+                        throwable.getMessage().equals("Invalid zkLogin proof"))
+                .verify();
+
         verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
         verify(userRepository, never()).findByPublicKey(any());
     }
 
     @Test
     public void testAuthenticateUser_UserNotFound() {
-        when(zkLoginVerifier.verifyProof(eq(zkProof), eq(publicKey))).thenReturn(true);
-        when(userRepository.findByPublicKey(eq(publicKey))).thenReturn(Optional.empty());
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> authService.authenticateUser(zkLoginRequest));
-        assertEquals("User not found", exception.getMessage());
-        verify(zkLoginVerifier).verifyProof(eq(zkProof), eq(publicKey));
-        verify(userRepository).findByPublicKey(eq(publicKey));
+        when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(Mono.just(true));
+        when(userRepository.findByPublicKey(publicKey)).thenReturn(Optional.empty());
+
+        StepVerifier.create(authService.authenticateUser(zkLoginRequest))
+                .expectErrorMatches(throwable -> throwable instanceof IllegalArgumentException &&
+                        throwable.getMessage().equals("User not found"))
+                .verify();
+
+        verify(zkLoginVerifier).verifyProof(zkProof, publicKey);
+        verify(userRepository).findByPublicKey(publicKey);
     }
 
     @Test
     public void testAuthenticateUser_NullRequest() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> authService.authenticateUser(null));
-        assertEquals("Login request cannot be null", exception.getMessage());
+        StepVerifier.create(authService.authenticateUser(null))
+                .expectErrorMatches(throwable -> throwable instanceof IllegalArgumentException &&
+                        throwable.getMessage().equals("Login request cannot be null"))
+                .verify();
+
         verifyNoInteractions(zkLoginVerifier, userRepository);
     }
 }

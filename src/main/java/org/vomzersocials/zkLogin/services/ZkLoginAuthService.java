@@ -18,10 +18,10 @@ public class ZkLoginAuthService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
-    public ZkLoginAuthService(UserRepository userRepository, JwtUtil jwtUtil, ZkLoginVerifier zkLoginVerifier, ZkLoginVerifier zkLoginVerifier1) {
+    public ZkLoginAuthService(UserRepository userRepository, JwtUtil jwtUtil, ZkLoginVerifier zkLoginVerifier) {
         this.zkLoginVerifier = zkLoginVerifier;
         this.userRepository = userRepository;
-        this.jwtUtil       = jwtUtil;
+        this.jwtUtil = jwtUtil;
     }
 
     public Mono<String> authenticate(ZkLoginRequest req) {
@@ -29,19 +29,23 @@ public class ZkLoginAuthService {
             return Mono.error(new IllegalArgumentException("Login request cannot be null"));
         }
 
-        return Mono.fromCallable(() -> {
-                    boolean ok = zkLoginVerifier.verifyProof(req.getZkProof(), req.getPublicKey());
-                    if (!ok) throw new IllegalArgumentException("Invalid proof");
+        return zkLoginVerifier.verifyProof(req.getZkProof(), req.getPublicKey())
+                .flatMap(valid -> {
+                    if (!valid) {
+                        return Mono.error(new IllegalArgumentException("Invalid zkLogin proof"));
+                    }
 
-                    User user = userRepository.findByPublicKey(req.getPublicKey())
-                            .orElseThrow(() -> new IllegalArgumentException("User not found"));
-                    return jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                    return Mono.defer(() -> {
+                        User user = userRepository.findByPublicKey(req.getPublicKey())
+                                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                        String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                        return Mono.just(accessToken);
+                    });
                 })
                 .subscribeOn(Schedulers.boundedElastic());
     }
 
-
-    public String authenticateUser(ZkLoginRequest request) {
-            return authenticate(request).block();
+    public Mono<String> authenticateUser(ZkLoginRequest request) {
+        return authenticate(request);
     }
 }

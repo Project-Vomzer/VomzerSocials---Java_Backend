@@ -2,48 +2,86 @@ package org.vomzersocials.user.springSecurity;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.lang.NonNull;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
 public class SecurityConfig {
 
-    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAuthenticationEntryPoint entryPoint;
     private final JwtUtil jwtUtil;
 
-    public SecurityConfig(CustomAuthenticationEntryPoint customAuthenticationEntryPoint, JwtUtil jwtUtil) {
-        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+    public SecurityConfig(CustomAuthenticationEntryPoint entryPoint,
+                          JwtUtil jwtUtil) {
+        this.entryPoint = entryPoint;
         this.jwtUtil = jwtUtil;
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)  // Add JWT filter before the default username/password filter
-                .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(customAuthenticationEntryPoint))  // Custom error handling for unauthenticated requests
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));  // Stateless session (no sessions)
 
-        return http.build();
+//    @Bean
+//    public @NonNull SecurityWebFilterChain(
+//            ServerHttpSecurity http,
+//            JwtAuthenticationFilter
+//    ) {
+//        return http
+//                // Disable CSRF since we’re stateless
+//                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+//
+//                // Use our custom entry point for unauthorized requests
+//                .exceptionHandling(exceptions ->
+//                        exceptions.authenticationEntryPoint(customAuthenticationEntryPoint)
+//                )
+//
+//                // Don’t use the default WebFlux SecurityContextRepository (stateless)
+//                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+//
+//                // Stateless session management
+//                .sessionManagement(session ->
+//                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                )
+//
+//                // Route security rules
+//                .authorizeExchange(exchanges -> exchanges
+//                        .pathMatchers("/api/auth/**").permitAll()    // open endpoints
+//                        .anyExchange().authenticated()                // all others require auth
+//                )
+//
+//                // Add our JWT filter at the AUTHENTICATION phase
+//                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+//
+//                .build();
+//    }
+
+    @Bean
+    public @NonNull SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http,
+                                                                  JwtAuthenticationFilter jwtFilter
+    ) {
+        return http
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))
+                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+                .authorizeExchange(authorization -> authorization
+                        .pathMatchers("/api/auth/**").permitAll()
+                        .anyExchange().authenticated()
+                )
+                .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                .build();
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+    public @NonNull JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(jwtUtil);
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public @NonNull BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
+

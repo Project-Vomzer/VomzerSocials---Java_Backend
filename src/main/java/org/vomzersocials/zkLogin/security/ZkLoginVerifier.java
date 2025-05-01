@@ -1,6 +1,7 @@
 package org.vomzersocials.zkLogin.security;
 
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 @Component
 public class ZkLoginVerifier {
@@ -11,11 +12,10 @@ public class ZkLoginVerifier {
         this.suiZkLoginClient = suiZkLoginClient;
     }
 
-    public boolean verifyProof(String zkProof, String publicKey) {
-//        String suiAddress = String.valueOf(suiZkLoginClient.verifyProof(zkProof, publicKey));
-//        return suiAddress != null;
-        VerifiedAddressResult addressResult = suiZkLoginClient.verifyProof(zkProof, publicKey);
-        return addressResult != null && addressResult.isSuccess();
+    public Mono<Boolean> verifyProof(String zkProof, String publicKey) {
+        return suiZkLoginClient.verifyProof(zkProof, publicKey)
+                .map(result -> result != null && result.isSuccess())
+                .onErrorReturn(false);
     }
-
 }
+

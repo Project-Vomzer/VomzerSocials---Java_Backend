@@ -30,23 +30,35 @@ public class JwtUtil {
     @PostConstruct
     public void init() {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        if (keyBytes.length < 32) {
-            throw new IllegalArgumentException("Secret key must be at least 256 bits (32 bytes)");
-        }
+        if (keyBytes.length < 32) throw new IllegalArgumentException("Secret key must be at least 256 bits (32 bytes)");
         signingKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
+//    public String generateAccessToken(String username, List<String> roles) {
+//        Map<String, Object> claims = new HashMap<>();
+//        claims.put("roles", roles);
+//        return Jwts.builder()
+//                .setSubject(username)
+//                .addClaims(claims)
+//                .setIssuedAt(new Date())
+//                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
+//                .signWith(signingKey, SignatureAlgorithm.HS256)
+//                .compact();
+//    }
+
     public String generateAccessToken(String username, List<String> roles) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", roles);
         return Jwts.builder()
                 .setSubject(username)
-                .addClaims(claims)
+                .claim("roles", roles)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
-//                .signWith(signingKey)
-                .signWith(signingKey, SignatureAlgorithm.ES256)
+                .signWith(signingKey, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+//    no role tokens for tests
+    public String generateAccessToken(String username) {
+        return generateAccessToken(username, List.of());
     }
 
     public String generateRefreshToken(String username) {
@@ -71,10 +83,31 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-        Jws<Claims> jws = Jwts.parserBuilder()
+//        Jws<Claims> jws = Jwts.parserBuilder()
+//                .setSigningKey(signingKey)
+//                .build()
+//                .parseClaimsJws(token);
+//        return jws.getBody().getSubject();
+        return Jwts.parserBuilder()
+                .setSigningKey(signingKey)
+                .build().parseClaimsJws(token)
+                .getBody().getSubject();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> extractRoles(String token) {
+        var body = Jwts.parserBuilder()
                 .setSigningKey(signingKey)
                 .build()
-                .parseClaimsJws(token);
-        return jws.getBody().getSubject();
+                .parseClaimsJws(token)
+                .getBody();
+        Object roles = body.get("roles");
+        if (roles instanceof List<?>) {
+            return (List<String>) roles;
+        }
+        return List.of();
     }
+
+
+
 }
