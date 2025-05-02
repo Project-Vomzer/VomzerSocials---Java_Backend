@@ -1,13 +1,15 @@
 package org.vomzersocials.user.dtos.requests;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import org.vomzersocials.user.enums.Role;
 
 
-@Setter
-@Getter
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterUserRequest {
+    @JsonAlias({"username", "userName"})
     private String userName;
     private String password;
     private Role role;

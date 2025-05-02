@@ -67,29 +67,32 @@ public class AuthController {
 
     @PostMapping("/login")
     public Mono<ResponseEntity<Object>> login(@RequestBody LoginRequest loginRequest) {
+        log.info("Login attempt with method: {}", loginRequest.getLoginMethod()); // Log the method
+
         return auth.loginUser(loginRequest)
                 .map(resp -> {
+                    log.info("Login success response: {}", resp); // Log the full response
+
                     ResponseCookie cookie = ResponseCookie.from("refreshToken", resp.getRefreshToken())
                             .httpOnly(true).secure(true)
                             .path("/").maxAge(Duration.ofDays(7))
                             .sameSite("Strict").build();
+
                     return ResponseEntity.ok()
                             .header(HttpHeaders.SET_COOKIE, cookie.toString())
                             .body((Object) resp);
                 })
                 .onErrorResume(IllegalArgumentException.class, ex ->
-                        Mono.<ResponseEntity<Object>>just(
-                                ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                        .body((Object) Map.of("error", ex.getMessage()))
-                        ))
+                        Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                .body(Map.of("error", ex.getMessage())))
+                )
                 .onErrorResume(ex -> {
                     log.error("Login failure", ex);
-                    return Mono.<ResponseEntity<Object>>just(
-                            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                    .body((Object) Map.of("error", "Internal server error"))
-                    );
+                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(Map.of("error", "Internal server error")));
                 });
     }
+
 
     @PostMapping("/logout")
     public Mono<ResponseEntity<Object>> logout(@Valid @RequestBody LogoutRequest logoutRequest) {

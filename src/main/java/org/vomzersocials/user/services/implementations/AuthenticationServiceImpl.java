@@ -1,5 +1,6 @@
 package org.vomzersocials.user.services.implementations;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -97,23 +98,100 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
-    @Override
-    public Mono<LoginResponse> loginUser(LoginRequest request) {
-        return Mono.fromCallable(() -> {
-                    LoginMethod loginMethod = LoginMethod.valueOf(request.getLoginMethod());
-                    return loginMethod;
-                })
-                .subscribeOn(Schedulers.boundedElastic())
-                .flatMap(method -> Mono.fromCallable(() -> {
-                    User user = (method == LoginMethod.STANDARD_LOGIN) ? loginStandard(request) : loginWithZk(request);
-                    user.setIsLoggedIn(true);
-                    userRepository.save(user);
-                    String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
-                    String refreshToken = jwtUtil.generateRefreshToken(user.getUserName());
+//    @Override
+//    public Mono<LoginResponse> loginUser(LoginRequest request) {
+//        return Mono.fromCallable(() -> {
+//                    LoginMethod loginMethod = LoginMethod.valueOf(request.getLoginMethod());
+//                    log.info("Login method received: {}", loginMethod);
+//                    return loginMethod;
+//                })
+//                .subscribeOn(Schedulers.boundedElastic())
+//                .flatMap(method -> Mono.fromCallable(() -> {
+//                    User user = (method == LoginMethod.STANDARD_LOGIN) ? loginStandard(request) : loginWithZk(request);
+//                    user.setIsLoggedIn(true);
+//                    userRepository.save(user);
+//
+//                    String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+//                    String refreshToken = jwtUtil.generateRefreshToken(user.getUserName());
+//
+//                    log.info("Login successful for user: {}, method: {}", user.getUserName(), method);
+//
+//                    return new LoginResponse(user.getUserName(), "Logged in successfully via " + method,
+//                            accessToken, refreshToken, user.getRole(), method.name());
+//                }).subscribeOn(Schedulers.boundedElastic()));
+//    }
 
-                    return new LoginResponse(user.getUserName(), "Logged in successfully", accessToken, refreshToken, user.getRole());
-                }).subscribeOn(Schedulers.boundedElastic()));
+    @Override
+    public Mono<LoginResponse> loginUser(LoginRequest req) {
+        return Mono.fromCallable(() -> LoginMethod.valueOf(req.getLoginMethod()))
+                .doOnNext(m -> log.info("LoginMethod: {}", m))
+                .subscribeOn(Schedulers.boundedElastic())
+                .flatMap(method ->
+                        method == LoginMethod.STANDARD_LOGIN
+                                ? handleStandardLogin(req)
+                                : handleZkLogin(req)
+                )
+                .flatMap(user -> {
+                    user.setIsLoggedIn(true);
+                    return Mono.fromCallable(() -> userRepository.save(user))
+                            .subscribeOn(Schedulers.boundedElastic())
+                            .thenReturn(user);
+                })
+                .map(user -> {
+                    String at = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                    String rt = jwtUtil.generateRefreshToken(user.getUserName());
+                    return new LoginResponse(
+                            user.getUserName(),
+                            "Logged in successfully",
+                            at, rt,
+                            user.getRole(),
+                            req.getLoginMethod()
+                    );
+                })
+                .doOnNext(resp -> {
+                    try {
+                        String json = new ObjectMapper()
+                                .writerWithDefaultPrettyPrinter()
+                                .writeValueAsString(resp);
+                        log.info("LoginResponse JSON:\n{}", json);
+                    } catch (Exception e) {
+                        log.error("Failed to serialize LoginResponse", e);
+                    }
+                });
     }
+
+    private Mono<User> handleStandardLogin(LoginRequest req) {
+        return Mono.<User>fromCallable(() -> {
+            log.info("loginStandard() called with username='{}', password='{}'",
+                    req.getUsername(), req.getPassword());
+            User user = userRepository.findUserByUserName(req.getUsername())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
+            log.info("Stored hash = {}", user.getPassword());
+            boolean matches = passwordEncoder.matches(req.getPassword(), user.getPassword());
+            log.info("Password matches? {}", matches);
+            if (!matches) throw new IllegalArgumentException("Invalid username or password");
+            return user;
+        }).subscribeOn(Schedulers.boundedElastic());
+    }
+
+    private Mono<User> handleZkLogin(LoginRequest req) {
+        return Mono.fromCallable(() -> {
+            log.info("loginWithZk() called with zkProof='{}', publicKey='{}'",
+                    req.getZkProof(), req.getPublicKey());
+            VerifiedAddressResult result = zkLoginService.loginViaZkProof(
+                    req.getZkProof(), req.getPublicKey()
+            );
+            if (result == null || !result.isSuccess()) {
+                throw new IllegalArgumentException("Invalid zk-proof or proof verification failed");
+            }
+            String address = result.getAddress();
+            log.info("ZK proof succeeded; address = {}", address);
+            return (User) userRepository.findUserBySuiAddress(address)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found for address " + address));
+        }).subscribeOn(Schedulers.boundedElastic());
+    }
+
+
 
     @Override
     public Mono<LogoutUserResponse> logoutUser(LogoutRequest request) {

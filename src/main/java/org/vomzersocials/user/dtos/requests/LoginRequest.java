@@ -1,17 +1,16 @@
 package org.vomzersocials.user.dtos.requests;
 
-import lombok.*;
-import org.vomzersocials.user.enums.Role;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LoginRequest {
+    @JsonAlias({"username", "userName"})
     private String username;
     private String password;
+    private String loginMethod;
     private String zkProof;
     private String publicKey;
-    private String loginMethod;
 }
