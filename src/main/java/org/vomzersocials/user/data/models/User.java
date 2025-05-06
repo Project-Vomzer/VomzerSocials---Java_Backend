@@ -25,7 +25,7 @@ public class User{
     )
     private String id;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
     private String password;
     private Boolean isLoggedIn;

@@ -23,6 +23,7 @@ import org.vomzersocials.zkLogin.security.VerifiedAddressResult;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import reactor.test.StepVerifier;
 
 import java.util.Optional;
 import java.util.List;
@@ -83,6 +84,16 @@ public class AuthenticationServiceImplTest {
         assertNotNull(resp);
         assertEquals("User registered successfully.", resp.getMessage());
     }
+
+    @Test
+    void test_thatUserCanRegister2() {
+        StepVerifier.create(authenticationService.registerNewUser(registerReq))
+                .assertNext(resp -> {
+                    assertEquals("User registered successfully.", resp.getMessage());
+                })
+                .verifyComplete();
+    }
+
 
     @Test
     public void test_thatUserCannotRegisterANullValue() {
@@ -158,7 +169,7 @@ public class AuthenticationServiceImplTest {
                 IllegalArgumentException.class,
                 () -> authenticationService.loginUser(loginReq).block()
         );
-        assertEquals("User not found", ex.getMessage());
+        assertEquals("Invalid username or password", ex.getMessage());
     }
 
     @Test

@@ -22,8 +22,7 @@ import java.util.Optional;
 @Service
 public class PostService implements org.vomzersocials.user.services.interfaces.PostService {
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
     private final UserRepository userRepository;
 
     public PostService(PostRepository postRepository, UserRepository userRepository) {
@@ -73,6 +72,10 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
         if (optionalPost.isEmpty()) throw new IllegalArgumentException("Post not found");
 
         Post foundPost = optionalPost.get();
+        if (!foundPost.getAuthor().getId().equals(foundUser.getId())) {
+            throw new SecurityException("User is not authorized to delete this post");
+        }
+        foundPost.setUpdatedAt(LocalDateTime.now());
         postRepository.delete(foundPost);
 
         DeletePostResponse deletePostResponse = new DeletePostResponse();
@@ -87,8 +90,11 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 
         log.info("Found post id: {}", foundPost.getId());
-
+        if (!editPostRequest.getUserId().equals(foundPost.getAuthor().getId())) {
+            throw new SecurityException("User not authorized to edit this post");
+        }
         foundPost.setContent(editPostRequest.getContent());
+        foundPost.setUpdatedAt(LocalDateTime.now());
         postRepository.save(foundPost);
 
         EditPostResponse editPostResponse = new EditPostResponse();

@@ -98,38 +98,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
-//    @Override
-//    public Mono<LoginResponse> loginUser(LoginRequest request) {
-//        return Mono.fromCallable(() -> {
-//                    LoginMethod loginMethod = LoginMethod.valueOf(request.getLoginMethod());
-//                    log.info("Login method received: {}", loginMethod);
-//                    return loginMethod;
-//                })
-//                .subscribeOn(Schedulers.boundedElastic())
-//                .flatMap(method -> Mono.fromCallable(() -> {
-//                    User user = (method == LoginMethod.STANDARD_LOGIN) ? loginStandard(request) : loginWithZk(request);
-//                    user.setIsLoggedIn(true);
-//                    userRepository.save(user);
-//
-//                    String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
-//                    String refreshToken = jwtUtil.generateRefreshToken(user.getUserName());
-//
-//                    log.info("Login successful for user: {}, method: {}", user.getUserName(), method);
-//
-//                    return new LoginResponse(user.getUserName(), "Logged in successfully via " + method,
-//                            accessToken, refreshToken, user.getRole(), method.name());
-//                }).subscribeOn(Schedulers.boundedElastic()));
-//    }
-
     @Override
     public Mono<LoginResponse> loginUser(LoginRequest req) {
         return Mono.fromCallable(() -> LoginMethod.valueOf(req.getLoginMethod()))
                 .doOnNext(m -> log.info("LoginMethod: {}", m))
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMap(method ->
-                        method == LoginMethod.STANDARD_LOGIN
-                                ? handleStandardLogin(req)
-                                : handleZkLogin(req)
+                        method == LoginMethod.STANDARD_LOGIN ? handleStandardLogin(req) : handleZkLogin(req)
                 )
                 .flatMap(user -> {
                     user.setIsLoggedIn(true);
@@ -138,12 +113,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             .thenReturn(user);
                 })
                 .map(user -> {
-                    String at = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
-                    String rt = jwtUtil.generateRefreshToken(user.getUserName());
+                    String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                    String refreshToken = jwtUtil.generateRefreshToken(user.getUserName());
                     return new LoginResponse(
                             user.getUserName(),
                             "Logged in successfully",
-                            at, rt,
+                            accessToken, refreshToken,
                             user.getRole(),
                             req.getLoginMethod()
                     );
@@ -269,27 +244,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         response.setIsLoggedIn(false);
         response.setMessage("User registered successfully.");
         return response;
-    }
-
-    private User loginStandard(LoginRequest req) {
-        validateUserInput(req.getUsername(), req.getPassword());
-        User user = userRepository.findUserByUserName(req.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid credentials");
-        }
-        return user;
-    }
-
-    private User loginWithZk(LoginRequest loginRequest) {
-        VerifiedAddressResult result = zkLoginService.loginViaZkProof(
-                loginRequest.getZkProof(), loginRequest.getPublicKey()
-        );
-        if (result == null || !result.isSuccess()) {
-            throw new IllegalArgumentException("Invalid zk-proof or proof verification failed");
-        }
-        return (User) userRepository.findUserBySuiAddress(result.getAddress())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
     private String verifyZkProofAndRegisterOrThrow(

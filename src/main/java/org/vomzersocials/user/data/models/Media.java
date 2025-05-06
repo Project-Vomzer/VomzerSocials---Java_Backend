@@ -19,6 +19,7 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
+
     private String filename;
 
     @Column(nullable = false)
@@ -39,4 +40,8 @@ public class Media {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, columnDefinition = "CHAR(36)")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false, columnDefinition = "CHAR(36)")
+    private Post post;
 }

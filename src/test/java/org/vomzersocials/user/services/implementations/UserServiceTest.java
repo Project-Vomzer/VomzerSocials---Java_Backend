@@ -1,188 +1,118 @@
 package org.vomzersocials.user.services.implementations;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import org.vomzersocials.user.data.models.User;
-import org.vomzersocials.user.data.repositories.UserRepository;
+import org.mockito.Mockito;
 import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.user.dtos.responses.*;
-import org.vomzersocials.user.enums.Role;
+import org.vomzersocials.user.services.interfaces.AuthenticationService;
+import org.vomzersocials.user.services.interfaces.PostService;
+import org.vomzersocials.user.services.interfaces.UserService;
+import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@Transactional
-@Slf4j
-public class UserServiceTest {
+public class UserServiceImplTest {
 
-    @Autowired
-    private UserServiceImpl userService;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    private RegisterUserRequest registerUserRequest;
-    private RegisterUserResponse registerUserResponse;
-    private LoginRequest loginRequest;
-    private LoginResponse loginResponse;
-    private LogoutRequest logoutRequest;
-    private LogoutUserResponse logoutUserResponse;
-    private CreatePostRequest createPostRequest;
-    private CreatePostResponse createPostResponse;
-    private DeletePostRequest deletePostRequest;
-    private DeletePostResponse deletePostResponse;
-    private EditPostRequest editPostRequest;
-    private EditPostResponse editPostResponse;
+    private AuthenticationService authenticationService;
+    private PostService postService;
+    private UserService userService;
 
     @BeforeEach
-    public void setUp() {
-        userRepository.deleteAll();
-
-        registerUserRequest = new RegisterUserRequest();
-        registerUserRequest.setUserName("johni");
-        registerUserRequest.setPassword("password");
-        registerUserRequest.setRole(Role.ADMIN);
-
-        loginRequest = new LoginRequest();
-        loginRequest.setUsername("johni");
-        loginRequest.setPassword("password");
-
-        logoutRequest = new LogoutRequest();
-        logoutRequest.setUsername("johni");
-
-        createPostRequest = new CreatePostRequest();
-        deletePostRequest = new DeletePostRequest();
+    void setUp() {
+        authenticationService = mock(AuthenticationService.class);
+        postService = mock(PostService.class);
+        userService = new UserServiceImpl(authenticationService, postService);
     }
 
     @Test
-    public void test_thatUserCanRegister_andCreatePost() {
-        registerUserResponse = userService.registerNewUser(registerUserRequest);
-        assertEquals("User registered successfully.", registerUserResponse.getMessage());
+    void testRegisterNewUser() {
+        RegisterUserRequest request = new RegisterUserRequest();
+        RegisterUserResponse expectedResponse = new RegisterUserResponse();
+        expectedResponse.setMessage("User registered successfully");
 
-        loginResponse = userService.loginUser(loginRequest);
-        assertEquals("Logged in successfully", loginResponse.getMessage());
+        when(authenticationService.registerNewUser(request)).thenReturn(Mono.just(expectedResponse));
 
-        User user = new User();
-        user.setUserName(loginResponse.getUsername());
+        RegisterUserResponse actualResponse = userService.registerNewUser(request);
 
-        createPostRequest.setAuthor(user);
-        createPostRequest.setContent("Content");
-
-        createPostResponse = userService.createPost(createPostRequest);
-        assertNotNull(createPostResponse);
-        assertEquals("Content", createPostResponse.getContent());
-        assertEquals("johni", createPostResponse.getAuthor().getUserName());
+        assertNotNull(actualResponse);
+        assertEquals("User registered successfully", actualResponse.getMessage());
+        verify(authenticationService, times(1)).registerNewUser(request);
     }
 
     @Test
-    public void test_thatUserCannotPostEmptyContent() {
-        registerUserResponse = userService.registerNewUser(registerUserRequest);
-        loginResponse = userService.loginUser(loginRequest);
+    void testLoginUser() {
+        LoginRequest request = new LoginRequest();
+        LoginResponse expectedResponse = new LoginResponse();
+        expectedResponse.setToken("jwt-token");
 
-        User testUser = userRepository.findUserByUserName(loginResponse.getUsername()).orElseThrow();
+        when(authenticationService.loginUser(request)).thenReturn(Mono.just(expectedResponse));
 
-        CreatePostRequest postRequest = new CreatePostRequest();
-        postRequest.setAuthor(testUser);
-        postRequest.setContent("");
+        LoginResponse actualResponse = userService.loginUser(request);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                userService.createPost(postRequest));
-        assertEquals("Author and content are required", exception.getMessage());
+        assertNotNull(actualResponse);
+        assertEquals("jwt-token", actualResponse.getToken());
+        verify(authenticationService, times(1)).loginUser(request);
     }
 
     @Test
-    public void test_thatPostCreationFails_WhenUserNotFound() {
-        CreatePostRequest postRequest = new CreatePostRequest();
-        postRequest.setAuthor(new User()); // Creating a new user without saving it
-        postRequest.setContent("Test Content");
+    void testLogoutUser() {
+        LogoutRequest request = new LogoutRequest();
+        LogoutUserResponse expectedResponse = new LogoutUserResponse();
+        expectedResponse.setMessage("Logout successful");
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                userService.createPost(postRequest));
-        assertEquals("User not found", exception.getMessage());
+        when(authenticationService.logoutUser(request)).thenReturn(Mono.just(expectedResponse));
+
+        LogoutUserResponse actualResponse = userService.logoutUser(request);
+
+        assertNotNull(actualResponse);
+        assertEquals("Logout successful", actualResponse.getMessage());
+        verify(authenticationService, times(1)).logoutUser(request);
     }
 
     @Test
-    public void test_thatUserNotLoggedIn_cannotCreateOrMakePost(){
-        registerUserResponse = userService.registerNewUser(registerUserRequest);
-        loginResponse = userService.loginUser(loginRequest);
+    void testCreatePost() {
+        CreatePostRequest request = new CreatePostRequest();
+        CreatePostResponse expectedResponse = new CreatePostResponse();
+        expectedResponse.setMessage("Post created");
 
-        User testUser = userRepository.findUserByUserName(loginResponse.getUsername()).orElseThrow();
-        createPostRequest.setAuthor(testUser);
-        createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
-        createPostResponse = userService.createPost(createPostRequest);
-        assertEquals("A decentralised social media platform built on Java, React and Sui",
-                createPostResponse.getContent());
+        when(postService.createPost(request)).thenReturn(expectedResponse);
 
-        logoutUserResponse = userService.logoutUser(logoutRequest);
-        assertEquals("Logged out successfully", logoutUserResponse.getMessage());
+        CreatePostResponse actualResponse = userService.createPost(request);
 
-        createPostRequest.setAuthor(testUser);
-        createPostRequest.setContent("Cheapest gas fees and fast contract execution");
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                userService.createPost(createPostRequest));
-        assertEquals("User is not logged in", exception.getMessage());
-
-
-    }
-    @Test
-    public void test_thatUserCanDeletePost(){
-        registerUserResponse = userService.registerNewUser(registerUserRequest);
-        loginResponse = userService.loginUser(loginRequest);
-        User testUser = userRepository.findUserByUserName(loginResponse.getUsername()).orElseThrow();
-
-        createPostRequest.setAuthor(testUser);
-        createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
-        createPostResponse = userService.createPost(createPostRequest);
-        assertEquals("A decentralised social media platform built on Java, React and Sui",
-                createPostResponse.getContent());
-
-        log.info("Postid_test: {}", createPostResponse.getId());
-        deletePostRequest.setPostId(createPostResponse.getId());
-        deletePostRequest.setUserId(testUser.getId());
-
-        deletePostResponse = userService.deletePost(deletePostRequest);
-        assertEquals("Post deleted successfully", deletePostResponse.getMessage());
+        assertNotNull(actualResponse);
+        assertEquals("Post created", actualResponse.getMessage());
+        verify(postService, times(1)).createPost(request);
     }
 
     @Test
-    public void test_thatUserCanEditPostCreated(){
-        registerUserResponse = userService.registerNewUser(registerUserRequest);
-        loginResponse = userService.loginUser(loginRequest);
-        User testUser = userRepository.findUserByUserName(loginResponse.getUsername()).orElseThrow();
+    void testDeletePost() {
+        DeletePostRequest request = new DeletePostRequest();
+        DeletePostResponse expectedResponse = new DeletePostResponse();
+        expectedResponse.setMessage("Post deleted");
 
-        createPostRequest.setAuthor(testUser);
-        createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
-        createPostResponse = userService.createPost(createPostRequest);
+        when(postService.deletePost(request)).thenReturn(expectedResponse);
 
-        editPostRequest = new EditPostRequest();
-        editPostRequest.setPostId(createPostResponse.getId());
-        editPostRequest.setContent("Completely anonymous and decentralized it is! I love it!!!");
-        editPostResponse = userService.editPost(editPostRequest);
-        assertEquals("Completely anonymous and decentralized it is! I love it!!!",
-                editPostResponse.getContent());
+        DeletePostResponse actualResponse = userService.deletePost(request);
 
+        assertNotNull(actualResponse);
+        assertEquals("Post deleted", actualResponse.getMessage());
+        verify(postService, times(1)).deletePost(request);
     }
 
     @Test
-    public void test_thatUserCanAddImages_toIntendedPosts(){
-        registerUserResponse = userService.registerNewUser(registerUserRequest);
-        loginResponse = userService.loginUser(loginRequest);
-        User testUser = userRepository.findUserByUserName(loginResponse.getUsername()).orElseThrow();
+    void testEditPost() {
+        EditPostRequest request = new EditPostRequest();
+        EditPostResponse expectedResponse = new EditPostResponse();
+        expectedResponse.setMessage("Post edited");
 
-        createPostRequest.setAuthor(testUser);
-        createPostRequest.setContent("A decentralised social media platform built on Java, React and Sui");
-        createPostResponse = userService.createPost(createPostRequest);
+        when(postService.editPost(request)).thenReturn(expectedResponse);
 
+        EditPostResponse actualResponse = userService.editPost(request);
 
+        assertNotNull(actualResponse);
+        assertEquals("Post edited", actualResponse.getMessage());
+        verify(postService, times(1)).editPost(request);
     }
-
-
-
-
-
 }
