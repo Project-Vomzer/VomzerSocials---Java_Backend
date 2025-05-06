@@ -29,10 +29,6 @@ public class Media {
     @Column(nullable = false)
     private MediaType mediaType;
 
-    @Lob
-    @Column(name = "data", columnDefinition = "LONGBLOB")
-    private byte[] data;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
