@@ -2,7 +2,6 @@ package org.vomzersocials.user.services.implementations;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
@@ -20,14 +19,14 @@ public class UserServiceImplTest {
     private UserService userService;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         authenticationService = mock(AuthenticationService.class);
         postService = mock(PostService.class);
         userService = new UserServiceImpl(authenticationService, postService);
     }
 
     @Test
-    void testRegisterNewUser() {
+    public void testRegisterNewUser() {
         RegisterUserRequest request = new RegisterUserRequest();
         RegisterUserResponse expectedResponse = new RegisterUserResponse();
         expectedResponse.setMessage("User registered successfully");
@@ -42,22 +41,22 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void testLoginUser() {
+    public void testLoginUser() {
         LoginRequest request = new LoginRequest();
         LoginResponse expectedResponse = new LoginResponse();
-        expectedResponse.setToken("jwt-token");
+        expectedResponse.setAccessToken("jwt-token");
 
         when(authenticationService.loginUser(request)).thenReturn(Mono.just(expectedResponse));
 
         LoginResponse actualResponse = userService.loginUser(request);
 
         assertNotNull(actualResponse);
-        assertEquals("jwt-token", actualResponse.getToken());
+        assertEquals("jwt-token", actualResponse.getAccessToken());
         verify(authenticationService, times(1)).loginUser(request);
     }
 
     @Test
-    void testLogoutUser() {
+    public void testLogoutUser() {
         LogoutRequest request = new LogoutRequest();
         LogoutUserResponse expectedResponse = new LogoutUserResponse();
         expectedResponse.setMessage("Logout successful");
@@ -72,7 +71,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void testCreatePost() {
+    public void testCreatePost() {
         CreatePostRequest request = new CreatePostRequest();
         CreatePostResponse expectedResponse = new CreatePostResponse();
         expectedResponse.setMessage("Post created");
@@ -87,7 +86,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void testDeletePost() {
+    public void testDeletePost() {
         DeletePostRequest request = new DeletePostRequest();
         DeletePostResponse expectedResponse = new DeletePostResponse();
         expectedResponse.setMessage("Post deleted");
@@ -102,7 +101,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void testEditPost() {
+    public void testEditPost() {
         EditPostRequest request = new EditPostRequest();
         EditPostResponse expectedResponse = new EditPostResponse();
         expectedResponse.setMessage("Post edited");

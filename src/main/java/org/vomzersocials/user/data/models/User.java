@@ -18,11 +18,7 @@ import java.util.*;
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(
-            columnDefinition = "CHAR(36)",
-            updatable = false,
-            nullable = false
-    )
+    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
     private String id;
 
     @Column(name = "user_name", nullable = false, unique = true)
@@ -33,9 +29,6 @@ public class User{
     @Column(nullable = false, unique = true)
     private String suiAddress;
     private String publicKey;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Media> mediaPosts = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -58,6 +51,9 @@ public class User{
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private  List<Media> mediaList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
 
     private LocalDateTime dateOfCreation;
 

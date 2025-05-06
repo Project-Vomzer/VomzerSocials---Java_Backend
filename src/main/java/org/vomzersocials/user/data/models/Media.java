@@ -9,10 +9,10 @@ import org.vomzersocials.user.enums.MediaType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "media")
+@Getter
+@Setter
 public class Media {
 
     @Id
@@ -42,6 +42,7 @@ public class Media {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false, columnDefinition = "CHAR(36)")
+    @JoinColumn(name = "post_id", columnDefinition = "CHAR(36)")
     private Post post;
 }
+

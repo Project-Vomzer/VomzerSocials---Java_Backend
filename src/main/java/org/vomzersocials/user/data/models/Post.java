@@ -21,10 +21,7 @@ public class Post {
     private String id;
 
     @ManyToOne
-    @JoinColumn(
-            name = "author_id",
-            columnDefinition = "CHAR(36)"
-    )
+    @JoinColumn(name = "author_id", columnDefinition = "CHAR(36)")
     private User author;
     private int likes;
 
@@ -39,6 +36,7 @@ public class Post {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
