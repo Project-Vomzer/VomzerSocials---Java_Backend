@@ -4,14 +4,23 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Media setup with walrus completed&#10;About to test walrus">
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Media can be uploaded to Backblaze b2 which functions like Walrus">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/CommentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/CreateCommentRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/responses/CreateCommentResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/exceptions/PostNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/CommentServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/AwsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/AwsConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/S3Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/S3Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/MediaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/MediaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/CommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/CommentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/MediaServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/MediaServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/PostServiceTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,6 +126,10 @@
     "JUnit.AuthenticationServiceImplTest.test_userCanLoginWithStandardLogin.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.test_userCanLoginWithZkLogin.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.userWhenLoggedInCanLogout_test.executor": "Run",
+    "JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists.executor": "Run",
+    "JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData.executor": "Run",
+    "JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test.executor": "Run",
+    "JUnit.CommentServiceImplTest.executor": "Run",
     "JUnit.JwtUtilTest.executor": "Run",
     "JUnit.JwtUtilTest.expiredTokenIsInvalid_test.executor": "Run",
     "JUnit.JwtUtilTest.generateAndValidateAccessToken.executor": "Run",
@@ -189,6 +202,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.vomzersocials.user.exceptions" />
       <recent name="org.vomzersocials.user.dtos.responses" />
       <recent name="org.vomzersocials.user.data.models" />
       <recent name="org.vomzersocials.user.dtos.requests" />
@@ -221,7 +235,7 @@
       <recent name="org.vomzersocials.user.services.implementations" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MediaServiceTest">
+  <component name="RunManager" selected="JUnit.CommentServiceImplTest">
     <configuration name="AuthenticationServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
@@ -237,7 +251,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MediaServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommentServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
         <pattern>
@@ -246,13 +260,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.MediaServiceTest" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MediaServiceTest.alreadyUploadedMediaCanBeDeleted_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
         <pattern>
@@ -261,14 +275,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.MediaServiceTest" />
-      <option name="METHOD_NAME" value="alreadyUploadedMediaCanBeDeleted_test" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
+      <option name="METHOD_NAME" value="createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
         <pattern>
@@ -277,8 +291,25 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.UserServiceImplTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
+      <option name="METHOD_NAME" value="createComment_ShouldReturnCreatedCommentResponse_WhenValidData" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
+      <option name="METHOD_NAME" value="createComment_ShouldReturnCreatedComment_test" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -295,20 +326,12 @@
       <deployment type="docker-compose.yml" />
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="sourceFilePath" value="docker-compose.yml" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MediaServiceTest" />
-        <item itemvalue="JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeleted_test" />
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-        <item itemvalue="JUnit.UserServiceImplTest" />
+        <item itemvalue="JUnit.CommentServiceImplTest" />
+        <item itemvalue="JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test" />
+        <item itemvalue="JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists" />
+        <item itemvalue="JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData" />
         <item itemvalue="JUnit.AuthenticationServiceImplTest" />
       </list>
     </recent_temporary>
@@ -367,7 +390,7 @@
       <workItem from="1746004823125" duration="61895000" />
       <workItem from="1746465908005" duration="13744000" />
       <workItem from="1746524847114" duration="25537000" />
-      <workItem from="1746557430727" duration="11977000" />
+      <workItem from="1746557430727" duration="26357000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -625,7 +648,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746555483700</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Media can be uploaded to Backblaze b2 which functions like Walrus">
+      <option name="closed" value="true" />
+      <created>1746611391934</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1746611391934</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -643,7 +674,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Test failing" />
     <MESSAGE value="User can edit posts" />
     <MESSAGE value="ZK Login AuthService Tests passing" />
     <MESSAGE value="ZK Login AuthService Tests passed" />
@@ -668,7 +698,8 @@
     <MESSAGE value="Post service still giving issues&#10;No walrus yet" />
     <MESSAGE value="User can create and make posts" />
     <MESSAGE value="Media setup with walrus completed&#10;About to test walrus" />
-    <option name="LAST_COMMIT_MESSAGE" value="Media setup with walrus completed&#10;About to test walrus" />
+    <MESSAGE value="Media can be uploaded to Backblaze b2 which functions like Walrus" />
+    <option name="LAST_COMMIT_MESSAGE" value="Media can be uploaded to Backblaze b2 which functions like Walrus" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

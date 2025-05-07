@@ -14,20 +14,21 @@ import java.net.URI;
 @Configuration
 public class WalrusConfig {
 
-    @Value("${walrus.endpoint}")
-    private String endpoint;
-
-    @Value("${walrus.accessKey}")
+    @Value("${vomzer.walrus.access-key}")
     private String accessKey;
 
-    @Value("${walrus.secretKey}")
+    @Value("${vomzer.walrus.secret-key}")
     private String secretKey;
 
-    @Value("${walrus.bucket}")
+    @Value("${vomzer.endpoint}")
+    private String endpoint;
+
+    @Value("${vomzer.bucket-name}")
     private String bucketName;
 
-    @Value("${walrus.cdn-url}")
+    @Value("${vomzer.cdn-url}")
     private String cdnUrl;
+
 
     @Bean(name = "walrusPresigner")
     public S3Presigner walrusPresigner() {

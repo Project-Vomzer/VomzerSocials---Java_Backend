@@ -1,5 +1,6 @@
 package org.vomzersocials.user.configs;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,15 @@ public class S3Config {
     @Value("${cloud.aws.s3.endpoint}")
     private String endpoint;
 
+    @PostConstruct
+    public void validateConfig() {
+        System.out.println("✅ S3Config loaded with:");
+        System.out.println("   Endpoint: " + endpoint);
+        System.out.println("   Region: " + region);
+        System.out.println("   Access Key: " + (accessKey != null ? "✔️ set" : "❌ missing"));
+        System.out.println("   Secret Key: " + (secretKey != null ? "✔️ set" : "❌ missing"));
+    }
+
     private StaticCredentialsProvider credentialsProvider() {
         return StaticCredentialsProvider.create(
                 AwsBasicCredentials.create(accessKey, secretKey)
@@ -39,20 +49,18 @@ public class S3Config {
     @Bean
     public S3Client s3Client() {
         return S3Client.builder()
-                .endpointOverride(URI.create(endpoint))
+                .endpointOverride(endpointUri())
                 .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create(accessKey, secretKey)))
+                .credentialsProvider(credentialsProvider())
                 .build();
     }
 
     @Bean
     public S3Presigner s3Presigner() {
         return S3Presigner.builder()
-                .endpointOverride(URI.create(endpoint))
+                .endpointOverride(endpointUri())
                 .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create(accessKey, secretKey)))
+                .credentialsProvider(credentialsProvider())
                 .build();
     }
 }
