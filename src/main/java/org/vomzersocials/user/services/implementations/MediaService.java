@@ -8,17 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.vomzersocials.user.dtos.requests.MediaRequest;
 import software.amazon.awssdk.core.ResponseInputStream;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.vomzersocials.user.data.models.Media;
 import org.vomzersocials.user.enums.MediaType;
 import org.vomzersocials.user.data.repositories.MediaRepository;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
@@ -57,6 +54,7 @@ public class MediaService {
         this.bucketName = bucketName;
         this.cdnUrl = cdnUrl;
     }
+
 
     public Page<Media> searchForMedia(String search, MediaType mediaType, Pageable pageable) {
         if (search != null && mediaType != null) {
@@ -245,5 +243,23 @@ public class MediaService {
 
         return mediaRepository.save(media);
     }
+
+    public Media deleteMediaByFilename(String filename) {
+        Media media = (Media) mediaRepository.findByFilename(filename)
+                .orElseThrow(() -> new RuntimeException("Media not found with filename: " + filename));
+
+        String key = media.getMediaType().name().toLowerCase() + "/" + filename;
+
+        DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+
+        s3Client.deleteObject(deleteRequest);
+        mediaRepository.delete(media);
+
+        return media;
+    }
+
 
 }

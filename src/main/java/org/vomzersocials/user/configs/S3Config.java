@@ -20,10 +20,10 @@ public class S3Config {
     @Value("${vomzer.walrus.secret-key}")
     private String secretKey;
 
-    @Value("${vomzer.walrus.region}")
+    @Value("${cloud.aws.region.static}")
     private String region;
 
-    @Value("${vomzer.walrus.endpoint}")
+    @Value("${cloud.aws.s3.endpoint}")
     private String endpoint;
 
     private StaticCredentialsProvider credentialsProvider() {
@@ -36,21 +36,23 @@ public class S3Config {
         return URI.create(endpoint);
     }
 
-    @Bean(name = "awsS3Client")
+    @Bean
     public S3Client s3Client() {
         return S3Client.builder()
+                .endpointOverride(URI.create(endpoint))
                 .region(Region.of(region))
-                .credentialsProvider(credentialsProvider())
-                .endpointOverride(endpointUri())
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(accessKey, secretKey)))
                 .build();
     }
 
-    @Bean(name = "awsPresigner")
+    @Bean
     public S3Presigner s3Presigner() {
         return S3Presigner.builder()
+                .endpointOverride(URI.create(endpoint))
                 .region(Region.of(region))
-                .credentialsProvider(credentialsProvider())
-                .endpointOverride(endpointUri())
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(accessKey, secretKey)))
                 .build();
     }
 }
