@@ -6,4 +6,5 @@ import org.vomzersocials.user.data.models.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, String> {
+
 }

@@ -2,88 +2,67 @@ package org.vomzersocials.zkLogin.security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class SuiZkLoginClient {
 
-    private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final WebClient.Builder webClientBuilder;
 
     @Value("${sui.rpc.url:https://fullnode.mainnet.sui.io:443}")
     private String suiRpcUrl;
 
-    private HttpHeaders headers;
+    public Mono<VerifiedAddressResult> verifyProof(String zkProof, String publicKey) {
+        ObjectNode rpcRequest = objectMapper.createObjectNode();
+        rpcRequest.put("jsonrpc", "2.0");
+        rpcRequest.put("id", 1);
+        rpcRequest.put("method", "suix_verifyZkLoginProof");
 
-    @PostConstruct
-    public void init() {
-        headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-    }
+        ArrayNode params = objectMapper.createArrayNode();
+        params.add(zkProof);
+        params.add(publicKey);
+        rpcRequest.set("params", params);
 
-    /**
-     * @param zkProof  base64-encoded proof from the client
-     * @param publicKey  The public key used for verification
-     * @return the verified Sui address (e.g. "0xabc123…") or null if proof invalid / error
-     */
-    public String verifyProof(String zkProof, String publicKey) {
-        try {
-            // 1️⃣ Build JSON-RPC payload including the public key for verification
-            String payload = objectMapper.writeValueAsString(
-                    objectMapper.createObjectNode()
-                            .put("jsonrpc", "2.0")
-                            .put("id", 1)
-                            .put("method", "sui_verifyZkLoginProof")
-                            .set("params", objectMapper.createArrayNode()
-                                    .add(zkProof)  // Adding zkProof
-                                    .add(publicKey) // Adding publicKey for verification
-                            )
-            );
+        WebClient webClient = webClientBuilder
+                .baseUrl(suiRpcUrl)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
 
-            HttpEntity<String> req = new HttpEntity<>(payload, headers);
+        return webClient.post()
+                .bodyValue(rpcRequest)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .map(resp -> {
+                    JsonNode error = resp.path("error");
+                    if (!error.isMissingNode()) {
+                        return VerifiedAddressResult.failed("Sui error: " + error.path("message").asText());
+                    }
 
-            // 2️⃣ Send the request
-            ResponseEntity<String> resp = restTemplate.exchange(
-                    suiRpcUrl,
-                    HttpMethod.POST,
-                    req,
-                    String.class
-            );
-
-            if (resp.getStatusCode() != HttpStatus.OK) {
-                log.warn("Sui RPC returned non-200: {}", resp.getStatusCode());
-                return null;
-            }
-
-            // 3️⃣ Parse the JSON-RPC response
-            JsonNode root = objectMapper.readTree(resp.getBody());
-            JsonNode error = root.path("error");
-            if (!error.isMissingNode()) {
-                log.warn("Error in Sui RPC: code={}, message={}",
-                        error.path("code").asText(),
-                        error.path("message").asText());
-                return null;
-            }
-
-            JsonNode result = root.path("result");
-            if (result.isTextual()) {
-                return result.asText();  // Returning the verified Sui address
-            } else {
-                log.warn("Unexpected result format from Sui RPC: {}", result);
-                return null;
-            }
-
-        } catch (Exception e) {
-            log.error("Failed to verify zkLogin proof", e);
-            return null;
-        }
+                    JsonNode result = resp.path("result");
+                    JsonNode addressNode = result.get("address");
+                    if (addressNode != null && addressNode.isTextual()) {
+                        return VerifiedAddressResult.success(addressNode.asText());
+                    } else if (result.isTextual()) {
+                        return VerifiedAddressResult.success(result.asText());
+                    } else {
+                        return VerifiedAddressResult.failed("Unexpected result format");
+                    }
+                })
+                .onErrorResume(e -> {
+                    log.error("ZK Proof verification failed", e);
+                    return Mono.just(VerifiedAddressResult.failed("Internal error"));
+                });
     }
 }

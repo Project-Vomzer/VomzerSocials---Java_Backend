@@ -1,9 +1,8 @@
 package org.vomzersocials.user.services.implementations;
 
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vomzersocials.user.data.models.Media;
 import org.vomzersocials.user.data.models.Post;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.PostRepository;
@@ -16,19 +15,22 @@ import org.vomzersocials.user.dtos.responses.DeletePostResponse;
 import org.vomzersocials.user.dtos.responses.EditPostResponse;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
 public class PostService implements org.vomzersocials.user.services.interfaces.PostService {
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final MediaService mediaService;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, MediaService mediaService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.mediaService = mediaService;
     }
 
     @Override
@@ -49,6 +51,12 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
 
+        List<Media> mediaList = mediaService.getMediaByIds(createPostRequest.getMediaIds());
+
+        for (Media media : mediaList) {
+            post.setMediaList(mediaList);
+        }
+
         Post savedPost = postRepository.save(post);
         log.info("saved post: {}", savedPost.getId());
 
@@ -66,13 +74,19 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
         User foundUser = userRepository.findUserById(deletePostRequest.getUserId());
         if (!foundUser.getIsLoggedIn()) throw new IllegalArgumentException("User is not logged in");
 
-        log.info("foundUser: " + foundUser);
-        log.info("deletePostRequest: " + deletePostRequest.getPostId());
+        log.info("foundUser: {}", foundUser);
+        log.info("deletePostRequest: {}", deletePostRequest.getPostId());
 
         Optional<Post> optionalPost = postRepository.findById(deletePostRequest.getPostId());
         if (optionalPost.isEmpty()) throw new IllegalArgumentException("Post not found");
 
         Post foundPost = optionalPost.get();
+        if (!foundPost.getAuthor().getId().equals(foundUser.getId())) {
+            throw new SecurityException("User is not authorized to delete this post");
+        }
+        for (Media media : foundPost.getMediaList()) {
+            mediaService.deleteMediaById(media.getId());
+        }
         postRepository.delete(foundPost);
 
         DeletePostResponse deletePostResponse = new DeletePostResponse();
@@ -87,8 +101,11 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 
         log.info("Found post id: {}", foundPost.getId());
-
+        if (!editPostRequest.getUserId().equals(foundPost.getAuthor().getId())) {
+            throw new SecurityException("User not authorized to edit this post");
+        }
         foundPost.setContent(editPostRequest.getContent());
+        foundPost.setUpdatedAt(LocalDateTime.now());
         postRepository.save(foundPost);
 
         EditPostResponse editPostResponse = new EditPostResponse();
@@ -103,5 +120,9 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
     public void deletePostWithMedia(UUID postId){
         Post post = postRepository.findById(String.valueOf(postId))
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
+        for (Media media: post.getMediaList()) {
+            mediaService.deleteMediaById(media.getId());
+        }
+        postRepository.delete(post);
     }
 }

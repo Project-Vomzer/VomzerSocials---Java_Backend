@@ -8,6 +8,7 @@ import org.vomzersocials.user.data.models.Media;
 import org.vomzersocials.user.enums.MediaType;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface MediaRepository extends JpaRepository<Media, UUID> {
@@ -17,4 +18,10 @@ public interface MediaRepository extends JpaRepository<Media, UUID> {
     Page<Media> findByFilenameContainingIgnoreCaseAndMediaType(String filename, MediaType mediaType, Pageable pageable);
     Media deleteMediaByFilename(String filename);
     Media findMediaByFilename(String filename);
+    void deleteByUrl(String mediaUrl);
+    Media findMediaById(UUID id);
+
+    Optional<Object> findByFilename(String filename);
+
+//    Object findByFilename(String );
 }

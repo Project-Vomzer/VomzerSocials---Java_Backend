@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name = "posts")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,10 +21,7 @@ public class Post {
     private String id;
 
     @ManyToOne
-    @JoinColumn(
-            name = "author_id",
-            columnDefinition = "CHAR(36)"
-    )
+    @JoinColumn(name = "author_id", columnDefinition = "CHAR(36)")
     private User author;
     private int likes;
 
@@ -32,8 +30,13 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Media> mediaList = new ArrayList<>();
+
     @CreationTimestamp
     private LocalDateTime createdAt;
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 

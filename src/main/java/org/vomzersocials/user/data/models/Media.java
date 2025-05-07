@@ -9,16 +9,17 @@ import org.vomzersocials.user.enums.MediaType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "media")
+@Getter
+@Setter
 public class Media {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
+
     private String filename;
 
     @Column(nullable = false)
@@ -28,10 +29,6 @@ public class Media {
     @Column(nullable = false)
     private MediaType mediaType;
 
-    @Lob
-    @Column(name = "data", columnDefinition = "LONGBLOB")
-    private byte[] data;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -39,4 +36,9 @@ public class Media {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, columnDefinition = "CHAR(36)")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", columnDefinition = "CHAR(36)")
+    private Post post;
 }
+

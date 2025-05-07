@@ -1,26 +1,36 @@
 package org.vomzersocials.user.services.implementations;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.vomzersocials.user.services.interfaces.AuthenticationService;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+import reactor.util.retry.Retry;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.LoginRequest;
 import org.vomzersocials.user.dtos.requests.LogoutRequest;
-import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
 import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
 import org.vomzersocials.user.dtos.responses.LoginResponse;
+import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
 import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
 import org.vomzersocials.user.dtos.responses.TokenPair;
 import org.vomzersocials.user.enums.LoginMethod;
-import org.vomzersocials.user.services.interfaces.AuthenticationService;
-import org.vomzersocials.zkLogin.security.SuiZkLoginClient;
+import org.vomzersocials.zkLogin.security.VerifiedAddressResult;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.vomzersocials.user.utils.ValidationUtils.isValidPassword;
@@ -28,114 +38,154 @@ import static org.vomzersocials.user.utils.ValidationUtils.isValidUsername;
 
 @Service
 @Transactional
+@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ZkLoginService zkLoginService;
-    private final SuiZkLoginClient suiZkLoginClient;
+    private final WalletApiClient walletApiClient;
     private final JwtUtil jwtUtil;
 
-    public AuthenticationServiceImpl(UserRepository userRepository,
-                                     BCryptPasswordEncoder passwordEncoder,
-                                     ZkLoginService zkLoginService,
-                                     SuiZkLoginClient suiZkLoginClient,
-                                     JwtUtil jwtUtil) {
+    public AuthenticationServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, ZkLoginService zkLoginService,
+                                     WalletApiClient walletApiClient, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.zkLoginService = zkLoginService;
-        this.suiZkLoginClient = suiZkLoginClient;
+        this.walletApiClient = walletApiClient;
         this.jwtUtil = jwtUtil;
     }
 
     @Override
-    public RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest) {
-        validateUserInput(registerUserRequest.getUserName(), registerUserRequest.getPassword());
-        Optional<User> existingUser = userRepository.findUserByUserName(registerUserRequest.getUserName());
-        if (existingUser.isPresent()) {
-            throw new IllegalArgumentException("Username already exists");
-        }
-        String suiAddress = verifyZkProofAndRegisterOrThrow(registerUserRequest.getZkProof(), registerUserRequest.getUserName(), registerUserRequest.getPublicKey());
-        User user = getUserDetails(registerUserRequest, suiAddress);
-        return getRegisterUserResponse(registerUserRequest, user);
-    }
-
-    private static RegisterUserResponse getRegisterUserResponse(RegisterUserRequest registerUserRequest, User user) {
-        RegisterUserResponse registerUserResponse = new RegisterUserResponse();
-        registerUserResponse.setUserName(user.getUserName());
-        registerUserResponse.setRole(registerUserRequest.getRole());
-        registerUserResponse.setIsLoggedIn(false);
-        registerUserResponse.setMessage("User registered successfully.");
-        return registerUserResponse;
-    }
-
-    private User getUserDetails(RegisterUserRequest registerUserRequest, String suiAddress) {
-        User user = new User();
-        user.setUserName(registerUserRequest.getUserName());
-        user.setPassword(passwordEncoder.encode(registerUserRequest.getPassword()));
-        user.setRole(registerUserRequest.getRole());
-        user.setSuiAddress(suiAddress);
-        user.setIsLoggedIn(false);
-        user.setDateOfCreation(LocalDateTime.now());
-
-        userRepository.save(user);
-        return user;
-    }
-
-    @Override
-    public LoginResponse loginUser(LoginRequest loginRequest) {
-        LoginMethod loginMethod;
+    public Mono<RegisterUserResponse> registerNewUser(RegisterUserRequest request) {
         try {
-            // Convert string to enum
-            loginMethod = LoginMethod.valueOf(loginRequest.getLoginMethod());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid login method", e);
+//            validateUserInput(request.getUserName(), request.getPassword());
+            return findExistingUser(request.getUserName())
+                    .flatMap(existingUser -> {
+                        if (existingUser.isPresent()) {
+                            return Mono.error(new IllegalArgumentException("Username already exists"));
+                        }
+                        return getGeneratedSuiAddress(request)
+                                .flatMap(address -> Mono.fromCallable(() -> {
+                                    User user = createUser(request, address);
+                                    return registerNewUserResponse(request, user);
+                                }).subscribeOn(Schedulers.boundedElastic()));
+                    });
+        } catch (Exception ex) {
+            return Mono.error(ex);
         }
-
-        User foundUser;
-        if (loginMethod == LoginMethod.STANDARD_LOGIN) {
-            // Handle standard login
-            validateUserInput(loginRequest.getUsername(), loginRequest.getPassword());
-            foundUser = userRepository.findUserByUserName(loginRequest.getUsername())
-                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
-            if (!passwordEncoder.matches(loginRequest.getPassword(), foundUser.getPassword())) {
-                throw new IllegalArgumentException("Invalid credentials");
-            }
-        } else if (loginMethod == LoginMethod.ZK_LOGIN) {
-            // Handle zkLogin
-            String suiAddress = verifyZkProofOrThrow(loginRequest.getZkProof(), loginRequest.getPublicKey());
-            foundUser = (User) userRepository.findUserBySuiAddress(suiAddress)
-                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        } else {
-            throw new IllegalArgumentException("Unsupported login method");
-        }
-
-        foundUser.setIsLoggedIn(true);
-        userRepository.save(foundUser);
-        String accessToken = jwtUtil.generateAccessToken(foundUser.getUserName());
-        return new LoginResponse(foundUser.getUserName(), "Logged in successfully", accessToken);
     }
+
+    private void validateUserInput(String username, String password) {
+        boolean isZkLogin = password == null || password.isEmpty();
+        if (!isValidUsername(username) || (!isZkLogin && !isValidPassword(password))) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+    }
+
+    private Mono<Optional<User>> findExistingUser(String userName) {
+        return Mono.fromCallable(() -> userRepository.findUserByUserName(userName))
+                .subscribeOn(Schedulers.boundedElastic());
+    }
+
+    private Mono<String> getGeneratedSuiAddress(RegisterUserRequest request) {
+        if (request.getZkProof() != null && !request.getZkProof().isEmpty()) {
+            String suiAddress = verifyZkProofAndRegisterOrThrow(
+                    request.getZkProof(), request.getUserName(), request.getPublicKey());
+            return Mono.just(suiAddress);
+        } else {
+            return walletApiClient.generateSuiAddress();
+        }
+    }
+
+    @Override
+    public Mono<LoginResponse> loginUser(LoginRequest req) {
+        return Mono.fromCallable(() -> LoginMethod.valueOf(req.getLoginMethod()))
+                .doOnNext(m -> log.info("LoginMethod: {}", m))
+                .subscribeOn(Schedulers.boundedElastic())
+                .flatMap(method ->
+                        method == LoginMethod.STANDARD_LOGIN ? handleStandardLogin(req) : handleZkLogin(req)
+                )
+                .flatMap(user -> {
+                    user.setIsLoggedIn(true);
+                    return Mono.fromCallable(() -> userRepository.save(user))
+                            .subscribeOn(Schedulers.boundedElastic())
+                            .thenReturn(user);
+                })
+                .map(user -> {
+                    String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                    String refreshToken = jwtUtil.generateRefreshToken(user.getUserName());
+                    return new LoginResponse(
+                            user.getUserName(),
+                            "Logged in successfully",
+                            accessToken, refreshToken,
+                            user.getRole(),
+                            req.getLoginMethod()
+                    );
+                })
+                .doOnNext(resp -> {
+                    try {
+                        String json = new ObjectMapper()
+                                .writerWithDefaultPrettyPrinter()
+                                .writeValueAsString(resp);
+                        log.info("LoginResponse JSON:\n{}", json);
+                    } catch (Exception e) {
+                        log.error("Failed to serialize LoginResponse", e);
+                    }
+                });
+    }
+
+    private Mono<User> handleStandardLogin(LoginRequest req) {
+        return Mono.<User>fromCallable(() -> {
+            log.info("loginStandard() called with username='{}', password='{}'",
+                    req.getUsername(), req.getPassword());
+            User user = userRepository.findUserByUserName(req.getUsername())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
+            log.info("Stored hash = {}", user.getPassword());
+            boolean matches = passwordEncoder.matches(req.getPassword(), user.getPassword());
+            log.info("Password matches? {}", matches);
+            if (!matches) throw new IllegalArgumentException("Invalid username or password");
+            return user;
+        }).subscribeOn(Schedulers.boundedElastic());
+    }
+
+    private Mono<User> handleZkLogin(LoginRequest req) {
+        return Mono.fromCallable(() -> {
+            log.info("loginWithZk() called with zkProof='{}', publicKey='{}'",
+                    req.getZkProof(), req.getPublicKey());
+            VerifiedAddressResult result = zkLoginService.loginViaZkProof(
+                    req.getZkProof(), req.getPublicKey()
+            );
+            if (result == null || !result.isSuccess()) {
+                throw new IllegalArgumentException("Invalid zk-proof or proof verification failed");
+            }
+            String address = result.getAddress();
+            log.info("ZK proof succeeded; address = {}", address);
+            return (User) userRepository.findUserBySuiAddress(address)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found for address " + address));
+        }).subscribeOn(Schedulers.boundedElastic());
+    }
+
 
 
     @Override
-    public LogoutUserResponse logoutUser(LogoutRequest logoutRequest) {
-        // 1) Look up the user
-        User user = userRepository.findUserByUserName(logoutRequest.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        // 2) Flip your “isLoggedIn” flag
-        user.setIsLoggedIn(false);
-        userRepository.save(user);
-
-        // 3) Return a response so the client can drop its tokens
-        return new LogoutUserResponse(user.getUserName(), "Logged out successfully");
+    public Mono<LogoutUserResponse> logoutUser(LogoutRequest request) {
+        return Mono.fromCallable(() -> {
+            User user = userRepository.findUserByUserName(request.getUsername())
+                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
+            user.setIsLoggedIn(false);
+            userRepository.save(user);
+            return new LogoutUserResponse(user.getUserName(), "Logged out successfully");
+        }).subscribeOn(Schedulers.boundedElastic());
     }
-
-
 
     @Override
     public String generateAccessToken(String username) {
-        return jwtUtil.generateAccessToken(username);
+        User user = userRepository.findUserByUserName(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        String role = user.getRole().name();
+        return jwtUtil.generateAccessToken(username, List.of(role));
     }
 
     @Override
@@ -154,31 +204,84 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public TokenPair refreshTokens(String refreshToken) {
-        if (!validateRefreshToken(refreshToken)) {
-            throw new IllegalArgumentException("Invalid/expired refresh token");
+    public Mono<TokenPair> refreshTokens(String refreshToken) {
+        if (!jwtUtil.validateToken(refreshToken)) {
+            return Mono.error(new IllegalArgumentException("Invalid refresh token"));
         }
-        String userId = jwtUtil.extractUsername(refreshToken);
-        return new TokenPair(jwtUtil.generateAccessToken(userId), jwtUtil.generateRefreshToken(userId));
+
+        String username = jwtUtil.extractUsername(refreshToken);
+        return Mono.fromCallable(() -> {
+            User user = userRepository.findUserByUserName(username)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
+            String role = user.getRole().name();
+            String newAccessToken = jwtUtil.generateAccessToken(username, List.of(role));
+            String newRefreshToken = jwtUtil.generateRefreshToken(username);
+//            TokenPair pair = new TokenPair(newAccessToken, newRefreshToken);
+            return new TokenPair(newAccessToken, newRefreshToken);
+        })
+                .subscribeOn(Schedulers.boundedElastic());
+//        return Mono.just(pair);
     }
 
-    private void validateUserInput(String username, String password) {
-        if (!isValidUsername(username) || !isValidPassword(password)) {
-            throw new IllegalArgumentException("Invalid username or password");
-        }
+
+    private User createUser(RegisterUserRequest req, String suiAddress) {
+        User user = new User();
+        user.setUserName(req.getUserName());
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
+        user.setRole(req.getRole());
+        user.setSuiAddress(suiAddress);
+        user.setIsLoggedIn(false);
+        user.setDateOfCreation(LocalDateTime.now());
+
+        userRepository.save(user);
+        return user;
     }
 
-    private String verifyZkProofAndRegisterOrThrow(String zkProof, String userName, String publicKey) {
+    private RegisterUserResponse registerNewUserResponse(RegisterUserRequest req, User user) {
+        RegisterUserResponse response = new RegisterUserResponse();
+        response.setUserName(user.getUserName());
+        response.setRole(req.getRole());
+        response.setIsLoggedIn(false);
+        response.setMessage("User registered successfully.");
+        return response;
+    }
+
+    private String verifyZkProofAndRegisterOrThrow(
+            String zkProof, String userName, String publicKey
+    ) {
         String suiAddress = zkLoginService.registerViaZkProof(zkProof, userName, publicKey);
-        if (suiAddress == null) throw new IllegalArgumentException("Invalid zk-proof or proof verification failed");
-        return suiAddress;
-    }
-
-    private String verifyZkProofOrThrow(String zkProof, String publicKey) {
-        String suiAddress = zkLoginService.loginViaZkProof(zkProof, publicKey);
-        if (suiAddress == null) throw new IllegalArgumentException("Invalid zk-proof or proof verification failed");
+        if (suiAddress == null) {
+            throw new IllegalArgumentException("Invalid zk-proof or proof verification failed");
+        }
         return suiAddress;
     }
 
 
+    @Component
+    public static class WalletApiClient {
+        private final WebClient webClient;
+
+        public WalletApiClient(WebClient.Builder webClientBuilder,
+                               @Value("${wallet.api.base:http://localhost:3000}")
+                               String baseUrl) {
+            this.webClient = webClientBuilder.baseUrl(baseUrl).build();
+        }
+
+        public Mono<String> generateSuiAddress() {
+            return webClient.post()
+                    .uri("/api/wallets")
+                    .retrieve()
+                    .bodyToMono(WalletResponse.class)
+                    .map(WalletResponse::getAddress)
+                    .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(2)))
+                    .timeout(Duration.ofSeconds(5));
+        }
+
+        @Setter
+        @Getter
+        private static class WalletResponse {
+            private String address;
+        }
+    }
 }
+

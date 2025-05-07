@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  walrus:
+    image: mystenlabs/walrus:latest
+    container_name: walrus
+    ports:
+      - "9000:9000"  # Exposes Walrus on port 9000
+    volumes:
+      - walrus-data:/data  # Persistent volume for data
+    environment:
+      - WALRUS_ADMIN_USERNAME=admin  # Optional: Set Walrus Admin username
+      - WALRUS_ADMIN_PASSWORD=adminpassword  # Optional: Set Walrus Admin password
+    restart: unless-stopped
+
+volumes:
+  walrus-data:
+    driver: local

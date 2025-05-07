@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
+    <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="zklogin successfully integrated and setup&#10;Attempting to run the program">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/enums/LoginMethod.java" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Media can be uploaded to Backblaze b2 which functions like Walrus">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/CommentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/CreateCommentRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/responses/CreateCommentResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/exceptions/PostNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/CommentServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/MediaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/MediaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/AwsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/AwsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/S3Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/S3Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Follower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Follower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/LoginRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/LogoutRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/LogoutRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/ValidationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/ValidationUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/CommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/CommentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/MediaServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/MediaServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/PostServiceTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,10 +31,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Dockerfile" />
-        <option value="JUnit5 Test Class" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -77,6 +76,9 @@
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -92,31 +94,65 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.SecretKeyGenerator.executor": "Run",
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
+    "HTTP Request.generated-requests | #10.executor": "Run",
+    "HTTP Request.generated-requests | #11.executor": "Run",
+    "HTTP Request.generated-requests | #13.executor": "Run",
     "HTTP Request.generated-requests | #4.executor": "Run",
+    "HTTP Request.generated-requests | #5.executor": "Run",
+    "HTTP Request.generated-requests | #6.executor": "Run",
+    "HTTP Request.generated-requests | #7.executor": "Run",
+    "HTTP Request.generated-requests | #8.executor": "Run",
+    "HTTP Request.generated-requests | #9.executor": "Run",
     "JUnit.AuthServiceTest.executor": "Run",
     "JUnit.AuthServiceTest.testAuthenticateUser_InvalidProof.executor": "Run",
     "JUnit.AuthServiceTest.testAuthenticateUser_Success.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.staffWhenLoggedInCanLogout_test.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_loginStandardUserNotFound.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_refreshTokensGenerationIsSuccess.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_registerWithInvalidPassword_throwsException.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_thatInvalidPasswordPattern_throwsException.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_thatInvalidZkProofLogin_throwsException.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_thatStandardLoginUserNotFound_throwsException.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.test_thatUserCanLogin.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_thatUserCanLoginWithStandardLoginDetails.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_thatUserCanLoginWithZkLogin.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.test_thatUserCanLogin_withStandardLoginMethod.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.test_thatUserCanRegister.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_thatUserCanRegister2.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.test_thatUserCannotRegisterANullValue.executor": "Run",
+    "JUnit.AuthenticationServiceImplTest.test_thatWhenUserRegistersWithInvalidPasswordPattern_throwsException.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.test_userCanLoginWithStandardLogin.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.test_userCanLoginWithZkLogin.executor": "Run",
     "JUnit.AuthenticationServiceImplTest.userWhenLoggedInCanLogout_test.executor": "Run",
+    "JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists.executor": "Run",
+    "JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData.executor": "Run",
+    "JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test.executor": "Run",
+    "JUnit.CommentServiceImplTest.executor": "Run",
     "JUnit.JwtUtilTest.executor": "Run",
+    "JUnit.JwtUtilTest.expiredTokenIsInvalid_test.executor": "Run",
+    "JUnit.JwtUtilTest.generateAndValidateAccessToken.executor": "Run",
     "JUnit.JwtUtilTest.testGenerateToken.executor": "Run",
+    "JUnit.JwtUtilTest.validateAndExtractUsername_test.executor": "Run",
     "JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeletedFromS3_test.executor": "Run",
+    "JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeleted_test.executor": "Run",
     "JUnit.MediaServiceTest.executor": "Run",
     "JUnit.MediaServiceTest.mediaCanBeSearched.executor": "Run",
     "JUnit.MediaServiceTest.searchReturnsMultipleResults.executor": "Run",
     "JUnit.MediaServiceTest.searchReturnsNoMatch.executor": "Run",
+    "JUnit.PostServiceTest.executor": "Run",
+    "JUnit.PostServiceTest.registerLoginAndCreatePost.executor": "Run",
+    "JUnit.PostServiceTest.testCreatePost.executor": "Run",
+    "JUnit.SuiZkLoginClientTest.executor": "Run",
+    "JUnit.SuiZkLoginClientTest.verifyProof_errorResponse_returnsNull.executor": "Run",
+    "JUnit.UserServiceImplTest.executor": "Run",
     "JUnit.UserServiceTest.executor": "Run",
     "JUnit.UserServiceTest.testRegisteredUserCanCreatePost.executor": "Run",
     "JUnit.UserServiceTest.test_thatPostCanBeCreated_UserNotFound.executor": "Run",
     "JUnit.UserServiceTest.test_thatUserCanEditPostCreated.executor": "Run",
     "JUnit.UserServiceTest.test_thatUserCanRegister.executor": "Run",
+    "JUnit.UserServiceTest.test_thatUserCanRegister_andCreatePost.executor": "Debug",
     "JUnit.UserServiceTest.test_thatUserCannotPostEmptyContent.executor": "Run",
     "JUnit.UserServiceTest.test_thatUserCannotRegisterANullValue.executor": "Run",
     "JUnit.UserServiceTest.test_thatUserNotLoggedIn_cannotCreateOrMakePost.executor": "Run",
@@ -155,7 +191,8 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "settings.build.tools.auto.reload": "SELECTIVE",
+    "settings.editor.selected.configurable": "MavenSettings",
     "show.migrate.to.gradle.popup": "false",
     "vue.rearranger.settings.migration": "true"
   }
@@ -165,6 +202,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.vomzersocials.user.exceptions" />
       <recent name="org.vomzersocials.user.dtos.responses" />
       <recent name="org.vomzersocials.user.data.models" />
       <recent name="org.vomzersocials.user.dtos.requests" />
@@ -188,6 +226,7 @@
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="org.vomzersocials.user.services.implementations" />
+      <recent name="org.vomzersocials.zkLogin.services" />
       <recent name="org.vomzersocials.zkLogin.controller" />
       <recent name="org.vomzersocials.zkLogin.security" />
     </key>
@@ -196,7 +235,7 @@
       <recent name="org.vomzersocials.user.services.implementations" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AuthenticationServiceImplTest">
+  <component name="RunManager" selected="JUnit.CommentServiceImplTest">
     <configuration name="AuthenticationServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
@@ -212,7 +251,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AuthenticationServiceImplTest.test_thatUserCanLogin_withStandardLoginMethod" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommentServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
         <pattern>
@@ -221,14 +260,29 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.AuthenticationServiceImplTest" />
-      <option name="METHOD_NAME" value="test_thatUserCanLogin_withStandardLoginMethod" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
+      <option name="METHOD_NAME" value="createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AuthenticationServiceImplTest.test_userCanLoginWithStandardLogin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
         <pattern>
@@ -237,14 +291,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.AuthenticationServiceImplTest" />
-      <option name="METHOD_NAME" value="test_userCanLoginWithStandardLogin" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
+      <option name="METHOD_NAME" value="createComment_ShouldReturnCreatedCommentResponse_WhenValidData" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AuthenticationServiceImplTest.test_userCanLogout" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
         <pattern>
@@ -253,24 +307,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.AuthenticationServiceImplTest" />
-      <option name="METHOD_NAME" value="test_userCanLogout" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AuthenticationServiceImplTest.userWhenLoggedInCanLogout_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="VomzerSocials-SuiHackerHouse" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.AuthenticationServiceImplTest" />
-      <option name="METHOD_NAME" value="userWhenLoggedInCanLogout_test" />
+      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
+      <option name="METHOD_NAME" value="createComment_ShouldReturnCreatedComment_test" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -284,13 +322,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CommentServiceImplTest" />
+        <item itemvalue="JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test" />
+        <item itemvalue="JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists" />
+        <item itemvalue="JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData" />
         <item itemvalue="JUnit.AuthenticationServiceImplTest" />
-        <item itemvalue="JUnit.AuthenticationServiceImplTest.test_userCanLogout" />
-        <item itemvalue="JUnit.AuthenticationServiceImplTest.userWhenLoggedInCanLogout_test" />
-        <item itemvalue="JUnit.AuthenticationServiceImplTest.test_thatUserCanLogin_withStandardLoginMethod" />
-        <item itemvalue="JUnit.AuthenticationServiceImplTest.test_userCanLoginWithStandardLogin" />
       </list>
     </recent_temporary>
   </component>
@@ -341,7 +383,14 @@
       <workItem from="1745492318258" duration="3654000" />
       <workItem from="1745496080688" duration="39306000" />
       <workItem from="1745596635959" duration="15122000" />
-      <workItem from="1745651423335" duration="6712000" />
+      <workItem from="1745651423335" duration="7334000" />
+      <workItem from="1745660790012" duration="10833000" />
+      <workItem from="1745730936629" duration="1271000" />
+      <workItem from="1745773197398" duration="72489000" />
+      <workItem from="1746004823125" duration="61895000" />
+      <workItem from="1746465908005" duration="13744000" />
+      <workItem from="1746524847114" duration="25537000" />
+      <workItem from="1746557430727" duration="26357000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -503,7 +552,111 @@
       <option name="project" value="LOCAL" />
       <updated>1745601424791</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="User can now login and logout with unit tests passing">
+      <option name="closed" value="true" />
+      <created>1745660484653</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1745660484653</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Zklogin fully integrated and functional">
+      <option name="closed" value="true" />
+      <created>1745838764227</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1745838764227</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Added some ZkLoginAuthService tests">
+      <option name="closed" value="true" />
+      <created>1745929928048</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1745929928048</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Register endpoint working fine&#10;Although mocked for the zk Login bit">
+      <option name="closed" value="true" />
+      <created>1746011325370</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1746011325370</updated>
+    </task>
+    <task id="LOCAL-00025" summary="All authentication service implementation service endpoint working">
+      <option name="closed" value="true" />
+      <created>1746020818118</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1746020818118</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Tried adding roles to the JWT tokens">
+      <option name="closed" value="true" />
+      <created>1746081667911</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1746081667912</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Going fully reactive">
+      <option name="closed" value="true" />
+      <created>1746125755800</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1746125755802</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Zk verifier turned reactive">
+      <option name="closed" value="true" />
+      <created>1746126418120</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1746126418121</updated>
+    </task>
+    <task id="LOCAL-00029" summary="roles finally set and working fine on postman">
+      <option name="closed" value="true" />
+      <created>1746152439231</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1746152439232</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Post service still giving issues&#10;No walrus yet">
+      <option name="closed" value="true" />
+      <created>1746529226004</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1746529226004</updated>
+    </task>
+    <task id="LOCAL-00031" summary="User can create and make posts">
+      <option name="closed" value="true" />
+      <created>1746532524178</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1746532524179</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Media setup with walrus completed&#10;About to test walrus">
+      <option name="closed" value="true" />
+      <created>1746555483700</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1746555483700</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Media can be uploaded to Backblaze b2 which functions like Walrus">
+      <option name="closed" value="true" />
+      <created>1746611391934</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1746611391934</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -521,17 +674,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="update" />
-    <MESSAGE value="ZK Login implementated- another" />
-    <MESSAGE value="Login components setup" />
-    <MESSAGE value="Zk login test failed because of zk proof returning false" />
-    <MESSAGE value="Removed zklogin, now working with just spring boot and BCrypt - User can create post" />
-    <MESSAGE value="User can create post and cannot post blank contents" />
-    <MESSAGE value="User not logged in cannot create post" />
-    <MESSAGE value="User can create a text post and delete it" />
-    <MESSAGE value="Media updated" />
-    <MESSAGE value="Edit post method created" />
-    <MESSAGE value="Test failing" />
     <MESSAGE value="User can edit posts" />
     <MESSAGE value="ZK Login AuthService Tests passing" />
     <MESSAGE value="ZK Login AuthService Tests passed" />
@@ -544,7 +686,20 @@
     <MESSAGE value="Moved Resources for the post service that were in the user service impl to the right service - DRY" />
     <MESSAGE value="Updated JwtUtils service" />
     <MESSAGE value="zklogin successfully integrated and setup&#10;Attempting to run the program" />
-    <option name="LAST_COMMIT_MESSAGE" value="zklogin successfully integrated and setup&#10;Attempting to run the program" />
+    <MESSAGE value="User can now login and logout with unit tests passing" />
+    <MESSAGE value="Zklogin fully integrated and functional" />
+    <MESSAGE value="Added some ZkLoginAuthService tests" />
+    <MESSAGE value="Register endpoint working fine&#10;Although mocked for the zk Login bit" />
+    <MESSAGE value="All authentication service implementation service endpoint working" />
+    <MESSAGE value="Tried adding roles to the JWT tokens" />
+    <MESSAGE value="Going fully reactive" />
+    <MESSAGE value="Zk verifier turned reactive" />
+    <MESSAGE value="roles finally set and working fine on postman" />
+    <MESSAGE value="Post service still giving issues&#10;No walrus yet" />
+    <MESSAGE value="User can create and make posts" />
+    <MESSAGE value="Media setup with walrus completed&#10;About to test walrus" />
+    <MESSAGE value="Media can be uploaded to Backblaze b2 which functions like Walrus" />
+    <option name="LAST_COMMIT_MESSAGE" value="Media can be uploaded to Backblaze b2 which functions like Walrus" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

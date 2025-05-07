@@ -1,49 +1,51 @@
 package org.vomzersocials.zkLogin.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.springSecurity.JwtUtil;
+import org.vomzersocials.zkLogin.security.ZkLoginVerifier;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+
+import java.util.List;
 
 @Service
 public class ZkLoginAuthService {
 
-    private final ZkLoginService zkLoginService;
+    private final ZkLoginVerifier zkLoginVerifier;
     private final UserRepository userRepository;
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    public ZkLoginAuthService(ZkLoginService zkLoginService, UserRepository userRepository, JwtUtil jwtUtil) {
-        this.zkLoginService = zkLoginService;
+    public ZkLoginAuthService(UserRepository userRepository, JwtUtil jwtUtil, ZkLoginVerifier zkLoginVerifier) {
+        this.zkLoginVerifier = zkLoginVerifier;
         this.userRepository = userRepository;
-        this.jwtUtil       = jwtUtil;
+        this.jwtUtil = jwtUtil;
     }
 
-    /**
-     * 1️⃣ Verify zk-proof → get Sui address (or null)
-     * 2️⃣ Find user by that address
-     * 3️⃣ Generate and return a JWT for the user
-     */
-    public String authenticate(ZkLoginRequest req) {
+    public Mono<String> authenticate(ZkLoginRequest req) {
         if (req == null) {
-            throw new IllegalArgumentException("Login request cannot be null");
+            return Mono.error(new IllegalArgumentException("Login request cannot be null"));
         }
 
-        String suiAddress = zkLoginService.loginViaZkProof(req.getZkProof(), req.getPublicKey());
-        if (suiAddress == null) {
-            throw new IllegalArgumentException("Invalid zero-knowledge proof");
-        }
+        return zkLoginVerifier.verifyProof(req.getZkProof(), req.getPublicKey())
+                .flatMap(valid -> {
+                    if (!valid) {
+                        return Mono.error(new IllegalArgumentException("Invalid zkLogin proof"));
+                    }
 
-        User user = (User) userRepository
-                .findUserBySuiAddress(suiAddress)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        return jwtUtil.generateAccessToken(user.getUserName());
+                    return Mono.defer(() -> {
+                        User user = userRepository.findByPublicKey(req.getPublicKey())
+                                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                        String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                        return Mono.just(accessToken);
+                    });
+                })
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public String authenticateUser(ZkLoginRequest request) {
-            return authenticate(request);
+    public Mono<String> authenticateUser(ZkLoginRequest request) {
+        return authenticate(request);
     }
 }

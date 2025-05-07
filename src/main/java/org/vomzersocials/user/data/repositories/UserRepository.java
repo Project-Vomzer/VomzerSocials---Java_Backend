@@ -7,14 +7,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.vomzersocials.user.data.models.User;
+import reactor.core.publisher.Mono;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findUserByUserName(String userName);
+//    Mono<User> findByUsername(String username);
     User findUserById(String userId);
     @Modifying
     @Transactional
@@ -22,4 +23,5 @@ public interface UserRepository extends JpaRepository<User, String> {
     void updateUserSuiAddress(@Param("suiAddress") String suiAddress);
     Optional<User> findByPublicKey(String publicKey);
     Optional<Object> findUserBySuiAddress(String suiAddress);
+
 }
