@@ -4,30 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="comment session done and tests passing">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/LikeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/FollowId.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/FollowRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/repositories/LikeRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/requests/LikeRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/dtos/responses/LikeResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/FollowerServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/LikeServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/FollowerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/interfaces/LikeService.java" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="User can like and unlike a post&#10;User can follow and unfollow a user">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/FileUploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/FileUploadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/MediaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/controller/MediaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Follower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Follower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Following.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Following.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Like.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Like.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/MediaServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/PostServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/MediaServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/vomzersocials/user/services/implementations/MediaServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -401,7 +381,7 @@
       <workItem from="1746465908005" duration="13744000" />
       <workItem from="1746524847114" duration="25537000" />
       <workItem from="1746557430727" duration="37815000" />
-      <workItem from="1746677197922" duration="13547000" />
+      <workItem from="1746677197922" duration="20200000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -675,7 +655,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746626787912</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="User can like and unlike a post&#10;User can follow and unfollow a user">
+      <option name="closed" value="true" />
+      <created>1746701808976</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1746701808976</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,7 +681,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ZK Login AuthService Tests passing" />
     <MESSAGE value="ZK Login AuthService Tests passed" />
     <MESSAGE value="Walrus client service integrated&#10;Implementation in progress" />
     <MESSAGE value="S3Presigner configured in the media service" />
@@ -718,7 +705,8 @@
     <MESSAGE value="Media setup with walrus completed&#10;About to test walrus" />
     <MESSAGE value="Media can be uploaded to Backblaze b2 which functions like Walrus" />
     <MESSAGE value="comment session done and tests passing" />
-    <option name="LAST_COMMIT_MESSAGE" value="comment session done and tests passing" />
+    <MESSAGE value="User can like and unlike a post&#10;User can follow and unfollow a user" />
+    <option name="LAST_COMMIT_MESSAGE" value="User can like and unlike a post&#10;User can follow and unfollow a user" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
