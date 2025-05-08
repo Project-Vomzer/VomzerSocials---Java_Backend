@@ -32,9 +32,9 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class MediaService {
+public class MediaServiceImpl {
 
-    private static final Logger logger = LoggerFactory.getLogger(MediaService.class);
+    private static final Logger logger = LoggerFactory.getLogger(MediaServiceImpl.class);
 
     private final MediaRepository mediaRepository;
     private final S3Client s3Client;
@@ -43,11 +43,11 @@ public class MediaService {
     private final String cdnUrl;
 
     @Autowired
-    public MediaService(MediaRepository mediaRepository,
-                        S3Client s3Client,
-                        S3Presigner s3Presigner,
-                        @Value("${vomzer.bucket-name}") String bucketName,
-                        @Value("${vomzer.cdn-url}") String cdnUrl) {
+    public MediaServiceImpl(MediaRepository mediaRepository,
+                            S3Client s3Client,
+                            S3Presigner s3Presigner,
+                            @Value("${vomzer.bucket-name}") String bucketName,
+                            @Value("${vomzer.cdn-url}") String cdnUrl) {
         this.mediaRepository = mediaRepository;
         this.s3Client = s3Client;
         this.s3Presigner = s3Presigner;

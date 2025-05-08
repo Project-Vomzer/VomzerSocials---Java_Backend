@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.vomzersocials.user.dtos.requests.MediaRequest;
-import org.vomzersocials.user.services.implementations.MediaService;
+import org.vomzersocials.user.services.implementations.MediaServiceImpl;
 import org.vomzersocials.user.data.models.Media;
 import org.vomzersocials.user.enums.MediaType;
 
@@ -27,7 +27,7 @@ public class MediaController {
     private static final Logger logger = LoggerFactory.getLogger(MediaController.class);
 
     @Autowired
-    private MediaService mediaService;
+    private MediaServiceImpl mediaService;
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadMedia(@RequestParam("file") MultipartFile file) {

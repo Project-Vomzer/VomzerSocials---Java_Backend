@@ -1,16 +1,20 @@
+# Maven
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Avoid committing IntelliJ project-level metadata
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
-*.iws
-*.iml
-*.ipr
 
 ### Eclipse ###
 .apt_generated
@@ -33,10 +37,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Secrets ###
+.env
+*.env
+*.env.*
+http-client.cookies
 src/main/resources/secrets.properties
-# .gitignore
-application.properties
+#application.properties
 
-
-### Mac OS ###
+### OS Junk ###
 .DS_Store

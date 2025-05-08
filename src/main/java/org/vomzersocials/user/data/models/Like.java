@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user_likes")  // Remove apostrophe from table name
+@Table(name = "user_likes", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "post_id"})
+})
 @Getter @Setter
 public class Like {
     @Id
@@ -21,4 +23,6 @@ public class Like {
     @ManyToOne
     @JoinColumn(name = "post_id", columnDefinition = "CHAR(36)")
     private Post post;
+
+    private Boolean isLiked;
 }

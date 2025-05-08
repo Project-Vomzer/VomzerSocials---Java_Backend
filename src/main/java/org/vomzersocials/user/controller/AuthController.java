@@ -48,6 +48,7 @@ public class AuthController {
 //                            .body((Object) err));
 //                });
 //    }
+
     @PostMapping("/register")
     public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest req) {
         return Mono.defer(() -> auth.registerNewUser(req))
