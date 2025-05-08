@@ -2,6 +2,7 @@ package org.vomzersocials.user.services.implementations;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.vomzersocials.user.data.models.Media;
 import org.vomzersocials.user.data.models.Post;
 import org.vomzersocials.user.data.models.User;
@@ -13,6 +14,7 @@ import org.vomzersocials.user.dtos.requests.EditPostRequest;
 import org.vomzersocials.user.dtos.responses.CreatePostResponse;
 import org.vomzersocials.user.dtos.responses.DeletePostResponse;
 import org.vomzersocials.user.dtos.responses.EditPostResponse;
+import org.vomzersocials.user.services.interfaces.PostService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,13 +23,13 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class PostService implements org.vomzersocials.user.services.interfaces.PostService {
+public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final MediaService mediaService;
+    private final MediaServiceImpl mediaService;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, MediaService mediaService) {
+    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository, MediaServiceImpl mediaService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.mediaService = mediaService;
@@ -52,10 +54,7 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
         post.setUpdatedAt(LocalDateTime.now());
 
         List<Media> mediaList = mediaService.getMediaByIds(createPostRequest.getMediaIds());
-
-        for (Media media : mediaList) {
-            post.setMediaList(mediaList);
-        }
+        post.setMediaList(mediaList);
 
         Post savedPost = postRepository.save(post);
         log.info("saved post: {}", savedPost.getId());
@@ -70,6 +69,7 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
     }
 
     @Override
+    @Transactional
     public DeletePostResponse deletePost(DeletePostRequest deletePostRequest) {
         User foundUser = userRepository.findUserById(deletePostRequest.getUserId());
         if (!foundUser.getIsLoggedIn()) throw new IllegalArgumentException("User is not logged in");
@@ -85,7 +85,12 @@ public class PostService implements org.vomzersocials.user.services.interfaces.P
             throw new SecurityException("User is not authorized to delete this post");
         }
         for (Media media : foundPost.getMediaList()) {
-            mediaService.deleteMediaById(media.getId());
+            try {
+                mediaService.deleteMediaById(media.getId());
+            } catch (Exception exception) {
+                log.error("Error deleting media: {}", media.getId(), exception);
+            }
+
         }
         postRepository.delete(foundPost);
 

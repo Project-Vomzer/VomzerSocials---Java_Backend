@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 public class MediaServiceTest {
 
     @InjectMocks
-    private MediaService mediaService;
+    private MediaServiceImpl mediaService;
 
     @Mock
     private MediaRepository mediaRepository;
@@ -40,7 +40,7 @@ public class MediaServiceTest {
         String testBucketName = "test-bucket";
         String testCdnUrl = "https://cdn.example.com";
 
-        mediaService = new MediaService(
+        mediaService = new MediaServiceImpl(
                 mediaRepository,
                 s3Client,
                 mock(S3Presigner.class),

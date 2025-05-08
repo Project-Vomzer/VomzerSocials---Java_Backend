@@ -47,7 +47,9 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Like> likes = new HashSet<>();
 
-    private int likeCount;
+//    private int likeCount;
+    @OneToMany(mappedBy = "user")
+    private List<Like>UserLikes;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private  List<Media> mediaList = new ArrayList<>();
