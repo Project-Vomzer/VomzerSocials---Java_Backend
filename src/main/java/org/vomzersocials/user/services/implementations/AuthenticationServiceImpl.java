@@ -233,6 +233,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setRole(req.getRole());
         user.setSuiAddress(suiAddress);
         user.setIsLoggedIn(false);
+
         user.setDateOfCreation(LocalDateTime.now());
 
         userRepository.save(user);

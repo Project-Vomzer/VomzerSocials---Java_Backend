@@ -45,6 +45,9 @@ public class User{
     private int followerCount;
     private int followingCount;
 
+    @Column(name = "like_count")
+    private int likeCount = 0;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Like> userLikes = new ArrayList<>();
 
