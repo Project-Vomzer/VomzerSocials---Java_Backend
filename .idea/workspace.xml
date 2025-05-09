@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Post controller issues" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Follow relation mapping and services done">
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,9 +20,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Dockerfile" />
-        <option value="Enum" />
         <option value="JUnit5 Test Class" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -81,6 +87,7 @@
     &quot;HTTP Request.generated-requests | #10.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #11.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #13.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #15.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #4.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #5.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #6.executor&quot;: &quot;Run&quot;,
@@ -149,9 +156,15 @@
     &quot;JUnit.ZkLoginVerifierTest.testVerifyProof_Success.executor&quot;: &quot;Run&quot;,
     &quot;Maven.VomzerSocials-SuiHackerHouse [clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.VomzerSocials-SuiHackerHouse [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [deploy].executor&quot;: &quot;Run&quot;,
     &quot;Maven.VomzerSocials-SuiHackerHouse [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [site].executor&quot;: &quot;Run&quot;,
     &quot;Maven.VomzerSocials-SuiHackerHouse [test].executor&quot;: &quot;Run&quot;,
     &quot;Maven.VomzerSocials-SuiHackerHouse [validate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [verify].executor&quot;: &quot;Run&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-Settings Error&quot;: &quot;Could not save settings&quot;,
+    &quot;Notification.DoNotAsk-Settings Error&quot;: &quot;true&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
     &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
@@ -179,6 +192,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
   }
 }</component>
   <component name="ReactorSettings">
@@ -219,7 +237,19 @@
       <recent name="org.vomzersocials.user.services.implementations" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CommentServiceImplTest">
+  <component name="RunManager" selected="Spring Boot.Main">
+    <configuration name="generated-requests | #10" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="10" requestIdentifier="#10" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #13" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="13" requestIdentifier="#13" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #15" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="15" requestIdentifier="#15" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #6" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="6" requestIdentifier="#6" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="AuthenticationServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="VomzerSocials-SuiHackerHouse" />
       <extension name="coverage">
@@ -231,69 +261,6 @@
       <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
       <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.AuthenticationServiceImplTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommentServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="VomzerSocials-SuiHackerHouse" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="VomzerSocials-SuiHackerHouse" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
-      <option name="METHOD_NAME" value="createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="VomzerSocials-SuiHackerHouse" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
-      <option name="METHOD_NAME" value="createComment_ShouldReturnCreatedCommentResponse_WhenValidData" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="VomzerSocials-SuiHackerHouse" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.CommentServiceImplTest" />
-      <option name="METHOD_NAME" value="createComment_ShouldReturnCreatedComment_test" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -314,11 +281,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CommentServiceImplTest" />
-        <item itemvalue="JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test" />
-        <item itemvalue="JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists" />
-        <item itemvalue="JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData" />
+        <item itemvalue="HTTP Request.generated-requests | #10" />
+        <item itemvalue="HTTP Request.generated-requests | #13" />
+        <item itemvalue="HTTP Request.generated-requests | #15" />
         <item itemvalue="JUnit.AuthenticationServiceImplTest" />
+        <item itemvalue="HTTP Request.generated-requests | #6" />
       </list>
     </recent_temporary>
   </component>
@@ -377,7 +344,9 @@
       <workItem from="1746465908005" duration="13744000" />
       <workItem from="1746524847114" duration="25537000" />
       <workItem from="1746557430727" duration="37815000" />
-      <workItem from="1746677197922" duration="21689000" />
+      <workItem from="1746677197922" duration="30581000" />
+      <workItem from="1746765220523" duration="9225000" />
+      <workItem from="1746778643519" duration="31476000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -675,7 +644,31 @@
       <option name="project" value="LOCAL" />
       <updated>1746716478788</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Dockerfile upgrade">
+      <option name="closed" value="true" />
+      <created>1746717355916</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1746717355917</updated>
+    </task>
+    <task id="LOCAL-00039" summary="User A can follow User B and verse versa">
+      <option name="closed" value="true" />
+      <created>1746796523186</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1746796523187</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Follow relation mapping and services done">
+      <option name="closed" value="true" />
+      <created>1746811986734</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1746811986734</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,9 +686,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="S3Presigner configured in the media service" />
-    <MESSAGE value="Docker errors" />
-    <MESSAGE value="Still battling docker" />
     <MESSAGE value="Still battling docker - retouched" />
     <MESSAGE value="Restructured the project &#10;Fully integrating the user service to the Zklogin and Jwt next" />
     <MESSAGE value="Moved Resources for the post service that were in the user service impl to the right service - DRY" />
@@ -718,7 +708,10 @@
     <MESSAGE value="User can like and unlike a post&#10;User can follow and unfollow a user" />
     <MESSAGE value="Updated application.properties" />
     <MESSAGE value="Post controller issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="Post controller issues" />
+    <MESSAGE value="Dockerfile upgrade" />
+    <MESSAGE value="User A can follow User B and verse versa" />
+    <MESSAGE value="Follow relation mapping and services done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Follow relation mapping and services done" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

@@ -1,8 +1,12 @@
 package org.vomzersocials.user.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 import org.vomzersocials.user.enums.Role;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,11 +23,16 @@ public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
+    @EqualsAndHashCode.Include
+    @ToString.Include
     private String id;
 
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
+
+    @JsonIgnore
     private String password;
+
     private Boolean isLoggedIn;
 
     @Column(nullable = false, unique = true)
@@ -33,30 +42,28 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_following",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "following_id")
-    )
-    private Set<User> following = new HashSet<>();
+    private int followerCount;
+    private int followingCount;
 
-    @ManyToMany(mappedBy = "following")
-    private Set<User> followers = new HashSet<>();
+    @Column(name = "like_count")
+    private int likeCount = 0;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Like> likes = new HashSet<>();
+    private List<Like> userLikes = new ArrayList<>();
 
-//    private int likeCount;
-    @OneToMany(mappedBy = "user")
-    private List<Like>UserLikes;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private  List<Media> mediaList = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Media> mediaList = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    @CreationTimestamp
     private LocalDateTime dateOfCreation;
+
+    @PrePersist
+    protected void onCreate() {
+        this.dateOfCreation = LocalDateTime.now();
+    }
+
 
 }

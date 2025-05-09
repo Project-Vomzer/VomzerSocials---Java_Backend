@@ -5,13 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
 import java.net.URI;
 import java.time.Duration;
 import java.util.Map;
 
 import org.vomzersocials.user.dtos.requests.*;
-import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
 
 @CrossOrigin(origins = "*")
@@ -72,7 +70,7 @@ public class AuthController {
 
         return auth.loginUser(loginRequest)
                 .map(resp -> {
-                    log.info("Login success response: {}", resp); // Log the full response
+                    log.info("Login success response: {}", resp);
 
                     ResponseCookie cookie = ResponseCookie.from("refreshToken", resp.getRefreshToken())
                             .httpOnly(true).secure(true)

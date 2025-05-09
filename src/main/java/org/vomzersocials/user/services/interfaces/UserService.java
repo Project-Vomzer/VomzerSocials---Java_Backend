@@ -1,7 +1,13 @@
 package org.vomzersocials.user.services.interfaces;
 
+import org.vomzersocials.user.data.models.User;
+import org.vomzersocials.user.data.repositories.FollowRepository;
 import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.user.dtos.responses.*;
+import org.vomzersocials.user.enums.FollowType;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest);
@@ -10,4 +16,8 @@ public interface UserService {
     CreatePostResponse createPost(CreatePostRequest createPostRequest);
     DeletePostResponse deletePost(DeletePostRequest deletePostRequest);
     EditPostResponse editPost(EditPostRequest editPostRequest);
+    int updateUserFollowCount(FollowUserRequest request, FollowType followType, boolean isIncrement);
+    Optional<User> findById(String followingId);
+    void saveAll(List<User> users);
+    List<User> findAll();
 }

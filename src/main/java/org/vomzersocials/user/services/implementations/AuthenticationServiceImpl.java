@@ -59,6 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Mono<RegisterUserResponse> registerNewUser(RegisterUserRequest request) {
         try {
+            log.info("Attempting to register user: {}", request.getUserName());
 //            validateUserInput(request.getUserName(), request.getPassword());
             return findExistingUser(request.getUserName())
                     .flatMap(existingUser -> {
@@ -72,6 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                                 }).subscribeOn(Schedulers.boundedElastic()));
                     });
         } catch (Exception ex) {
+            log.error("Registration failed due to exception: {}", ex.getMessage(), ex);
             return Mono.error(ex);
         }
     }
@@ -231,6 +233,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setRole(req.getRole());
         user.setSuiAddress(suiAddress);
         user.setIsLoggedIn(false);
+
         user.setDateOfCreation(LocalDateTime.now());
 
         userRepository.save(user);
@@ -273,8 +276,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .retrieve()
                     .bodyToMono(WalletResponse.class)
                     .map(WalletResponse::getAddress)
-                    .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(2)))
-                    .timeout(Duration.ofSeconds(5));
+                    .retryWhen(Retry.fixedDelay(5, Duration.ofSeconds(5)))
+                    .timeout(Duration.ofSeconds(10));
         }
 
         @Setter
