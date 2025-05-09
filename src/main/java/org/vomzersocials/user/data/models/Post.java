@@ -23,7 +23,6 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "author_id", columnDefinition = "CHAR(36)")
     private User author;
-//    private int likes;
 
     @Column(nullable = false, length = 200)
     private String content;
@@ -35,7 +34,7 @@ public class Post {
     private List<Media> mediaList = new ArrayList<>();
 
     @OneToMany(mappedBy = "post")
-    private List<Like> likes;
+    private List<Like> likes = new ArrayList<>();
 
     @CreationTimestamp
     private LocalDateTime createdAt;

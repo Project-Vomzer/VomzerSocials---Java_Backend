@@ -33,23 +33,28 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_following",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "following_id")
-    )
-    private Set<User> following = new HashSet<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "user_following",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "following_id")
+//    )
+//    private Set<User> following = new HashSet<>();
 
-    @ManyToMany(mappedBy = "following")
-    private Set<User> followers = new HashSet<>();
+//    @ManyToMany(mappedBy = "following")
+//    private Set<User> followers = new HashSet<>();
+//
+//    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<Follow> following = new HashSet<>();
+//
+//    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<Follow> followers = new HashSet<>();
+
+    private int followerCount;
+    private int followingCount;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Like> likes = new HashSet<>();
-
-//    private int likeCount;
-    @OneToMany(mappedBy = "user")
-    private List<Like>UserLikes;
+    private List<Like>UserLikes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private  List<Media> mediaList = new ArrayList<>();
