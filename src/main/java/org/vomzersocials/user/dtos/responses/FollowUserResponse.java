@@ -7,4 +7,6 @@ import lombok.Setter;
 @Getter
 public class FollowUserResponse {
     private String message;
+    private boolean followerSuccess;
+    private boolean followingSuccess;
 }

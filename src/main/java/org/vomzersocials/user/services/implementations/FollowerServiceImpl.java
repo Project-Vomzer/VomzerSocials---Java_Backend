@@ -1,94 +1,112 @@
 package org.vomzersocials.user.services.implementations;
 
 import org.springframework.stereotype.Service;
-import org.vomzersocials.user.data.models.FollowId;
-import org.vomzersocials.user.data.models.Follow;
 import org.vomzersocials.user.data.models.User;
+import org.vomzersocials.user.data.models.UserFollowing;
 import org.vomzersocials.user.data.repositories.FollowRepository;
 import org.vomzersocials.user.data.repositories.UserRepository;
+import org.vomzersocials.user.dtos.requests.FollowUserRequest;
 import org.vomzersocials.user.services.interfaces.FollowerService;
+import org.vomzersocials.user.services.interfaces.UserService;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class FollowerServiceImpl implements FollowerService {
 
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public FollowerServiceImpl(FollowRepository followRepository, UserRepository userRepository) {
+    public FollowerServiceImpl(FollowRepository followRepository, UserRepository userRepository, UserService userService) {
         this.followRepository = followRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Override
-//    public void followUser(String followerId, String followingId) {
-//        if (followerId.equals(followingId)) throw new IllegalArgumentException("You cannot follow yourself");
-////        FollowId followId = new FollowId(followerId, followingId);
-//
-//        FollowId followId = new FollowId();
-//        followId.setFollowerId(followerId);
-//        followId.setFollowingId(followingId);
-//
-////        if (followRepository.existsById(followId)) throw new IllegalArgumentException("Already followed");
-//        if (followRepository.existsById(followId)) return;
-//
-//        User follower = userRepository.findById(followerId)
-//                .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
-//
-//        User following = userRepository.findById(followingId)
-//                .orElseThrow(() -> new IllegalArgumentException("User to follow not found"));
-//
-//        Follow follow = new Follow();
-//        follow.setId(followId);
-//        follow.setIsFollowing(true);
-//        follow.setFollower(follower);
-//        follow.setFollowing(following);
-//        followRepository.save(follow);
-//    }
+    public void followUser(FollowUserRequest followUserRequest) {
+        User follower = userService.findById(followUserRequest.getFollowerId())
+                .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
 
-    public void followUser(String followerId, String followingId) {
-        Boolean userExists = checkIfUserToBeFollowedExists(followingId);
-        if (userExists) {
-            FollowId followId = new FollowId();
-            followId.setFollowerId(followerId);
-            followId.setFollowingId(followingId);
-
-            User follower = userRepository.findById(followerId)
-                    .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
-
-            User following = userRepository.findById(followingId)
+        User following = userService.findById(followUserRequest.getFollowingId())
                 .orElseThrow(() -> new IllegalArgumentException("User to follow not found"));
 
-            Follow follow = new Follow();
-            follow.setId(followId);
-            follow.setFollower(follower);
-            follow.setFollowing(following);
-            followRepository.save(follow);
-        }
-    }
+        if (follower.getId().equals(following.getId())) throw new IllegalArgumentException("You cannot follow yourself");
 
+        boolean alreadyFollowing = followRepository.existsByFollowerIdAndFollowingId(follower.getId(), following.getId());
 
-    private Boolean checkIfUserToBeFollowedExists(String followingId) {
-        for (User user : userRepository.findAll()) {
-            if (user.getId().equals(followingId)) {
-                return true;
-            }
-        }
-        return false;
-    }
+        if (alreadyFollowing) throw new IllegalStateException("You are already following this user");
 
-
-    @Override
-    public void unfollowUser(String followerId, String followingId) {
-        FollowId followId = new FollowId();
-        followId.setFollowerId(followerId);
-        followId.setFollowingId(followingId);
-
-        if (!followRepository.existsById(followId)) throw new IllegalArgumentException("You are not following this user");
-        followRepository.deleteById(followId);
+        setUserFollowingAnotherUser(follower, following);
+        updateUserFollowCounts_andSaveUsers(follower, following, true);
     }
 
     @Override
-    public boolean isFollowing(String followerId, String followingId) {
-        return followRepository.existsById(new FollowId(followerId, followingId));
+    public void unfollowUser(FollowUserRequest followUserRequest) {
+        String followerId = followUserRequest.getFollowerId();
+        String followingId = followUserRequest.getFollowingId();
+
+        UserFollowing userFollowing = followRepository.findByFollowerIdAndFollowingId(followerId, followingId)
+                .orElseThrow(() -> new IllegalArgumentException("You are not following this user"));
+
+        followRepository.delete(userFollowing);
+
+        User follower = userService.findById(followerId).orElseThrow();
+        User following = userService.findById(followingId).orElseThrow();
+
+        updateUserFollowCounts_andSaveUsers(follower, following, false);
+    }
+
+    @Override
+    public boolean isFollowing(FollowUserRequest followUserRequest) {
+        return followRepository.findByFollowerIdAndFollowingId(
+                followUserRequest.getFollowerId(), followUserRequest.getFollowingId()
+        ).map(UserFollowing::getIsFollowing).orElse(false);
+    }
+
+    @Override
+    public void toggleFollow(FollowUserRequest request) {
+        String followerId = request.getFollowerId();
+        String followingId = request.getFollowingId();
+
+        if (followerId.equals(followingId)) throw new IllegalArgumentException("You cannot follow yourself");
+
+        var existingFollow = followRepository.findByFollowerIdAndFollowingId(followerId, followingId);
+
+        if (existingFollow.isPresent()) {
+            followRepository.delete(existingFollow.get());
+            updateUserFollowCounts_andSaveUsers(userService.findById(followerId).orElseThrow(),
+                    userService.findById(followingId).orElseThrow(), false);
+        } else {
+            User follower = userService.findById(followerId)
+                    .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
+            User following = userService.findById(followingId)
+                    .orElseThrow(() -> new IllegalArgumentException("User to follow not found"));
+
+            setUserFollowingAnotherUser(follower, following);
+            updateUserFollowCounts_andSaveUsers(follower, following, true);
+        }
+    }
+
+    private void updateUserFollowCounts_andSaveUsers(User follower, User following, boolean isIncrement) {
+        if (isIncrement) {
+            follower.setFollowingCount(follower.getFollowingCount() + 1);
+            following.setFollowerCount(following.getFollowerCount() + 1);
+        } else {
+            follower.setFollowingCount(Math.max(0, follower.getFollowingCount() - 1));
+            following.setFollowerCount(Math.max(0, following.getFollowerCount() - 1));
+        }
+        userRepository.saveAll(List.of(follower, following));
+    }
+
+    private void setUserFollowingAnotherUser(User follower, User following) {
+        UserFollowing userFollowing = new UserFollowing();
+        userFollowing.setFollowedAt(LocalDateTime.now());
+        userFollowing.setIsFollowing(true);
+        userFollowing.setFollower(follower);
+        userFollowing.setFollowing(following);
+        followRepository.save(userFollowing);
     }
 }

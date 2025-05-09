@@ -1,25 +1,35 @@
 package org.vomzersocials.user.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.vomzersocials.user.dtos.requests.FollowUserRequest;
 import org.vomzersocials.user.services.interfaces.FollowerService;
 
 @RestController
 @RequestMapping("/api/follows")
 public class FollowController {
 
+    @Autowired
     private final FollowerService followerService;
 
     public FollowController(FollowerService followerService) {
         this.followerService = followerService;
     }
 
-    @PostMapping
-    public ResponseEntity<?> follow(@RequestParam String followerId, @RequestParam String followingId) {
-        followerService.followUser(followerId, followingId);
+    @PostMapping("/toggle")
+    public ResponseEntity<String> toggleFollower(@RequestBody FollowUserRequest followUserRequest) {
+        followerService.toggleFollow(followUserRequest);
+        return ResponseEntity.ok("Follow status updated");
+    }
+    @PostMapping("/follow")
+    public ResponseEntity<String> follow(@RequestParam FollowUserRequest followUserRequest) {
+        followerService.followUser(followUserRequest);
         return ResponseEntity.ok("Followed successfully");
+    }
+    @PostMapping("/unfollow")
+    public ResponseEntity<String> unfollow(@RequestParam FollowUserRequest followUserRequest) {
+        followerService.unfollowUser(followUserRequest);
+        return ResponseEntity.ok("Unfollowed successfully");
     }
 }

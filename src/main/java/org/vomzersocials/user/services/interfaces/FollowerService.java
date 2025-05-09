@@ -1,7 +1,10 @@
 package org.vomzersocials.user.services.interfaces;
 
+import org.vomzersocials.user.dtos.requests.FollowUserRequest;
+
 public interface FollowerService {
-    void followUser(String followerId, String followingId);
-    void unfollowUser(String followerId, String followingId);
-    boolean isFollowing(String followerId, String followingId);
+    void followUser(FollowUserRequest followUserRequest);
+    void unfollowUser(FollowUserRequest followUserRequest);
+    boolean isFollowing(FollowUserRequest followUserRequest);
+    void toggleFollow(FollowUserRequest request);
 }
