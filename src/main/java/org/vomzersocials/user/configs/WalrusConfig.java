@@ -20,7 +20,7 @@ public class WalrusConfig {
     @Value("${vomzer.walrus.secret-key}")
     private String secretKey;
 
-    @Value("${AWS_S3_ENDPOINT:http://localhost:9000}")
+    @Value("${vomzer.endpoint}")
     private String endpoint;
 
     @Value("${vomzer.bucket-name}")
