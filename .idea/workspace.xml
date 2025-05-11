@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Walrus config class adjusted">
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Walrus config still having issues, slight adjustments made">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
@@ -345,7 +345,7 @@
       <workItem from="1746677197922" duration="30581000" />
       <workItem from="1746765220523" duration="9225000" />
       <workItem from="1746778643519" duration="33573000" />
-      <workItem from="1746985738048" duration="5857000" />
+      <workItem from="1746985738048" duration="9647000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -707,7 +707,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746992013429</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Walrus config still having issues, slight adjustments made">
+      <option name="closed" value="true" />
+      <created>1746994322219</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1746994322219</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -725,7 +733,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="User can now login and logout with unit tests passing" />
     <MESSAGE value="Zklogin fully integrated and functional" />
     <MESSAGE value="Added some ZkLoginAuthService tests" />
     <MESSAGE value="Register endpoint working fine&#10;Although mocked for the zk Login bit" />
@@ -750,7 +757,8 @@
     <MESSAGE value="S3_ENDPOINT ISSUE RESOLVED" />
     <MESSAGE value="S3_ENDPOINT ISSUE reoccured" />
     <MESSAGE value="Walrus config class adjusted" />
-    <option name="LAST_COMMIT_MESSAGE" value="Walrus config class adjusted" />
+    <MESSAGE value="Walrus config still having issues, slight adjustments made" />
+    <option name="LAST_COMMIT_MESSAGE" value="Walrus config still having issues, slight adjustments made" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
