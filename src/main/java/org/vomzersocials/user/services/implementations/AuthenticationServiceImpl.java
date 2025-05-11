@@ -101,12 +101,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Mono<LoginResponse> loginUser(LoginRequest req) {
-        return Mono.fromCallable(() -> LoginMethod.valueOf(req.getLoginMethod()))
-                .doOnNext(m -> log.info("LoginMethod: {}", m))
+    public Mono<LoginResponse> loginUser(LoginRequest loginRequest) {
+        return Mono.fromCallable(() -> LoginMethod.valueOf(loginRequest.getLoginMethod()))
+                .doOnNext(loginMethod -> log.info("LoginMethod: {}", loginMethod))
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMap(method ->
-                        method == LoginMethod.STANDARD_LOGIN ? handleStandardLogin(req) : handleZkLogin(req)
+                        method == LoginMethod.STANDARD_LOGIN ? handleStandardLogin(loginRequest) : handleZkLogin(loginRequest)
                 )
                 .flatMap(user -> {
                     user.setIsLoggedIn(true);
@@ -122,7 +122,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             "Logged in successfully",
                             accessToken, refreshToken,
                             user.getRole(),
-                            req.getLoginMethod()
+                            loginRequest.getLoginMethod()
                     );
                 })
                 .doOnNext(resp -> {
@@ -167,8 +167,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .orElseThrow(() -> new IllegalArgumentException("User not found for address " + address));
         }).subscribeOn(Schedulers.boundedElastic());
     }
-
-
 
     @Override
     public Mono<LogoutUserResponse> logoutUser(LogoutRequest request) {
@@ -276,8 +274,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .retrieve()
                     .bodyToMono(WalletResponse.class)
                     .map(WalletResponse::getAddress)
-                    .retryWhen(Retry.fixedDelay(5, Duration.ofSeconds(5)))
-                    .timeout(Duration.ofSeconds(10));
+//                    .retryWhen(Retry.fixedDelay(5, Duration.ofSeconds(5)))
+//                    .timeout(Duration.ofSeconds(10));
+                    .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(3)))
+                    .timeout(Duration.ofSeconds(7));
         }
 
         @Setter
