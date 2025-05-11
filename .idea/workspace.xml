@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Major end points done&#10;Moving forward to the chat section now">
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="S3_ENDPOINT ISSUE RESOLVED">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -346,7 +343,7 @@
       <workItem from="1746677197922" duration="30581000" />
       <workItem from="1746765220523" duration="9225000" />
       <workItem from="1746778643519" duration="33573000" />
-      <workItem from="1746985738048" duration="1064000" />
+      <workItem from="1746985738048" duration="3712000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -684,7 +681,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746814181542</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="S3_ENDPOINT ISSUE RESOLVED">
+      <option name="closed" value="true" />
+      <created>1746989749137</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1746989749137</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -702,7 +707,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Moved Resources for the post service that were in the user service impl to the right service - DRY" />
     <MESSAGE value="Updated JwtUtils service" />
     <MESSAGE value="zklogin successfully integrated and setup&#10;Attempting to run the program" />
     <MESSAGE value="User can now login and logout with unit tests passing" />
@@ -727,7 +731,8 @@
     <MESSAGE value="Follow relation mapping and services done" />
     <MESSAGE value="User can now register again" />
     <MESSAGE value="Major end points done&#10;Moving forward to the chat section now" />
-    <option name="LAST_COMMIT_MESSAGE" value="Major end points done&#10;Moving forward to the chat section now" />
+    <MESSAGE value="S3_ENDPOINT ISSUE RESOLVED" />
+    <option name="LAST_COMMIT_MESSAGE" value="S3_ENDPOINT ISSUE RESOLVED" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
