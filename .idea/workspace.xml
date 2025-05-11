@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="S3_ENDPOINT ISSUE reoccured">
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Walrus config class adjusted">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -344,7 +345,7 @@
       <workItem from="1746677197922" duration="30581000" />
       <workItem from="1746765220523" duration="9225000" />
       <workItem from="1746778643519" duration="33573000" />
-      <workItem from="1746985738048" duration="4726000" />
+      <workItem from="1746985738048" duration="5857000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -698,7 +699,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746990686786</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Walrus config class adjusted">
+      <option name="closed" value="true" />
+      <created>1746992013429</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1746992013429</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -716,7 +725,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="zklogin successfully integrated and setup&#10;Attempting to run the program" />
     <MESSAGE value="User can now login and logout with unit tests passing" />
     <MESSAGE value="Zklogin fully integrated and functional" />
     <MESSAGE value="Added some ZkLoginAuthService tests" />
@@ -741,7 +749,8 @@
     <MESSAGE value="Major end points done&#10;Moving forward to the chat section now" />
     <MESSAGE value="S3_ENDPOINT ISSUE RESOLVED" />
     <MESSAGE value="S3_ENDPOINT ISSUE reoccured" />
-    <option name="LAST_COMMIT_MESSAGE" value="S3_ENDPOINT ISSUE reoccured" />
+    <MESSAGE value="Walrus config class adjusted" />
+    <option name="LAST_COMMIT_MESSAGE" value="Walrus config class adjusted" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

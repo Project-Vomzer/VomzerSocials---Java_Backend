@@ -27,15 +27,20 @@ public class WalrusConfig {
     @Value("${vomzer.bucket-name}")
     private String bucketName;
 
-    @Value("${vomzer.cdn-url}")
+    @Value("${vomzer.cdn-url:${vomzer.endpoint:http://localhost:9000}}")
     private String cdnUrl;
 
     @PostConstruct
     public void sanityCheck() {
         System.out.println("→ vomzer.endpoint = [" + endpoint + "]");
-        if (endpoint == null || !endpoint.matches("^[a-zA-Z]+://.*")) {
+        System.out.println("→ vomzer.cdn-url  = [" + cdnUrl + "]");
+        if (!endpoint.matches("^[a-zA-Z]+://.*")) {
             throw new IllegalStateException(
-                    "Invalid vomzer.endpoint: \"" + endpoint + "\" — must be a full URL with scheme (http:// or https://)");
+                    "Invalid vomzer.endpoint: \"" + endpoint + "\" – must include scheme (http:// or https://)");
+        }
+        if (!cdnUrl.matches("^[a-zA-Z]+://.*")) {
+            throw new IllegalStateException(
+                    "Invalid vomzer.cdn-url: \"" + cdnUrl + "\" – must include scheme (http:// or https://)");
         }
     }
 
