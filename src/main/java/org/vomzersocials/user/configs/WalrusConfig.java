@@ -1,13 +1,14 @@
 package org.vomzersocials.user.configs;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
 import java.net.URI;
 
@@ -20,7 +21,7 @@ public class WalrusConfig {
     @Value("${vomzer.walrus.secret-key}")
     private String secretKey;
 
-    @Value("${vomzer.endpoint}")
+    @Value("${vomzer.endpoint:http://localhost:9000}")
     private String endpoint;
 
     @Value("${vomzer.bucket-name}")
@@ -29,6 +30,14 @@ public class WalrusConfig {
     @Value("${vomzer.cdn-url}")
     private String cdnUrl;
 
+    @PostConstruct
+    public void sanityCheck() {
+        System.out.println("→ vomzer.endpoint = [" + endpoint + "]");
+        if (endpoint == null || !endpoint.matches("^[a-zA-Z]+://.*")) {
+            throw new IllegalStateException(
+                    "Invalid vomzer.endpoint: \"" + endpoint + "\" — must be a full URL with scheme (http:// or https://)");
+        }
+    }
 
     @Bean(name = "walrusPresigner")
     public S3Presigner walrusPresigner() {
