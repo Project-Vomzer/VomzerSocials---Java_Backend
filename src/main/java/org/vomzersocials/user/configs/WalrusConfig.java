@@ -21,13 +21,13 @@ public class WalrusConfig {
     @Value("${vomzer.walrus.secret-key}")
     private String secretKey;
 
-    @Value("${vomzer.endpoint:http://localhost:9000}")
+    @Value("${vomzer.endpoint}")
     private String endpoint;
 
     @Value("${vomzer.bucket-name}")
     private String bucketName;
 
-    @Value("${vomzer.cdn-url:${vomzer.endpoint:http://localhost:9000}}")
+    @Value("${vomzer.cdn-url}")
     private String cdnUrl;
 
     @PostConstruct
