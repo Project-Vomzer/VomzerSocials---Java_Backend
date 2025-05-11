@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Follow relation mapping and services done">
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Major end points done&#10;Moving forward to the chat section now">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/data/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
@@ -247,7 +246,7 @@
     <configuration name="generated-requests | #15" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="15" requestIdentifier="#15" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #6" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="6" requestIdentifier="#6" runType="Run single request">
+    <configuration name="generated-requests | #7" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="7" requestIdentifier="#7" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="AuthenticationServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
@@ -281,11 +280,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.generated-requests | #7" />
         <item itemvalue="HTTP Request.generated-requests | #10" />
         <item itemvalue="HTTP Request.generated-requests | #13" />
         <item itemvalue="HTTP Request.generated-requests | #15" />
         <item itemvalue="JUnit.AuthenticationServiceImplTest" />
-        <item itemvalue="HTTP Request.generated-requests | #6" />
       </list>
     </recent_temporary>
   </component>
@@ -346,7 +345,8 @@
       <workItem from="1746557430727" duration="37815000" />
       <workItem from="1746677197922" duration="30581000" />
       <workItem from="1746765220523" duration="9225000" />
-      <workItem from="1746778643519" duration="31476000" />
+      <workItem from="1746778643519" duration="33573000" />
+      <workItem from="1746985738048" duration="1064000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -668,7 +668,23 @@
       <option name="project" value="LOCAL" />
       <updated>1746811986734</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="User can now register again">
+      <option name="closed" value="true" />
+      <created>1746813877926</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1746813877927</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Major end points done&#10;Moving forward to the chat section now">
+      <option name="closed" value="true" />
+      <created>1746814181542</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1746814181542</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -686,8 +702,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Still battling docker - retouched" />
-    <MESSAGE value="Restructured the project &#10;Fully integrating the user service to the Zklogin and Jwt next" />
     <MESSAGE value="Moved Resources for the post service that were in the user service impl to the right service - DRY" />
     <MESSAGE value="Updated JwtUtils service" />
     <MESSAGE value="zklogin successfully integrated and setup&#10;Attempting to run the program" />
@@ -711,7 +725,9 @@
     <MESSAGE value="Dockerfile upgrade" />
     <MESSAGE value="User A can follow User B and verse versa" />
     <MESSAGE value="Follow relation mapping and services done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Follow relation mapping and services done" />
+    <MESSAGE value="User can now register again" />
+    <MESSAGE value="Major end points done&#10;Moving forward to the chat section now" />
+    <option name="LAST_COMMIT_MESSAGE" value="Major end points done&#10;Moving forward to the chat section now" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
