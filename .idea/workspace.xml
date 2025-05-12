@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Walrus config still having issues, slight adjustments made">
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Wallet Api Client updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WalrusConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,8 +201,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
-      <recent name="org.vomzersocials.user.exceptions" />
       <recent name="org.vomzersocials.user.dtos.responses" />
+      <recent name="org.vomzersocials.user.exceptions" />
       <recent name="org.vomzersocials.user.data.models" />
       <recent name="org.vomzersocials.user.dtos.requests" />
     </key>
@@ -345,7 +344,7 @@
       <workItem from="1746677197922" duration="30581000" />
       <workItem from="1746765220523" duration="9225000" />
       <workItem from="1746778643519" duration="33573000" />
-      <workItem from="1746985738048" duration="9647000" />
+      <workItem from="1746985738048" duration="19121000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -715,7 +714,23 @@
       <option name="project" value="LOCAL" />
       <updated>1746994322219</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Updated">
+      <option name="closed" value="true" />
+      <created>1747002457666</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1747002457666</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Wallet Api Client updated">
+      <option name="closed" value="true" />
+      <created>1747030919519</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1747030919519</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -733,8 +748,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Zklogin fully integrated and functional" />
-    <MESSAGE value="Added some ZkLoginAuthService tests" />
     <MESSAGE value="Register endpoint working fine&#10;Although mocked for the zk Login bit" />
     <MESSAGE value="All authentication service implementation service endpoint working" />
     <MESSAGE value="Tried adding roles to the JWT tokens" />
@@ -758,7 +771,9 @@
     <MESSAGE value="S3_ENDPOINT ISSUE reoccured" />
     <MESSAGE value="Walrus config class adjusted" />
     <MESSAGE value="Walrus config still having issues, slight adjustments made" />
-    <option name="LAST_COMMIT_MESSAGE" value="Walrus config still having issues, slight adjustments made" />
+    <MESSAGE value="Updated" />
+    <MESSAGE value="Wallet Api Client updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wallet Api Client updated" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

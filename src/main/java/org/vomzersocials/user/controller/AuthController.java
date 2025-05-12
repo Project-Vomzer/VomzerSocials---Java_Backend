@@ -26,27 +26,6 @@ public class AuthController {
     }
 
 
-//    @PostMapping("/register")
-//    public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest req) {
-//        return Mono.defer(() -> auth.registerNewUser(req))
-//                .map(dto -> ResponseEntity
-//                        .created(URI.create("/api/users/" + dto.getUserName()))
-//                        .body((Object) dto))
-//                .onErrorResume(IllegalArgumentException.class, illegalArgumentException -> {
-//                    Map<String, String> err = Map.of("error", illegalArgumentException.getMessage());
-//                    return Mono.just(ResponseEntity
-//                            .badRequest()
-//                            .body((Object) err));
-//                })
-//                .onErrorResume(ex -> {
-//                    log.error("Registration failure", ex);
-//                    Map<String, String> err = Map.of("error", "Internal server error");
-//                    return Mono.just(ResponseEntity
-//                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                            .body((Object) err));
-//                });
-//    }
-
     @PostMapping("/register")
     public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest req) {
         return Mono.defer(() -> auth.registerNewUser(req))
@@ -66,7 +45,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public Mono<ResponseEntity<Object>> login(@RequestBody LoginRequest loginRequest) {
-        log.info("Login attempt with method: {}", loginRequest.getLoginMethod()); // Log the method
+        log.info("Login attempt with method: {}", loginRequest.getLoginMethod());
 
         return auth.loginUser(loginRequest)
                 .map(resp -> {

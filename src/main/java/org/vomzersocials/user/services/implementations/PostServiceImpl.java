@@ -69,6 +69,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+
     @Transactional
     public DeletePostResponse deletePost(DeletePostRequest deletePostRequest) {
         User foundUser = userRepository.findUserById(deletePostRequest.getUserId());
