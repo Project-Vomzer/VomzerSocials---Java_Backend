@@ -1,33 +1,39 @@
 package org.vomzersocials.user.services.implementations;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Getter;
-import lombok.Setter;
+import io.netty.channel.ChannelOption;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import reactor.netty.http.client.HttpClient;
 import reactor.util.retry.Retry;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.LoginRequest;
 import org.vomzersocials.user.dtos.requests.LogoutRequest;
 import org.vomzersocials.user.dtos.requests.RegisterUserRequest;
-import org.vomzersocials.user.dtos.responses.LoginResponse;
-import org.vomzersocials.user.dtos.responses.LogoutUserResponse;
-import org.vomzersocials.user.dtos.responses.RegisterUserResponse;
-import org.vomzersocials.user.dtos.responses.TokenPair;
 import org.vomzersocials.user.enums.LoginMethod;
 import org.vomzersocials.zkLogin.security.VerifiedAddressResult;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 
+import javax.naming.ServiceUnavailableException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -258,33 +264,104 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
 
-    @Component
-    public static class WalletApiClient {
-        private final WebClient webClient;
+//    @Component
+//    public static class WalletApiClient {
+//        private final WebClient webClient;
+//
+//        public WalletApiClient(WebClient.Builder webClientBuilder,
+//                               @Value("${wallet.api.base:http://localhost:3000}")
+//                               String baseUrl) {
+//            this.webClient = webClientBuilder.baseUrl(baseUrl).build();
+//        }
+//
+//        public Mono<String> generateSuiAddress() {
+//            return webClient.post()
+//                    .uri("/api/wallets")
+//                    .retrieve()
+//                    .bodyToMono(WalletResponse.class)
+//                    .map(WalletResponse::getAddress)
+////                    .retryWhen(Retry.fixedDelay(5, Duration.ofSeconds(5)))
+////                    .timeout(Duration.ofSeconds(10));
+//                    .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(3)))
+//                    .timeout(Duration.ofSeconds(7));
+//        }
+//
+//        @Setter
+//        @Getter
+//        private static class WalletResponse {
+//            private String address;
+//        }
+//    }
+@Component
+public class WalletApiClient {
+    private static final Logger log = LoggerFactory.getLogger(WalletApiClient.class);
+    private final WebClient webClient;
+    private final ObjectMapper objectMapper;
+    @Value("${wallet.api.wallets.endpoint:/api/wallets}")
+    private String walletsEndpoint;
 
-        public WalletApiClient(WebClient.Builder webClientBuilder,
-                               @Value("${wallet.api.base:http://localhost:3000}")
-                               String baseUrl) {
-            this.webClient = webClientBuilder.baseUrl(baseUrl).build();
-        }
+    public WalletApiClient(WebClient.Builder webClientBuilder,
+                           @Value("${wallet.api.base}") String baseUrl,
+                           ObjectMapper objectMapper) {
+        this.webClient = webClientBuilder
+                .baseUrl(baseUrl)
+                .clientConnector(new ReactorClientHttpConnector(
+                        HttpClient.create()
+                                .responseTimeout(Duration.ofSeconds(15))
+                                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 4000)
+                ))
+                .build();
+        this.objectMapper = objectMapper;
+    }
 
-        public Mono<String> generateSuiAddress() {
-            return webClient.post()
-                    .uri("/api/wallets")
-                    .retrieve()
-                    .bodyToMono(WalletResponse.class)
-                    .map(WalletResponse::getAddress)
-//                    .retryWhen(Retry.fixedDelay(5, Duration.ofSeconds(5)))
-//                    .timeout(Duration.ofSeconds(10));
-                    .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(3)))
-                    .timeout(Duration.ofSeconds(7));
-        }
+    public Mono<String> generateSuiAddress() {
+        return webClient.post()
+                .uri(walletsEndpoint)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, response ->
+                        response.bodyToMono(String.class)
+                                .doOnNext(body -> log.error("Wallet API error: {}", body))
+                                .flatMap(body -> Mono.error(new ServiceUnavailableException(
+                                        "Wallet service unavailable: " + body)))
+                )
+                .bodyToMono(String.class)
+                .flatMap(this::parseResponse)
+                .retryWhen(Retry.backoff(3, Duration.ofSeconds(2))
+                        .filter(ex -> ex instanceof WebClientRequestException ||
+                                (ex instanceof WebClientResponseException &&
+                                        ((WebClientResponseException) ex).getStatusCode().is5xxServerError())))
+                .timeout(Duration.ofSeconds(15))
+                .doOnSubscribe(sub -> log.info("Wallet address generation started"))
+                .doOnSuccess(addr -> log.info("Generated address: {}", addr))
+                .doOnError(e -> log.error("Critical failure", e));
+    }
 
-        @Setter
-        @Getter
-        private static class WalletResponse {
-            private String address;
+    private Mono<String> parseResponse(String rawResponse) {
+        try {
+            JsonNode root = objectMapper.readTree(rawResponse);
+            if (root.has("error")) {
+                String error = root.path("error").asText();
+                return Mono.error(new ServiceUnavailableException(error));
+            }
+            JsonNode addressNode = root.path("data").path("address");
+            if (addressNode.isMissingNode()) {
+                addressNode = root.path("address");
+            }
+            if (!addressNode.isTextual()) {
+                log.error("Invalid address format. Response length: {}", rawResponse.length());
+                return Mono.error(new IllegalStateException("Invalid address format"));
+            }
+            String address = addressNode.asText();
+            if (!address.startsWith("0x") || address.length() != 66) {
+                log.error("Invalid Sui address format: {}", address);
+                return Mono.error(new IllegalStateException("Invalid Sui address"));
+            }
+            return Mono.just(address);
+        } catch (JsonProcessingException e) {
+            log.error("Failed to parse response. Response length: {}", rawResponse.length());
+            return Mono.error(new IllegalStateException("Invalid API response format"));
         }
     }
+}
 }
 
