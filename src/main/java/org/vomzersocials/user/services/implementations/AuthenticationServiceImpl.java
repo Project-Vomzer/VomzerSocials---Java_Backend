@@ -263,35 +263,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return suiAddress;
     }
 
-
-//    @Component
-//    public static class WalletApiClient {
-//        private final WebClient webClient;
-//
-//        public WalletApiClient(WebClient.Builder webClientBuilder,
-//                               @Value("${wallet.api.base:http://localhost:3000}")
-//                               String baseUrl) {
-//            this.webClient = webClientBuilder.baseUrl(baseUrl).build();
-//        }
-//
-//        public Mono<String> generateSuiAddress() {
-//            return webClient.post()
-//                    .uri("/api/wallets")
-//                    .retrieve()
-//                    .bodyToMono(WalletResponse.class)
-//                    .map(WalletResponse::getAddress)
-////                    .retryWhen(Retry.fixedDelay(5, Duration.ofSeconds(5)))
-////                    .timeout(Duration.ofSeconds(10));
-//                    .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(3)))
-//                    .timeout(Duration.ofSeconds(7));
-//        }
-//
-//        @Setter
-//        @Getter
-//        private static class WalletResponse {
-//            private String address;
-//        }
-//    }
 @Component
 public class WalletApiClient {
     private static final Logger log = LoggerFactory.getLogger(WalletApiClient.class);
