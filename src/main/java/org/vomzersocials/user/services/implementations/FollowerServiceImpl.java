@@ -7,7 +7,6 @@ import org.vomzersocials.user.data.repositories.FollowRepository;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.FollowUserRequest;
 import org.vomzersocials.user.services.interfaces.FollowerService;
-import org.vomzersocials.user.services.interfaces.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,20 +16,18 @@ public class FollowerServiceImpl implements FollowerService {
 
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
-    private final UserService userService;
 
-    public FollowerServiceImpl(FollowRepository followRepository, UserRepository userRepository, UserService userService) {
+    public FollowerServiceImpl(FollowRepository followRepository, UserRepository userRepository) {
         this.followRepository = followRepository;
         this.userRepository = userRepository;
-        this.userService = userService;
     }
 
     @Override
     public void followUser(FollowUserRequest followUserRequest) {
-        User follower = userService.findById(followUserRequest.getFollowerId())
+        User follower = userRepository.findById(followUserRequest.getFollowerId())
                 .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
 
-        User following = userService.findById(followUserRequest.getFollowingId())
+        User following = userRepository.findById(followUserRequest.getFollowingId())
                 .orElseThrow(() -> new IllegalArgumentException("User to follow not found"));
 
         if (follower.getId().equals(following.getId())) throw new IllegalArgumentException("You cannot follow yourself");
@@ -53,8 +50,8 @@ public class FollowerServiceImpl implements FollowerService {
 
         followRepository.delete(userFollowing);
 
-        User follower = userService.findById(followerId).orElseThrow();
-        User following = userService.findById(followingId).orElseThrow();
+        User follower = userRepository.findById(followerId).orElseThrow();
+        User following = userRepository.findById(followingId).orElseThrow();
 
         updateUserFollowCounts_andSaveUsers(follower, following, false);
     }
@@ -74,15 +71,16 @@ public class FollowerServiceImpl implements FollowerService {
         if (followerId.equals(followingId)) throw new IllegalArgumentException("You cannot follow yourself");
 
         var existingFollow = followRepository.findByFollowerIdAndFollowingId(followerId, followingId);
-
         if (existingFollow.isPresent()) {
+            // unfollow
             followRepository.delete(existingFollow.get());
-            updateUserFollowCounts_andSaveUsers(userService.findById(followerId).orElseThrow(),
-                    userService.findById(followingId).orElseThrow(), false);
+            User follower = userRepository.findById(followerId).orElseThrow();
+            User following = userRepository.findById(followingId).orElseThrow();
+            updateUserFollowCounts_andSaveUsers(follower, following, false);
         } else {
-            User follower = userService.findById(followerId)
+            User follower = userRepository.findById(followerId)
                     .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
-            User following = userService.findById(followingId)
+            User following = userRepository.findById(followingId)
                     .orElseThrow(() -> new IllegalArgumentException("User to follow not found"));
 
             setUserFollowingAnotherUser(follower, following);

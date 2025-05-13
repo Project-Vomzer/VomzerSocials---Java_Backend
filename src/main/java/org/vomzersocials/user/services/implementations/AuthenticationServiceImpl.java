@@ -1,28 +1,14 @@
 package org.vomzersocials.user.services.implementations;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.netty.channel.ChannelOption;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
-import reactor.netty.http.client.HttpClient;
-import reactor.util.retry.Retry;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.dtos.requests.LoginRequest;
@@ -33,8 +19,6 @@ import org.vomzersocials.zkLogin.security.VerifiedAddressResult;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 
-import javax.naming.ServiceUnavailableException;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -222,11 +206,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String role = user.getRole().name();
             String newAccessToken = jwtUtil.generateAccessToken(username, List.of(role));
             String newRefreshToken = jwtUtil.generateRefreshToken(username);
-//            TokenPair pair = new TokenPair(newAccessToken, newRefreshToken);
             return new TokenPair(newAccessToken, newRefreshToken);
         })
                 .subscribeOn(Schedulers.boundedElastic());
-//        return Mono.just(pair);
     }
 
 
@@ -263,76 +245,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return suiAddress;
     }
 
-@Component
-public class WalletApiClient {
-    private static final Logger log = LoggerFactory.getLogger(WalletApiClient.class);
-    private final WebClient webClient;
-    private final ObjectMapper objectMapper;
-    @Value("${wallet.api.wallets.endpoint:/api/wallets}")
-    private String walletsEndpoint;
-
-    public WalletApiClient(WebClient.Builder webClientBuilder,
-                           @Value("${wallet.api.base}") String baseUrl,
-                           ObjectMapper objectMapper) {
-        this.webClient = webClientBuilder
-                .baseUrl(baseUrl)
-                .clientConnector(new ReactorClientHttpConnector(
-                        HttpClient.create()
-                                .responseTimeout(Duration.ofSeconds(15))
-                                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 4000)
-                ))
-                .build();
-        this.objectMapper = objectMapper;
-    }
-
-    public Mono<String> generateSuiAddress() {
-        return webClient.post()
-                .uri(walletsEndpoint)
-                .retrieve()
-                .onStatus(HttpStatusCode::isError, response ->
-                        response.bodyToMono(String.class)
-                                .doOnNext(body -> log.error("Wallet API error: {}", body))
-                                .flatMap(body -> Mono.error(new ServiceUnavailableException(
-                                        "Wallet service unavailable: " + body)))
-                )
-                .bodyToMono(String.class)
-                .flatMap(this::parseResponse)
-                .retryWhen(Retry.backoff(3, Duration.ofSeconds(2))
-                        .filter(ex -> ex instanceof WebClientRequestException ||
-                                (ex instanceof WebClientResponseException &&
-                                        ((WebClientResponseException) ex).getStatusCode().is5xxServerError())))
-                .timeout(Duration.ofSeconds(15))
-                .doOnSubscribe(sub -> log.info("Wallet address generation started"))
-                .doOnSuccess(addr -> log.info("Generated address: {}", addr))
-                .doOnError(e -> log.error("Critical failure", e));
-    }
-
-    private Mono<String> parseResponse(String rawResponse) {
-        try {
-            JsonNode root = objectMapper.readTree(rawResponse);
-            if (root.has("error")) {
-                String error = root.path("error").asText();
-                return Mono.error(new ServiceUnavailableException(error));
-            }
-            JsonNode addressNode = root.path("data").path("address");
-            if (addressNode.isMissingNode()) {
-                addressNode = root.path("address");
-            }
-            if (!addressNode.isTextual()) {
-                log.error("Invalid address format. Response length: {}", rawResponse.length());
-                return Mono.error(new IllegalStateException("Invalid address format"));
-            }
-            String address = addressNode.asText();
-            if (!address.startsWith("0x") || address.length() != 66) {
-                log.error("Invalid Sui address format: {}", address);
-                return Mono.error(new IllegalStateException("Invalid Sui address"));
-            }
-            return Mono.just(address);
-        } catch (JsonProcessingException e) {
-            log.error("Failed to parse response. Response length: {}", rawResponse.length());
-            return Mono.error(new IllegalStateException("Invalid API response format"));
-        }
-    }
-}
 }
 

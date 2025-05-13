@@ -42,4 +42,10 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "reposted_post_id", columnDefinition = "CHAR(36)", nullable = true)
+    private Post repostedPost;
+
+    private int repostCount;
+
 }

@@ -1,12 +1,12 @@
 package org.vomzersocials.user.dtos.requests;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+import java.time.LocalDateTime;
+
+@Data
 public class EditPostRequest {
     private String postId;
-    private String userId;
     private String content;
+    private LocalDateTime timestamp;
 }

@@ -26,22 +26,46 @@ public class AuthController {
     }
 
 
+//    @PostMapping("/register")
+//    public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest req) {
+//        return Mono.defer(() -> auth.registerNewUser(req))
+//                .map(dto -> ResponseEntity.created(URI.create("/api/users/" + dto.getUserName()))
+//                        .body((Object) dto))
+//                .onErrorResume(IllegalArgumentException.class, ex -> {
+//                    log.warn("Registration error: {}", ex.getMessage());
+//                    Map<String, String> err = Map.of("error", ex.getMessage());
+//                    return Mono.just(ResponseEntity.badRequest().body((Object) err));
+//                })
+//                .onErrorResume(ex -> {
+//                    log.error("Registration failure", ex);
+//                    Map<String, String> err = Map.of("error", "Internal server error");
+//                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Object) err));
+//                });
+//    }
     @PostMapping("/register")
     public Mono<ResponseEntity<Object>> register(@RequestBody RegisterUserRequest req) {
         return Mono.defer(() -> auth.registerNewUser(req))
-                .map(dto -> ResponseEntity.created(URI.create("/api/users/" + dto.getUserName()))
+                .doOnError(ex -> {
+                    log.error("🔥 Registration threw an exception:", ex);
+                    ex.printStackTrace();
+                })
+                .map(dto -> ResponseEntity
+                        .created(URI.create("/api/users/" + dto.getUserName()))
                         .body((Object) dto))
                 .onErrorResume(IllegalArgumentException.class, ex -> {
                     log.warn("Registration error: {}", ex.getMessage());
-                    Map<String, String> err = Map.of("error", ex.getMessage());
-                    return Mono.just(ResponseEntity.badRequest().body((Object) err));
+                    return Mono.just(ResponseEntity
+                            .badRequest()
+                            .body(Map.of("error", ex.getMessage())));
                 })
                 .onErrorResume(ex -> {
-                    log.error("Registration failure", ex);
-                    Map<String, String> err = Map.of("error", "Internal server error");
-                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Object) err));
+                    log.error("Registration failure (mapped to 500)", ex);
+                    return Mono.just(ResponseEntity
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(Map.of("error", "Internal server error")));
                 });
     }
+
 
     @PostMapping("/login")
     public Mono<ResponseEntity<Object>> login(@RequestBody LoginRequest loginRequest) {

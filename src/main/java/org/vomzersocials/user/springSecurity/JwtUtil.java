@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -56,7 +54,6 @@ public class JwtUtil {
                 .compact();
     }
 
-//    no role tokens for tests
     public String generateAccessToken(String username) {
         return generateAccessToken(username, List.of());
     }
@@ -83,11 +80,13 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-//        Jws<Claims> jws = Jwts.parserBuilder()
-//                .setSigningKey(signingKey)
-//                .build()
-//                .parseClaimsJws(token);
-//        return jws.getBody().getSubject();
+        return Jwts.parserBuilder()
+                .setSigningKey(signingKey)
+                .build().parseClaimsJws(token)
+                .getBody().getSubject();
+    }
+
+    public String extractUserId(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(signingKey)
                 .build().parseClaimsJws(token)

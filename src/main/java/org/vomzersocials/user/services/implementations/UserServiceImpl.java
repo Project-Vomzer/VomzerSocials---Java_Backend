@@ -11,6 +11,7 @@ import org.vomzersocials.user.enums.FollowType;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
 import org.vomzersocials.user.services.interfaces.PostService;
 import org.vomzersocials.user.services.interfaces.UserService;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,33 +30,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest) {
-        return authenticationService.registerNewUser(registerUserRequest).block();
+    public Mono<RegisterUserResponse> registerNewUser(RegisterUserRequest request) {
+        return authenticationService.registerNewUser(request);
     }
 
     @Override
-    public LoginResponse loginUser(LoginRequest loginRequest) {
-        return authenticationService.loginUser(loginRequest).block();
+    public Mono<LoginResponse> loginUser(LoginRequest request) {
+        return authenticationService.loginUser(request);
     }
 
     @Override
-    public LogoutUserResponse logoutUser(LogoutRequest logoutUserRequest) {
-        return authenticationService.logoutUser(logoutUserRequest).block();
+    public Mono<LogoutUserResponse> logoutUser(LogoutRequest request) {
+        return authenticationService.logoutUser(request);
     }
 
     @Override
-    public CreatePostResponse createPost(CreatePostRequest createPostRequest) {
-        return postService.createPost(createPostRequest);
+    public Mono<CreatePostResponse> createPost(CreatePostRequest request, String userId) {
+        return postService.createPost(request, userId);
     }
 
     @Override
-    public DeletePostResponse deletePost(DeletePostRequest deletePostRequest) {
-        return postService.deletePost(deletePostRequest);
+    public Mono<DeletePostResponse> deletePost(DeletePostRequest request, String userId) {
+        return postService.deletePost(request, userId);
     }
 
     @Override
-    public EditPostResponse editPost(EditPostRequest editPostRequest) {
-        return postService.editPost(editPostRequest);
+    public Mono<EditPostResponse> editPost(EditPostRequest request, String userId) {
+        return postService.editPost(request, userId);
+    }
+
+    @Override
+    public Mono<RepostResponse> repost(RepostRequest request, String userId) {
+        return postService.repost(request, userId);
     }
 
     @Override
