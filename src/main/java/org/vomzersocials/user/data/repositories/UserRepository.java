@@ -23,5 +23,5 @@ public interface UserRepository extends JpaRepository<User, String> {
     void updateUserSuiAddress(@Param("suiAddress") String suiAddress);
     Optional<User> findByPublicKey(String publicKey);
     Optional<Object> findUserBySuiAddress(String suiAddress);
-
+    Optional<User> findByUserName(String userName);
 }

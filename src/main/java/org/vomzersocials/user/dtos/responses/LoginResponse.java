@@ -11,24 +11,24 @@ public class LoginResponse {
     private String message;
     private String accessToken;
     private String refreshToken;
-    private Role role;
+//    private Role role;
     private String loginMethod;
 
 
-    public LoginResponse(String username, String message, String accessToken, String refreshToken, Role role, String loginMethod) {
+    public LoginResponse(String username, String message, String accessToken, String refreshToken, String loginMethod) {
         this.username = username;
         this.message = message;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        this.role = role;
+//        this.role = role;
         this.loginMethod = loginMethod;
     }
 
-    public LoginResponse(String userName, String loggedInSuccessfully, String accessToken, Role role) {
+    public LoginResponse(String userName, String loggedInSuccessfully, String accessToken) {
         this.username = userName;
         this.message = loggedInSuccessfully;
         this.accessToken = accessToken;
-        this.role = role;
+//        this.role = role;
     }
 
 

@@ -59,7 +59,6 @@ public class JwtUtilTest {
         // then
         assertTrue(jwtUtil.validateToken(tok));
         assertEquals("bob", jwtUtil.extractUsername(tok));
-        assertEquals(roles, jwtUtil.extractRoles(tok));
     }
 
 }

@@ -178,7 +178,6 @@
 //    }
 //
 //}
-
 package org.vomzersocials.user.services.implementations;
 
 import lombok.extern.slf4j.Slf4j;
@@ -218,11 +217,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Mono<CreatePostResponse> createPost(CreatePostRequest request, String userId) {
+    public Mono<CreatePostResponse> createPost(CreatePostRequest request, String userName) {
         return Mono.fromCallable(() -> {
             if (request.getContent() == null || request.getContent().trim().isEmpty())
                 throw new IllegalArgumentException("Post content cannot be empty");
-            User user = userRepository.findById(userId)
+            if (request.getAuthor() == null || !userName.equals(request.getAuthor().getUserName()))
+                throw new IllegalArgumentException("Author username does not match authenticated user");
+            User user = userRepository.findUserByUserName(userName)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
             if (!user.getIsLoggedIn())
                 throw new SecurityException("User must be logged in to create posts");
@@ -240,7 +241,7 @@ public class PostServiceImpl implements PostService {
             return CreatePostResponse.builder()
                     .id(savedPost.getId())
                     .content(savedPost.getContent())
-                    .authorId(userId)
+                    .authorId(userName)
                     .timestamp(savedPost.getCreatedAt())
                     .build();
         });
@@ -252,12 +253,10 @@ public class PostServiceImpl implements PostService {
         return Mono.fromCallable(() -> {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
             if (!user.getIsLoggedIn())
                 throw new SecurityException("User authentication required");
             Post post = postRepository.findById(request.getPostId())
                     .orElseThrow(() -> new PostNotFoundException(request.getPostId()));
-
             if (!post.getAuthor().getId().equals(userId))
                 throw new OwnershipException(userId, request.getPostId());
             post.getMediaList().forEach(media ->
@@ -276,10 +275,8 @@ public class PostServiceImpl implements PostService {
         return Mono.fromCallable(() -> {
             Post post = postRepository.findById(request.getPostId())
                     .orElseThrow(() -> new PostNotFoundException(request.getPostId()));
-
             if (!post.getAuthor().getId().equals(userId))
                 throw new OwnershipException(userId, request.getPostId());
-
             post.setContent(request.getContent());
             post.setUpdatedAt(LocalDateTime.now());
             Post updatedPost = postRepository.save(post);
@@ -299,15 +296,12 @@ public class PostServiceImpl implements PostService {
         return Mono.fromCallable(() -> {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
             if (!user.getIsLoggedIn())
                 throw new SecurityException("User must be logged in to repost");
             Post originalPost = postRepository.findById(request.getPostId())
                     .orElseThrow(() -> new PostNotFoundException(request.getPostId()));
-
             if (originalPost.getAuthor().getId().equals(userId))
                 throw new IllegalArgumentException("Cannot repost your own content");
-
             if (postRepository.existsByAuthorAndRepostedPost(Optional.of(user), originalPost))
                 throw new IllegalArgumentException("Already reposted this content");
 

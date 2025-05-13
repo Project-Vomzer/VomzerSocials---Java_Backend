@@ -56,7 +56,6 @@ public class AuthServiceTest {
         User mockUser = new User();
         mockUser.setPublicKey(publicKey);
         mockUser.setUserName("john");
-        mockUser.setRole(Role.SUBSCRIBER);
 
         when(zkLoginVerifier.verifyProof(zkProof, publicKey)).thenReturn(Mono.just(true));
         when(userRepository.findByPublicKey(publicKey)).thenReturn(Optional.of(mockUser));

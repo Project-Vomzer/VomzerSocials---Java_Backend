@@ -47,7 +47,6 @@ public class JwtUtil {
     public String generateAccessToken(String username, List<String> roles) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("roles", roles)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
                 .signWith(signingKey, SignatureAlgorithm.HS256)
@@ -74,7 +73,7 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (JwtException ex) {
+        } catch (JwtException jwtException) {
             return false;
         }
     }
@@ -93,19 +92,18 @@ public class JwtUtil {
                 .getBody().getSubject();
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> extractRoles(String token) {
-        var body = Jwts.parserBuilder()
-                .setSigningKey(signingKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        Object roles = body.get("roles");
-        if (roles instanceof List<?>) {
-            return (List<String>) roles;
-        }
-        return List.of();
-    }
+//    public List<String> extractRoles(String token) {
+//        var body = Jwts.parserBuilder()
+//                .setSigningKey(signingKey)
+//                .build()
+//                .parseClaimsJws(token)
+//                .getBody();
+//        Object roles = body.get("roles");
+//        if (roles instanceof List<?>) {
+//            return (List<String>) roles;
+//        }
+//        return List.of();
+//    }
 
 
 

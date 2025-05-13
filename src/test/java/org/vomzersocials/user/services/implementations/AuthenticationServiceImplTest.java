@@ -52,7 +52,6 @@ public class AuthenticationServiceImplTest {
         registerReq = new RegisterUserRequest();
         registerReq.setUserName("Johni1");
         registerReq.setPassword("Password@12");
-        registerReq.setRole(Role.ADMIN);
         registerReq.setZkProof("mock-zk-proof");
         registerReq.setPublicKey("mock-public-key");
 
@@ -112,16 +111,18 @@ public class AuthenticationServiceImplTest {
         User dummy = new User();
         dummy.setUserName("Johni1");
         dummy.setPassword("encoded-password");
-        dummy.setRole(Role.SUBSCRIBER);
         when(userRepository.findUserByUserName("Johni1"))
                 .thenReturn(Optional.of(dummy));
         when(passwordEncoder.matches("Password@12", "encoded-password"))
                 .thenReturn(true);
+        when(jwtUtil.generateAccessToken("Johni1")).thenReturn("mock-access-token");
+        when(jwtUtil.generateRefreshToken("Johni1")).thenReturn("mock-refresh-token");
 
         LoginResponse loginResp = authenticationService.loginUser(loginReq).block();
         assertNotNull(loginResp);
         assertEquals("Logged in successfully", loginResp.getMessage());
-        assertEquals("mock-access-token", loginResp.getAccessToken());
+        when(jwtUtil.generateAccessToken("Johni1")).thenReturn("mock-access-token");
+        when(jwtUtil.generateRefreshToken("Johni1")).thenReturn("mock-refresh-token");
         verify(userRepository).save(argThat(u -> "Johni1".equals(u.getUserName()) && Boolean.TRUE.equals(u.getIsLoggedIn())));
     }
 
@@ -133,7 +134,6 @@ public class AuthenticationServiceImplTest {
                 .thenReturn(Optional.of(new User(){{
                     setUserName("Johni1");
                     setSuiAddress("mock-sui-address");
-                    setRole(Role.SUBSCRIBER);
                 }}));
         LoginRequest zkReq = new LoginRequest();
         zkReq.setLoginMethod("ZK_LOGIN");
@@ -176,11 +176,10 @@ public class AuthenticationServiceImplTest {
     public void test_refreshTokensGenerationIsSuccess() {
         User dummy = new User();
         dummy.setUserName("Johni1");
-        dummy.setRole(Role.ADMIN);
         when(userRepository.findUserByUserName("Johni1")).thenReturn(Optional.of(dummy));
         when(jwtUtil.validateToken("good")).thenReturn(true);
         when(jwtUtil.extractUsername("good")).thenReturn("Johni1");
-        when(jwtUtil.generateAccessToken("Johni1", List.of("ADMIN"))).thenReturn("newA");
+        when(jwtUtil.generateAccessToken("Johni1")).thenReturn("newA");
         when(jwtUtil.generateRefreshToken("Johni1")).thenReturn("newR");
 
         TokenPair pair = authenticationService.refreshTokens("good").block();

@@ -1,6 +1,7 @@
 package org.vomzersocials.user.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,6 +20,7 @@ import java.util.*;
 @Getter
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -39,8 +41,8 @@ public class User{
     private String suiAddress;
     private String publicKey;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
 
     private int followerCount;
     private int followingCount;

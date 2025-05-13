@@ -105,13 +105,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             .thenReturn(user);
                 })
                 .map(user -> {
-                    String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                    String accessToken = jwtUtil.generateAccessToken(user.getUserName());
                     String refreshToken = jwtUtil.generateRefreshToken(user.getUserName());
                     return new LoginResponse(
                             user.getUserName(),
                             "Logged in successfully",
                             accessToken, refreshToken,
-                            user.getRole(),
                             loginRequest.getLoginMethod()
                     );
                 })
@@ -173,9 +172,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String generateAccessToken(String username) {
         User user = userRepository.findUserByUserName(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        String role = user.getRole().name();
-        return jwtUtil.generateAccessToken(username, List.of(role));
+        return jwtUtil.generateAccessToken(username);
     }
 
     @Override
@@ -203,8 +200,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return Mono.fromCallable(() -> {
             User user = userRepository.findUserByUserName(username)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
-            String role = user.getRole().name();
-            String newAccessToken = jwtUtil.generateAccessToken(username, List.of(role));
+            String newAccessToken = jwtUtil.generateAccessToken(username);
             String newRefreshToken = jwtUtil.generateRefreshToken(username);
             return new TokenPair(newAccessToken, newRefreshToken);
         })
@@ -216,10 +212,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = new User();
         user.setUserName(req.getUserName());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
-        user.setRole(req.getRole());
         user.setSuiAddress(suiAddress);
         user.setIsLoggedIn(false);
-
         user.setDateOfCreation(LocalDateTime.now());
 
         userRepository.save(user);
@@ -229,7 +223,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private RegisterUserResponse registerNewUserResponse(RegisterUserRequest req, User user) {
         RegisterUserResponse response = new RegisterUserResponse();
         response.setUserName(user.getUserName());
-        response.setRole(req.getRole());
         response.setIsLoggedIn(false);
         response.setMessage("User registered successfully.");
         return response;
@@ -239,9 +232,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String zkProof, String userName, String publicKey
     ) {
         String suiAddress = zkLoginService.registerViaZkProof(zkProof, userName, publicKey);
-        if (suiAddress == null) {
+        if (suiAddress == null)
             throw new IllegalArgumentException("Invalid zk-proof or proof verification failed");
-        }
         return suiAddress;
     }
 

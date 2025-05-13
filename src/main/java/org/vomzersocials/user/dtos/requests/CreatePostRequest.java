@@ -13,4 +13,10 @@ public class CreatePostRequest {
     private User author;
     private String content;
     private List<UUID> mediaIds;
+
+    @Setter
+    @Getter
+    public static class Author {
+        private String userName;
+    }
 }

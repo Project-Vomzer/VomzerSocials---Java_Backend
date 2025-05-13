@@ -38,7 +38,7 @@ public class ZkLoginAuthService {
                     return Mono.defer(() -> {
                         User user = userRepository.findByPublicKey(req.getPublicKey())
                                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-                        String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
+                        String accessToken = jwtUtil.generateAccessToken(user.getUserName());
                         return Mono.just(accessToken);
                     });
                 })
