@@ -80,6 +80,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Mono<RegisterUserResponse> registerAdmin(StandardRegisterRequest request) {
+        return authenticationService.registerAdmin(request);
+    }
+
+    @Override
     public int updateUserFollowCount(FollowUserRequest request, FollowType followType, boolean isIncrement) {
         User user;
 

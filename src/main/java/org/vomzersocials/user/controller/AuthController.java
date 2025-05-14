@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
@@ -39,6 +37,7 @@ public class AuthController {
 
     @Value("${cookie.secure:true}")
     private boolean cookieSecure;
+
 
 
     @PostMapping("/login/standard")
@@ -76,6 +75,26 @@ public class AuthController {
                             .body(response);
                 });
     }
+
+    @PostMapping("/register/admin")
+    public Mono<ResponseEntity<RegisterUserResponse>> registerAdmin(
+            @Valid @RequestBody StandardRegisterRequest request) {
+        return userService.registerAdmin(request)
+                .map(response -> {
+                    log.info("Admin registration successful for username: {}", request.getUserName());
+                    return ResponseEntity.created(URI.create("/api/users/" + response.getUserName()))
+                            .body(response);
+                })
+                .onErrorResume(e -> {
+                    HttpStatus status = (e instanceof IllegalArgumentException) ? HttpStatus.BAD_REQUEST : HttpStatus.INTERNAL_SERVER_ERROR;
+                    return Mono.just(ResponseEntity.status(status).body(
+                            RegisterUserResponse.builder()
+                                    .message(e.getMessage())
+                                    .build()
+                    ));
+                });
+    }
+
 
     @PostMapping("/register/standard")
     public Mono<ResponseEntity<RegisterUserResponse>> registerStandard(@Valid @RequestBody StandardRegisterRequest request) {
@@ -191,19 +210,22 @@ public class AuthController {
                         return Mono.error(new IllegalArgumentException("Invalid reset token"));
                     }
                     return Mono.fromCallable(() -> {
-                        User user = userRepository.findUserByUserName(request.getUserName())
-                                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-                        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-                        userRepository.save(user);
-                        tokenService.deleteToken(token.getId());
-                        log.info("Password reset successful for user: {}", request.getUserName());
-                        return "Password reset successfully";
-                    }).subscribeOn(Schedulers.boundedElastic());
+                                User user = userRepository.findUserByUserName(request.getUserName())
+                                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                                user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+                                userRepository.save(user);
+                                return user;
+                            })
+                            .subscribeOn(Schedulers.boundedElastic())
+                            .flatMap(savedUser ->
+                                    tokenService.deleteToken(token.getId())
+                                            .thenReturn(ResponseEntity.ok("Password reset successfully"))
+                            );
                 })
-                .map(ResponseEntity::ok)
                 .onErrorMap(IllegalArgumentException.class, e -> new IllegalArgumentException("Password reset failed: " + e.getMessage()))
                 .onErrorMap(UsernameNotFoundException.class, e -> new IllegalArgumentException("Password reset failed: " + e.getMessage()));
     }
+
 
 }
 

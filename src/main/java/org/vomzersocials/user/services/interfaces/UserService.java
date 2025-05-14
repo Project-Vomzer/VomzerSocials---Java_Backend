@@ -1,5 +1,6 @@
 package org.vomzersocials.user.services.interfaces;
 
+import jakarta.validation.Valid;
 import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.FollowRepository;
 import org.vomzersocials.user.dtos.requests.*;
@@ -25,6 +26,6 @@ public interface UserService {
     Mono<DeletePostResponse> deletePost(DeletePostRequest request, String userId);
     Mono<EditPostResponse> editPost(EditPostRequest request, String userId);
     Mono<RepostResponse> repost(RepostRequest request, String userId);
-
     Mono<TokenPair> refreshTokens(String refreshToken);
+    Mono<RegisterUserResponse> registerAdmin(@Valid StandardRegisterRequest request);
 }
