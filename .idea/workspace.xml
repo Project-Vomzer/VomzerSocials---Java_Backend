@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="cors config set -  refactored">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/ChatMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WebSocketConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/VomzerWebSocketHandler.java" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="removed backend dto validations for registration and login">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WebSocketConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/springSecurity/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/springSecurity/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/ValidationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/ValidationUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/VomzerWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/cors/VomzerWebSocketHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,135 +79,135 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.SecretKeyGenerator.executor": "Run",
-    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
-    "HTTP Request.generated-requests | #10.executor": "Run",
-    "HTTP Request.generated-requests | #11.executor": "Run",
-    "HTTP Request.generated-requests | #13.executor": "Run",
-    "HTTP Request.generated-requests | #15.executor": "Run",
-    "HTTP Request.generated-requests | #16.executor": "Run",
-    "HTTP Request.generated-requests | #17.executor": "Run",
-    "HTTP Request.generated-requests | #18.executor": "Run",
-    "HTTP Request.generated-requests | #20.executor": "Run",
-    "HTTP Request.generated-requests | #21.executor": "Run",
-    "HTTP Request.generated-requests | #22.executor": "Run",
-    "HTTP Request.generated-requests | #24.executor": "Run",
-    "HTTP Request.generated-requests | #25.executor": "Run",
-    "HTTP Request.generated-requests | #27.executor": "Run",
-    "HTTP Request.generated-requests | #4.executor": "Run",
-    "HTTP Request.generated-requests | #5.executor": "Run",
-    "HTTP Request.generated-requests | #6.executor": "Run",
-    "HTTP Request.generated-requests | #7.executor": "Run",
-    "HTTP Request.generated-requests | #8.executor": "Run",
-    "HTTP Request.generated-requests | #9.executor": "Run",
-    "JUnit.AuthServiceTest.executor": "Run",
-    "JUnit.AuthServiceTest.testAuthenticateUser_InvalidProof.executor": "Run",
-    "JUnit.AuthServiceTest.testAuthenticateUser_Success.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.staffWhenLoggedInCanLogout_test.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_loginStandardUserNotFound.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_refreshTokensGenerationIsSuccess.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_registerWithInvalidPassword_throwsException.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatInvalidPasswordPattern_throwsException.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatInvalidZkProofLogin_throwsException.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatStandardLoginUserNotFound_throwsException.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatUserCanLogin.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatUserCanLoginWithStandardLoginDetails.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatUserCanLoginWithZkLogin.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatUserCanLogin_withStandardLoginMethod.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatUserCanRegister.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatUserCanRegister2.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatUserCannotRegisterANullValue.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_thatWhenUserRegistersWithInvalidPasswordPattern_throwsException.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_userCanLoginWithStandardLogin.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.test_userCanLoginWithZkLogin.executor": "Run",
-    "JUnit.AuthenticationServiceImplTest.userWhenLoggedInCanLogout_test.executor": "Run",
-    "JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists.executor": "Run",
-    "JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData.executor": "Run",
-    "JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test.executor": "Run",
-    "JUnit.CommentServiceImplTest.executor": "Run",
-    "JUnit.JwtUtilTest.executor": "Run",
-    "JUnit.JwtUtilTest.expiredTokenIsInvalid_test.executor": "Run",
-    "JUnit.JwtUtilTest.generateAndValidateAccessToken.executor": "Run",
-    "JUnit.JwtUtilTest.testGenerateToken.executor": "Run",
-    "JUnit.JwtUtilTest.validateAndExtractUsername_test.executor": "Run",
-    "JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeletedFromS3_test.executor": "Run",
-    "JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeleted_test.executor": "Run",
-    "JUnit.MediaServiceTest.executor": "Run",
-    "JUnit.MediaServiceTest.mediaCanBeSearched.executor": "Run",
-    "JUnit.MediaServiceTest.searchReturnsMultipleResults.executor": "Run",
-    "JUnit.MediaServiceTest.searchReturnsNoMatch.executor": "Run",
-    "JUnit.PostServiceTest.executor": "Run",
-    "JUnit.PostServiceTest.registerLoginAndCreatePost.executor": "Run",
-    "JUnit.PostServiceTest.testCreatePost.executor": "Run",
-    "JUnit.SuiZkLoginClientTest.executor": "Run",
-    "JUnit.SuiZkLoginClientTest.verifyProof_errorResponse_returnsNull.executor": "Run",
-    "JUnit.UserServiceImplTest.executor": "Run",
-    "JUnit.UserServiceTest.executor": "Run",
-    "JUnit.UserServiceTest.testRegisteredUserCanCreatePost.executor": "Run",
-    "JUnit.UserServiceTest.test_thatPostCanBeCreated_UserNotFound.executor": "Run",
-    "JUnit.UserServiceTest.test_thatUserCanEditPostCreated.executor": "Run",
-    "JUnit.UserServiceTest.test_thatUserCanRegister.executor": "Run",
-    "JUnit.UserServiceTest.test_thatUserCanRegister_andCreatePost.executor": "Debug",
-    "JUnit.UserServiceTest.test_thatUserCannotPostEmptyContent.executor": "Run",
-    "JUnit.UserServiceTest.test_thatUserCannotRegisterANullValue.executor": "Run",
-    "JUnit.UserServiceTest.test_thatUserNotLoggedIn_cannotCreateOrMakePost.executor": "Run",
-    "JUnit.UserServiceTest.test_userCanDeletePost.executor": "Run",
-    "JUnit.UserServiceTest.test_userNotLoggedIn_cannotCreateOrMakePost.executor": "Run",
-    "JUnit.ZkLoginVerifierControllerTest.executor": "Run",
-    "JUnit.ZkLoginVerifierControllerTest.testVerifyProof_Failure.executor": "Run",
-    "JUnit.ZkLoginVerifierControllerTest.testVerifyProof_Success.executor": "Run",
-    "JUnit.ZkLoginVerifierTest.executor": "Run",
-    "JUnit.ZkLoginVerifierTest.testVerifyProof_Failure.executor": "Run",
-    "JUnit.ZkLoginVerifierTest.testVerifyProof_Success.executor": "Run",
-    "Maven.VomzerSocials-SuiHackerHouse [clean].executor": "Run",
-    "Maven.VomzerSocials-SuiHackerHouse [compile].executor": "Run",
-    "Maven.VomzerSocials-SuiHackerHouse [deploy].executor": "Run",
-    "Maven.VomzerSocials-SuiHackerHouse [install].executor": "Run",
-    "Maven.VomzerSocials-SuiHackerHouse [package].executor": "Run",
-    "Maven.VomzerSocials-SuiHackerHouse [site].executor": "Run",
-    "Maven.VomzerSocials-SuiHackerHouse [test].executor": "Run",
-    "Maven.VomzerSocials-SuiHackerHouse [validate].executor": "Run",
-    "Maven.VomzerSocials-SuiHackerHouse [verify].executor": "Run",
-    "Notification.DisplayName-DoNotAsk-Settings Error": "Could not save settings",
-    "Notification.DoNotAsk-Settings Error": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "Spring Boot.Main.executor": "Run",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "dart.analysis.tool.window.visible": "false",
-    "data.sources.detected.do.not.suggest.again": "true",
-    "git-widget-placeholder": "john",
-    "go.import.settings.migrated": "true",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse/src/test/java/org/vomzersocials/user/services/implementations",
-    "last_opened_file_path": "C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.build.tools.auto.reload": "SELECTIVE",
-    "settings.editor.selected.configurable": "MavenSettings",
-    "show.migrate.to.gradle.popup": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.SecretKeyGenerator.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #10.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #11.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #13.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #15.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #16.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #17.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #18.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #20.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #21.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #22.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #24.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #25.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #27.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #4.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #5.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #6.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #7.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #8.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #9.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthServiceTest.testAuthenticateUser_InvalidProof.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthServiceTest.testAuthenticateUser_Success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.staffWhenLoggedInCanLogout_test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_loginStandardUserNotFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_refreshTokensGenerationIsSuccess.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_registerWithInvalidPassword_throwsException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatInvalidPasswordPattern_throwsException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatInvalidZkProofLogin_throwsException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatStandardLoginUserNotFound_throwsException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCanLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCanLoginWithStandardLoginDetails.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCanLoginWithZkLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCanLogin_withStandardLoginMethod.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCanRegister.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCanRegister2.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatUserCannotRegisterANullValue.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_thatWhenUserRegistersWithInvalidPasswordPattern_throwsException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_userCanLoginWithStandardLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.test_userCanLoginWithZkLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthenticationServiceImplTest.userWhenLoggedInCanLogout_test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenParentCommentExists.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedCommentResponse_WhenValidData.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentServiceImplTest.createComment_ShouldReturnCreatedComment_test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtUtilTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtUtilTest.expiredTokenIsInvalid_test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtUtilTest.generateAndValidateAccessToken.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtUtilTest.testGenerateToken.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtUtilTest.validateAndExtractUsername_test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeletedFromS3_test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.alreadyUploadedMediaCanBeDeleted_test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.mediaCanBeSearched.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.searchReturnsMultipleResults.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MediaServiceTest.searchReturnsNoMatch.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceTest.registerLoginAndCreatePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceTest.testCreatePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SuiZkLoginClientTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SuiZkLoginClientTest.verifyProof_errorResponse_returnsNull.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testRegisteredUserCanCreatePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatPostCanBeCreated_UserNotFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserCanEditPostCreated.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserCanRegister.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserCanRegister_andCreatePost.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserCannotPostEmptyContent.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserCannotRegisterANullValue.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_thatUserNotLoggedIn_cannotCreateOrMakePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_userCanDeletePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_userNotLoggedIn_cannotCreateOrMakePost.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierControllerTest.testVerifyProof_Failure.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierControllerTest.testVerifyProof_Success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierTest.testVerifyProof_Failure.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZkLoginVerifierTest.testVerifyProof_Success.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [deploy].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [site].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [validate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.VomzerSocials-SuiHackerHouse [verify].executor&quot;: &quot;Run&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-Settings Error&quot;: &quot;Could not save settings&quot;,
+    &quot;Notification.DoNotAsk-Settings Error&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Main.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;data.sources.detected.do.not.suggest.again&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;john&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse/src/test/java/org/vomzersocials/user/services/implementations&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.build.tools.auto.reload&quot;: &quot;SELECTIVE&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -352,23 +348,7 @@
       <workItem from="1747092696773" duration="9037000" />
       <workItem from="1747119935998" duration="32875000" />
       <workItem from="1747164057232" duration="26279000" />
-      <workItem from="1747219398033" duration="14300000" />
-    </task>
-    <task id="LOCAL-00008" summary="Edit post method created">
-      <option name="closed" value="true" />
-      <created>1743863939776</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1743863939776</updated>
-    </task>
-    <task id="LOCAL-00009" summary="User can edit posts">
-      <option name="closed" value="true" />
-      <created>1744027674915</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1744027674915</updated>
+      <workItem from="1747219398033" duration="18192000" />
     </task>
     <task id="LOCAL-00010" summary="ZK Login AuthService Tests passing">
       <option name="closed" value="true" />
@@ -746,7 +726,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747236196632</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="removed backend dto validations for registration and login">
+      <option name="closed" value="true" />
+      <created>1747241332094</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1747241332095</updated>
+    </task>
+    <task id="LOCAL-00058" summary="removed backend dto validations for registration and login">
+      <option name="closed" value="true" />
+      <created>1747241466685</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1747241466686</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -764,7 +760,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Media setup with walrus completed&#10;About to test walrus" />
     <MESSAGE value="Media can be uploaded to Backblaze b2 which functions like Walrus" />
     <MESSAGE value="comment session done and tests passing" />
     <MESSAGE value="User can like and unlike a post&#10;User can follow and unfollow a user" />
@@ -789,7 +784,8 @@
     <MESSAGE value="port binding issue resolve attempt" />
     <MESSAGE value="cors config set" />
     <MESSAGE value="cors config set -  refactored" />
-    <option name="LAST_COMMIT_MESSAGE" value="cors config set -  refactored" />
+    <MESSAGE value="removed backend dto validations for registration and login" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed backend dto validations for registration and login" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
