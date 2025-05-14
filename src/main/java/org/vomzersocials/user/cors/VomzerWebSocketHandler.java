@@ -1,4 +1,4 @@
-package org.vomzersocials.user.utils;
+package org.vomzersocials.user.cors;
 
 import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.WebSocketMessage;
