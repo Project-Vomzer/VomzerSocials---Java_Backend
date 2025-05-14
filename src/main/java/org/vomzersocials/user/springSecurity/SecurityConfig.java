@@ -34,40 +34,6 @@ public class SecurityConfig {
     }
 
 
-//    @Bean
-//    public @NonNull SecurityWebFilterChain(
-//            ServerHttpSecurity http,
-//            JwtAuthenticationFilter
-//    ) {
-//        return http
-//                // Disable CSRF since we’re stateless
-//                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-//
-//                // Use our custom entry point for unauthorized requests
-//                .exceptionHandling(exceptions ->
-//                        exceptions.authenticationEntryPoint(customAuthenticationEntryPoint)
-//                )
-//
-//                // Don’t use the default WebFlux SecurityContextRepository (stateless)
-//                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
-//
-//                // Stateless session management
-//                .sessionManagement(session ->
-//                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                )
-//
-//                // Route security rules
-//                .authorizeExchange(exchanges -> exchanges
-//                        .pathMatchers("/api/auth/**").permitAll()    // open endpoints
-//                        .anyExchange().authenticated()                // all others require auth
-//                )
-//
-//                // Add our JWT filter at the AUTHENTICATION phase
-//                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-//
-//                .build();
-//    }
-
     @Bean
     public @NonNull SecurityWebFilterChain securityWebFilterChain(
             ServerHttpSecurity http,
@@ -91,17 +57,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public @NonNull JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtUtil);
-    }
-
-    @Bean
-    public @NonNull BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-    @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of("http://localhost:5173"));
@@ -114,5 +69,17 @@ public class SecurityConfig {
 
         return new CorsWebFilter(source);
     }
+
+    @Bean
+    public @NonNull JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtUtil);
+    }
+
+    @Bean
+    public @NonNull BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
 }
 
