@@ -12,6 +12,9 @@ import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
+
+
 
 import java.util.List;
 
@@ -66,20 +69,25 @@ public class SecurityConfig {
 //    }
 
     @Bean
-    public @NonNull SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http,
-                                                                  JwtAuthenticationFilter jwtFilter
+    public @NonNull SecurityWebFilterChain securityWebFilterChain(
+            ServerHttpSecurity http,
+            JwtAuthenticationFilter jwtFilter
     ) {
-        return http
+        http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
-                .authorizeExchange(authorization -> authorization
+
+                .authorizeExchange(auth -> auth
+                        .pathMatchers(HttpMethod.GET, "/", "/index.html", "/static/**", "/favicon.ico").permitAll()
+                        .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers("/api/auth/**").permitAll()
-                        .pathMatchers("api/auth/admin/**").hasAuthority("ZKSocials")
+                        .pathMatchers("/api/auth/admin/**").hasAuthority("ZKSocials")
                         .anyExchange().authenticated()
                 )
-                .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-                .build();
+                .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+
+        return http.build();
     }
 
     @Bean

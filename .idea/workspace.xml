@@ -348,15 +348,7 @@
       <workItem from="1747092696773" duration="9037000" />
       <workItem from="1747119935998" duration="32875000" />
       <workItem from="1747164057232" duration="26279000" />
-      <workItem from="1747219398033" duration="8728000" />
-    </task>
-    <task id="LOCAL-00006" summary="User can create a text post and delete it">
-      <option name="closed" value="true" />
-      <created>1743231124995</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1743231124995</updated>
+      <workItem from="1747219398033" duration="9537000" />
     </task>
     <task id="LOCAL-00007" summary="Media updated">
       <option name="closed" value="true" />
@@ -742,7 +734,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747221951580</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="cors config set">
+      <option name="closed" value="true" />
+      <created>1747235171469</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1747235171470</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -760,7 +760,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Post service still giving issues&#10;No walrus yet" />
     <MESSAGE value="User can create and make posts" />
     <MESSAGE value="Media setup with walrus completed&#10;About to test walrus" />
     <MESSAGE value="Media can be uploaded to Backblaze b2 which functions like Walrus" />
@@ -785,7 +784,8 @@
     <MESSAGE value="End points working - pushed to git" />
     <MESSAGE value="End points working" />
     <MESSAGE value="port binding issue resolve attempt" />
-    <option name="LAST_COMMIT_MESSAGE" value="port binding issue resolve attempt" />
+    <MESSAGE value="cors config set" />
+    <option name="LAST_COMMIT_MESSAGE" value="cors config set" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
