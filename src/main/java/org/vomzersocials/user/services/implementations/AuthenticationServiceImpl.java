@@ -44,7 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Mono<RegisterUserResponse> registerWithStandardLogin(StandardRegisterRequest request) {
         log.info("Attempting standard registration for user: {}", request.getUserName());
-        validateUserInput(request.getUserName(), request.getPassword());
+//        validateUserInput(request.getUserName(), request.getPassword());
         return findExistingUser(request.getUserName())
                 .flatMap(existingUser -> {
                     if (existingUser.isPresent()) {
@@ -60,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Mono<RegisterUserResponse> registerWithZkLogin(ZkRegisterRequest request) {
         log.info("Attempting zkLogin registration for user: {}", request.getUserName());
-        validateUserInput(request.getUserName(), null);
+//        validateUserInput(request.getUserName(), null);
         return findExistingUser(request.getUserName())
                 .flatMap(existingUser -> {
                     if (existingUser.isPresent()) {
@@ -78,7 +78,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Mono<RegisterUserResponse> registerAdmin(StandardRegisterRequest request) {
         log.info("Attempting admin registration for user: {}", request.getUserName());
-        validateUserInput(request.getUserName(), request.getPassword());
+//        validateUserInput(request.getUserName(), request.getPassword());
         return findExistingUser(request.getUserName())
                 .flatMap(existingUser -> {
                     if (existingUser.isPresent()) {
@@ -171,9 +171,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Mono<TokenPair> refreshTokens(String refreshToken) {
-        if (!jwtUtil.validateToken(refreshToken)) {
-            return Mono.error(new IllegalArgumentException("Invalid refresh token"));
-        }
+//        if (!jwtUtil.validateToken(refreshToken)) {
+//            return Mono.error(new IllegalArgumentException("Invalid refresh token"));
+//        }
         String username = jwtUtil.extractUsername(refreshToken);
         return Mono.fromCallable(() -> {
             User user = userRepository.findUserByUserName(username)

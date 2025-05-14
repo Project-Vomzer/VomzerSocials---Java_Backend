@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="port binding issue resolve attempt">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="cors config set -  refactored">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/ChatMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WebSocketConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/VomzerWebSocketHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/springSecurity/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/springSecurity/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/ValidationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/ValidationUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -348,15 +352,7 @@
       <workItem from="1747092696773" duration="9037000" />
       <workItem from="1747119935998" duration="32875000" />
       <workItem from="1747164057232" duration="26279000" />
-      <workItem from="1747219398033" duration="9537000" />
-    </task>
-    <task id="LOCAL-00007" summary="Media updated">
-      <option name="closed" value="true" />
-      <created>1743237779133</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1743237779134</updated>
+      <workItem from="1747219398033" duration="14300000" />
     </task>
     <task id="LOCAL-00008" summary="Edit post method created">
       <option name="closed" value="true" />
@@ -742,7 +738,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747235171470</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="cors config set -  refactored">
+      <option name="closed" value="true" />
+      <created>1747236196631</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1747236196632</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -760,7 +764,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="User can create and make posts" />
     <MESSAGE value="Media setup with walrus completed&#10;About to test walrus" />
     <MESSAGE value="Media can be uploaded to Backblaze b2 which functions like Walrus" />
     <MESSAGE value="comment session done and tests passing" />
@@ -785,7 +788,8 @@
     <MESSAGE value="End points working" />
     <MESSAGE value="port binding issue resolve attempt" />
     <MESSAGE value="cors config set" />
-    <option name="LAST_COMMIT_MESSAGE" value="cors config set" />
+    <MESSAGE value="cors config set -  refactored" />
+    <option name="LAST_COMMIT_MESSAGE" value="cors config set -  refactored" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
