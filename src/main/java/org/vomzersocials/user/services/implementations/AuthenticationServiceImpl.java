@@ -48,6 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return findExistingUser(request.getUserName())
                 .flatMap(existingUser -> {
                     if (existingUser.isPresent()) {
+
                         return Mono.error(new IllegalArgumentException("Username already exists"));
                     }
                     return walletApiClient.generateSuiAddress()
