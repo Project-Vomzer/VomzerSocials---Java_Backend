@@ -8,5 +8,4 @@ import java.time.LocalDateTime;
 public class EditPostRequest {
     private String postId;
     private String content;
-    private LocalDateTime timestamp;
 }

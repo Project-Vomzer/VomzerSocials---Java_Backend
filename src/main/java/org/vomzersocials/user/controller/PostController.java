@@ -11,13 +11,10 @@ import org.vomzersocials.user.dtos.responses.CreatePostResponse;
 import org.vomzersocials.user.dtos.responses.DeletePostResponse;
 import org.vomzersocials.user.dtos.responses.EditPostResponse;
 import org.vomzersocials.user.dtos.responses.RepostResponse;
-import org.vomzersocials.user.exceptions.OwnershipException;
-import org.vomzersocials.user.exceptions.PostNotFoundException;
 import org.vomzersocials.user.services.interfaces.PostService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDateTime;
 
 
 @RestController
@@ -37,10 +34,7 @@ public class PostController {
 
         return validateAndExtractUserId(authHeader)
                 .flatMap(userId -> postService.createPost(request, userId))
-                .map(response -> {
-//                    log.info("Post created successfully by userId: {}", userId);
-                    return ResponseEntity.ok(response);
-                })
+                .map(ResponseEntity::ok)
                 .onErrorResume(exception -> {
                     log.error("Create post error", exception);
                     HttpStatus status = determineStatus(exception);
@@ -50,16 +44,6 @@ public class PostController {
                                     .build()));
                 });
     }
-
-//    @PostMapping("/create")
-//    public Mono<CreatePostResponse> createPost(@RequestBody CreatePostRequest request) {
-//        return Mono.just(CreatePostResponse.builder()
-//                .id("test-id")
-//                .authorId("test-user")
-//                .content(request.getContent())
-//                .timestamp(LocalDateTime.now())
-//                .build());
-//    }
 
     @PutMapping("/edit")
     public Mono<ResponseEntity<EditPostResponse>> editPost(
@@ -84,8 +68,6 @@ public class PostController {
             return HttpStatus.BAD_REQUEST;
         } else if (exception instanceof SecurityException) {
             return HttpStatus.UNAUTHORIZED;
-        } else if (exception instanceof OwnershipException) {
-            return HttpStatus.FORBIDDEN;
         } else {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -128,12 +110,10 @@ public class PostController {
             @Valid @RequestBody RepostRequest request,
             @RequestHeader("Authorization") String authHeader) {
 
+        //                    log.info("Repost successful for postId: {} by userId: {}", request.getPostId(), userId);
         return validateAndExtractUserId(authHeader)
                 .flatMap(userId -> postService.repost(request, userId))
-                .map(response -> {
-//                    log.info("Repost successful for postId: {} by userId: {}", request.getPostId(), userId);
-                    return ResponseEntity.ok(response);
-                })
+                .map(ResponseEntity::ok)
                 .onErrorResume(exception -> {
                     log.error("Repost error for postId: {}", request.getPostId(), exception);
                     HttpStatus status = determineStatus(exception);

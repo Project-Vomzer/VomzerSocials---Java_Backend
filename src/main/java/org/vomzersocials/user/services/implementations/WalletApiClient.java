@@ -76,12 +76,18 @@ public class WalletApiClient {
 //            if (addressNode.isMissingNode()) {
 //                addressNode = root.path("address");
 //            }
+//                if (!addressNode.isTextual()) {
+//                    log.error("Invalid address format. Response length: {}", rawResponse.length());
+//                    return Mono.error(new IllegalStateException("Invalid address format"));
+//                }
 //            String address = addressNode.asText();
 //            if (!address.startsWith("0x") || address.length() != 66) {
+//                        log.error("Invalid Sui address format: {}", address);
 //                return Mono.error(new IllegalStateException("Invalid Sui address: " + address));
 //            }
 //            return Mono.just(address);
 //        } catch (JsonProcessingException e) {
+//            log.error("Failed to parse response. Response length: {}", rawResponse.length());
 //            return Mono.error(new IllegalStateException("Invalid API response format", e));
 //        }
 //    }
@@ -98,6 +104,7 @@ private Mono<String> parseResponse(String rawResponse) {
             addressNode = root.path("address");
         }
         if (!addressNode.isTextual()) {
+            log.error("Invalid address format. Response length: {}", rawResponse.length());
             return Mono.error(new IllegalStateException("Invalid address format"));
         }
 

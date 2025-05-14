@@ -13,15 +13,13 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-
-    Optional<User> findUserByUserName(String userName);
-//    Mono<User> findByUsername(String username);
     User findUserById(String userId);
     @Modifying
     @Transactional
     @Query("UPDATE User u SET u.suiAddress = :suiAddress WHERE u.id = :id")
     void updateUserSuiAddress(@Param("suiAddress") String suiAddress);
     Optional<User> findByPublicKey(String publicKey);
-    Optional<Object> findUserBySuiAddress(String suiAddress);
-    Optional<User> findByUserName(String userName);
+    Optional<User> findUserByUserName(String userName);
+    Optional<User> findUserBySuiAddress(String suiAddress);
+
 }

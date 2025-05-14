@@ -19,24 +19,34 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private final AuthenticationService authenticationService;
+    @Autowired
+    private AuthenticationService authenticationService;
     private final PostService postService;
     @Autowired
     private UserRepository userRepository;
 
-    public UserServiceImpl(AuthenticationService authenticationService, PostService postService) {
-        this.authenticationService = authenticationService;
+    public UserServiceImpl( PostService postService) {
         this.postService = postService;
     }
 
     @Override
-    public Mono<RegisterUserResponse> registerNewUser(RegisterUserRequest request) {
-        return authenticationService.registerNewUser(request);
+    public Mono<RegisterUserResponse> registerNewUserViaZk(ZkRegisterRequest request) {
+        return authenticationService.registerWithZkLogin(request);
     }
 
     @Override
-    public Mono<LoginResponse> loginUser(LoginRequest request) {
-        return authenticationService.loginUser(request);
+    public Mono<RegisterUserResponse> registerNewUserViaStandardRegistration(StandardRegisterRequest request) {
+        return authenticationService.registerWithStandardLogin(request);
+    }
+
+    @Override
+    public Mono<LoginResponse> loginUserViaZk(ZkLoginRequest request) {
+        return authenticationService.loginWithZkLogin(request);
+    }
+
+    @Override
+    public Mono<LoginResponse> loginUserViaStandard(StandardLoginRequest request) {
+        return authenticationService.loginWithStandardLogin(request);
     }
 
     @Override
@@ -62,6 +72,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Mono<RepostResponse> repost(RepostRequest request, String userId) {
         return postService.repost(request, userId);
+    }
+
+    @Override
+    public Mono<TokenPair> refreshTokens(String refreshToken) {
+        return authenticationService.refreshTokens(refreshToken);
     }
 
     @Override

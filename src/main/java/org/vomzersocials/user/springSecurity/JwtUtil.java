@@ -3,6 +3,7 @@ package org.vomzersocials.user.springSecurity;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Slf4j
 public class JwtUtil {
 
     @Value("${jwt.secret}")
@@ -28,33 +30,20 @@ public class JwtUtil {
     @PostConstruct
     public void init() {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        if (keyBytes.length < 32) throw new IllegalArgumentException("Secret key must be at least 256 bits (32 bytes)");
+        if (keyBytes.length < 32) {
+            throw new IllegalArgumentException("Secret key must be at least 256 bits (32 bytes)");
+        }
         signingKey = Keys.hmacShaKeyFor(keyBytes);
     }
-
-//    public String generateAccessToken(String username, List<String> roles) {
-//        Map<String, Object> claims = new HashMap<>();
-//        claims.put("roles", roles);
-//        return Jwts.builder()
-//                .setSubject(username)
-//                .addClaims(claims)
-//                .setIssuedAt(new Date())
-//                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
-//                .signWith(signingKey, SignatureAlgorithm.HS256)
-//                .compact();
-//    }
 
     public String generateAccessToken(String username, List<String> roles) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("roles", roles)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
                 .signWith(signingKey, SignatureAlgorithm.HS256)
                 .compact();
-    }
-
-    public String generateAccessToken(String username) {
-        return generateAccessToken(username, List.of());
     }
 
     public String generateRefreshToken(String username) {
@@ -62,7 +51,7 @@ public class JwtUtil {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpirationMs))
-                .signWith(signingKey)
+                .signWith(signingKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -73,7 +62,11 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (JwtException jwtException) {
+        } catch (ExpiredJwtException e) {
+            log.error("JWT token is expired: {}", e.getMessage());
+            return false;
+        } catch (JwtException e) {
+            log.error("Invalid JWT token: {}", e.getMessage());
             return false;
         }
     }
@@ -81,30 +74,22 @@ public class JwtUtil {
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(signingKey)
-                .build().parseClaimsJws(token)
-                .getBody().getSubject();
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
-    public String extractUserId(String token) {
-        return Jwts.parserBuilder()
+    public List<String> extractRoles(String token) {
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(signingKey)
-                .build().parseClaimsJws(token)
-                .getBody().getSubject();
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        Object roles = claims.get("roles");
+        if (roles instanceof List<?>) {
+            return (List<String>) roles;
+        }
+        return List.of();
     }
-
-//    public List<String> extractRoles(String token) {
-//        var body = Jwts.parserBuilder()
-//                .setSigningKey(signingKey)
-//                .build()
-//                .parseClaimsJws(token)
-//                .getBody();
-//        Object roles = body.get("roles");
-//        if (roles instanceof List<?>) {
-//            return (List<String>) roles;
-//        }
-//        return List.of();
-//    }
-
-
-
 }
