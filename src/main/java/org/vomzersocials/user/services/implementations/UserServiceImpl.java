@@ -11,6 +11,7 @@ import org.vomzersocials.user.enums.FollowType;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
 import org.vomzersocials.user.services.interfaces.PostService;
 import org.vomzersocials.user.services.interfaces.UserService;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,44 +19,69 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private final AuthenticationService authenticationService;
+    @Autowired
+    private AuthenticationService authenticationService;
     private final PostService postService;
     @Autowired
     private UserRepository userRepository;
 
-    public UserServiceImpl(AuthenticationService authenticationService, PostService postService) {
-        this.authenticationService = authenticationService;
+    public UserServiceImpl( PostService postService) {
         this.postService = postService;
     }
 
     @Override
-    public RegisterUserResponse registerNewUser(RegisterUserRequest registerUserRequest) {
-        return authenticationService.registerNewUser(registerUserRequest).block();
+    public Mono<RegisterUserResponse> registerNewUserViaZk(ZkRegisterRequest request) {
+        return authenticationService.registerWithZkLogin(request);
     }
 
     @Override
-    public LoginResponse loginUser(LoginRequest loginRequest) {
-        return authenticationService.loginUser(loginRequest).block();
+    public Mono<RegisterUserResponse> registerNewUserViaStandardRegistration(StandardRegisterRequest request) {
+        return authenticationService.registerWithStandardLogin(request);
     }
 
     @Override
-    public LogoutUserResponse logoutUser(LogoutRequest logoutUserRequest) {
-        return authenticationService.logoutUser(logoutUserRequest).block();
+    public Mono<LoginResponse> loginUserViaZk(ZkLoginRequest request) {
+        return authenticationService.loginWithZkLogin(request);
     }
 
     @Override
-    public CreatePostResponse createPost(CreatePostRequest createPostRequest) {
-        return postService.createPost(createPostRequest);
+    public Mono<LoginResponse> loginUserViaStandard(StandardLoginRequest request) {
+        return authenticationService.loginWithStandardLogin(request);
     }
 
     @Override
-    public DeletePostResponse deletePost(DeletePostRequest deletePostRequest) {
-        return postService.deletePost(deletePostRequest);
+    public Mono<LogoutUserResponse> logoutUser(LogoutRequest request) {
+        return authenticationService.logoutUser(request);
     }
 
     @Override
-    public EditPostResponse editPost(EditPostRequest editPostRequest) {
-        return postService.editPost(editPostRequest);
+    public Mono<CreatePostResponse> createPost(CreatePostRequest request, String userId) {
+        return postService.createPost(request, userId);
+    }
+
+    @Override
+    public Mono<DeletePostResponse> deletePost(DeletePostRequest request, String userId) {
+        return postService.deletePost(request, userId);
+    }
+
+    @Override
+    public Mono<EditPostResponse> editPost(EditPostRequest request, String userId) {
+        return postService.editPost(request, userId);
+    }
+
+    @Override
+    public Mono<RepostResponse> repost(RepostRequest request, String userId) {
+        return postService.repost(request, userId);
+    }
+
+    @Override
+    public Mono<TokenPair> refreshTokens(String refreshToken) {
+        return authenticationService.refreshTokens(refreshToken);
+    }
+
+    @Override
+    public Mono<RegisterUserResponse> registerAdmin(StandardRegisterRequest request) {
+        return authenticationService.registerAdmin(request);
     }
 
     @Override

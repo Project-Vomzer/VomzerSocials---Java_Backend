@@ -1,8 +1,8 @@
 package org.vomzersocials.zkLogin.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
-import org.vomzersocials.user.data.models.User;
 import org.vomzersocials.user.data.repositories.UserRepository;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 import org.vomzersocials.zkLogin.security.ZkLoginVerifier;
@@ -12,6 +12,7 @@ import reactor.core.scheduler.Schedulers;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ZkLoginAuthService {
 
     private final ZkLoginVerifier zkLoginVerifier;
@@ -34,18 +35,10 @@ public class ZkLoginAuthService {
                     if (!valid) {
                         return Mono.error(new IllegalArgumentException("Invalid zkLogin proof"));
                     }
-
-                    return Mono.defer(() -> {
-                        User user = userRepository.findByPublicKey(req.getPublicKey())
-                                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-                        String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
-                        return Mono.just(accessToken);
-                    });
-                })
-                .subscribeOn(Schedulers.boundedElastic());
-    }
-
-    public Mono<String> authenticateUser(ZkLoginRequest request) {
-        return authenticate(request);
+                    return Mono.fromCallable(() -> userRepository.findByPublicKey(req.getPublicKey())
+                                    .orElseThrow(() -> new IllegalArgumentException("User not found")))
+                            .subscribeOn(Schedulers.boundedElastic())
+                            .map(user -> jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name())));
+                });
     }
 }

@@ -68,6 +68,7 @@ public class SecurityConfig {
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange(authorization -> authorization
                         .pathMatchers("/api/auth/**").permitAll()
+                        .pathMatchers("api/auth/admin/**").hasAuthority("ZKSocials")
                         .anyExchange().authenticated()
                 )
                 .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)

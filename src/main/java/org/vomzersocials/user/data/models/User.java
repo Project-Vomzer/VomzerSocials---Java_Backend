@@ -1,12 +1,14 @@
 package org.vomzersocials.user.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.vomzersocials.user.enums.Role;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +21,7 @@ import java.util.*;
 @Getter
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -40,6 +43,7 @@ public class User{
     private String publicKey;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", length = 20, nullable = false)
     private Role role;
 
     private int followerCount;

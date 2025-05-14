@@ -1,15 +1,13 @@
 package org.vomzersocials.user.dtos.responses;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.vomzersocials.user.enums.Role;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class RegisterUserResponse {
     private String userName;
     private Boolean isLoggedIn;

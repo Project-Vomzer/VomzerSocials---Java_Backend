@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="Wallet Api Client updated">
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="End points working">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +17,8 @@
       <list>
         <option value="Dockerfile" />
         <option value="JUnit5 Test Class" />
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -85,6 +84,14 @@
     &quot;HTTP Request.generated-requests | #11.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #13.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #15.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #16.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #17.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #18.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #20.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #21.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #22.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #24.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #25.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #4.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #5.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #6.executor&quot;: &quot;Run&quot;,
@@ -185,6 +192,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
     &quot;settings.build.tools.auto.reload&quot;: &quot;SELECTIVE&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
@@ -202,9 +210,9 @@
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.vomzersocials.user.dtos.responses" />
+      <recent name="org.vomzersocials.user.dtos.requests" />
       <recent name="org.vomzersocials.user.exceptions" />
       <recent name="org.vomzersocials.user.data.models" />
-      <recent name="org.vomzersocials.user.dtos.requests" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -218,9 +226,9 @@
       <recent name="org.vomzersocials.authentication.service.interface" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.vomzersocials.user.services.implementations" />
       <recent name="org.vomzersocials.user.services" />
       <recent name="org.vomzersocials.zkLogin.security" />
-      <recent name="org.vomzersocials.user.services.implementations" />
       <recent name="org.vomzersocials.user.dtos.responses" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
@@ -235,32 +243,20 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.Main">
-    <configuration name="generated-requests | #10" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="10" requestIdentifier="#10" runType="Run single request">
+    <configuration name="generated-requests | #20" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="20" requestIdentifier="#20" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #13" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="13" requestIdentifier="#13" runType="Run single request">
+    <configuration name="generated-requests | #21" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="21" requestIdentifier="#21" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #15" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="15" requestIdentifier="#15" runType="Run single request">
+    <configuration name="generated-requests | #22" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="22" requestIdentifier="#22" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #7" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="7" requestIdentifier="#7" runType="Run single request">
+    <configuration name="generated-requests | #24" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="24" requestIdentifier="#24" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="AuthenticationServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="VomzerSocials-SuiHackerHouse" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.vomzersocials.user.services.implementations.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.vomzersocials.user.services.implementations" />
-      <option name="MAIN_CLASS_NAME" value="org.vomzersocials.user.services.implementations.AuthenticationServiceImplTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="generated-requests | #25" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="25" requestIdentifier="#25" runType="Run single request">
+      <method v="2" />
     </configuration>
     <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -278,11 +274,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.generated-requests | #7" />
-        <item itemvalue="HTTP Request.generated-requests | #10" />
-        <item itemvalue="HTTP Request.generated-requests | #13" />
-        <item itemvalue="HTTP Request.generated-requests | #15" />
-        <item itemvalue="JUnit.AuthenticationServiceImplTest" />
+        <item itemvalue="HTTP Request.generated-requests | #25" />
+        <item itemvalue="HTTP Request.generated-requests | #24" />
+        <item itemvalue="HTTP Request.generated-requests | #22" />
+        <item itemvalue="HTTP Request.generated-requests | #21" />
+        <item itemvalue="HTTP Request.generated-requests | #20" />
       </list>
     </recent_temporary>
   </component>
@@ -344,39 +340,11 @@
       <workItem from="1746677197922" duration="30581000" />
       <workItem from="1746765220523" duration="9225000" />
       <workItem from="1746778643519" duration="33573000" />
-      <workItem from="1746985738048" duration="19121000" />
-    </task>
-    <task id="LOCAL-00001" summary="update">
-      <option name="closed" value="true" />
-      <created>1742874517507</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1742874517507</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Login components setup">
-      <option name="closed" value="true" />
-      <created>1743023288901</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1743023288901</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Zk login test failed because of zk proof returning false">
-      <option name="closed" value="true" />
-      <created>1743097087374</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1743097087375</updated>
-    </task>
-    <task id="LOCAL-00004" summary="User can create post and cannot post blank contents">
-      <option name="closed" value="true" />
-      <created>1743225661343</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1743225661345</updated>
+      <workItem from="1746985738048" duration="49824000" />
+      <workItem from="1747092696773" duration="9037000" />
+      <workItem from="1747119935998" duration="32875000" />
+      <workItem from="1747164057232" duration="26279000" />
+      <workItem from="1747219398033" duration="703000" />
     </task>
     <task id="LOCAL-00005" summary="User not logged in cannot create post">
       <option name="closed" value="true" />
@@ -730,7 +698,47 @@
       <option name="project" value="LOCAL" />
       <updated>1747030919519</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Wallet Api Client updated">
+      <option name="closed" value="true" />
+      <created>1747032463035</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1747032463035</updated>
+    </task>
+    <task id="LOCAL-00050" summary="post controller still returning 401">
+      <option name="closed" value="true" />
+      <created>1747100089965</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1747100089966</updated>
+    </task>
+    <task id="LOCAL-00051" summary="User can now post">
+      <option name="closed" value="true" />
+      <created>1747140650678</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1747140650680</updated>
+    </task>
+    <task id="LOCAL-00052" summary="End points working">
+      <option name="closed" value="true" />
+      <created>1747215378569</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1747215378570</updated>
+    </task>
+    <task id="LOCAL-00053" summary="End points working - pushed to git">
+      <option name="closed" value="true" />
+      <created>1747218709628</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1747218709630</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -748,11 +756,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Register endpoint working fine&#10;Although mocked for the zk Login bit" />
-    <MESSAGE value="All authentication service implementation service endpoint working" />
-    <MESSAGE value="Tried adding roles to the JWT tokens" />
-    <MESSAGE value="Going fully reactive" />
-    <MESSAGE value="Zk verifier turned reactive" />
     <MESSAGE value="roles finally set and working fine on postman" />
     <MESSAGE value="Post service still giving issues&#10;No walrus yet" />
     <MESSAGE value="User can create and make posts" />
@@ -773,7 +776,12 @@
     <MESSAGE value="Walrus config still having issues, slight adjustments made" />
     <MESSAGE value="Updated" />
     <MESSAGE value="Wallet Api Client updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="Wallet Api Client updated" />
+    <MESSAGE value="Repost api created" />
+    <MESSAGE value="post controller still returning 401" />
+    <MESSAGE value="User can now post" />
+    <MESSAGE value="End points working - pushed to git" />
+    <MESSAGE value="End points working" />
+    <option name="LAST_COMMIT_MESSAGE" value="End points working" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
