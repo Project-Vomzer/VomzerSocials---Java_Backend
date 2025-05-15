@@ -62,7 +62,7 @@ public class AuthController {
     public Mono<ResponseEntity<LoginResponse>> loginZk(@Valid @RequestBody ZkLoginRequest request) {
         return userService.loginUserViaZk(request)
                 .map(response -> {
-                    log.info("zkLogin successful for publicKey: {}", request.getPublicKey());
+                    log.info("zkLogin successful for publicKey: {}", request.getJwt());
                     ResponseCookie cookie = ResponseCookie.from("refreshToken", response.getRefreshToken())
                             .httpOnly(true)
                             .secure(cookieSecure)

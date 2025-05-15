@@ -2,13 +2,12 @@ package org.vomzersocials.user.services.interfaces;
 
 import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.user.dtos.responses.*;
-import org.vomzersocials.zkLogin.security.ZkLoginResult;
 import reactor.core.publisher.Mono;
 
 public interface AuthenticationService {
     Mono<RegisterUserResponse> registerAdmin(StandardRegisterRequest request);
     Mono<RegisterUserResponse> registerWithStandardLogin(StandardRegisterRequest request);
-    Mono<ZkLoginResult> registerWithZkLogin(ZkRegisterRequest request);
+    Mono<RegisterUserResponse> registerWithZkLogin(ZkRegisterRequest request);
     Mono<LoginResponse> loginWithStandardLogin(StandardLoginRequest request);
     Mono<LoginResponse> loginWithZkLogin(ZkLoginRequest request);
     Mono<LogoutUserResponse> logoutUser(LogoutRequest request);

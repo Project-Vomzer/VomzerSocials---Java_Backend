@@ -7,8 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
-import org.vomzersocials.zkLogin.security.ZkLoginResult;
-import org.vomzersocials.zkLogin.services.ZkLoginResult;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import org.vomzersocials.user.data.models.User;
@@ -18,10 +16,8 @@ import org.vomzersocials.zkLogin.services.ZkLoginService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 import org.vomzersocials.user.enums.Role;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import static org.vomzersocials.user.utils.ValidationUtils.isValidPassword;
 import static org.vomzersocials.user.utils.ValidationUtils.isValidUsername;
@@ -61,7 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Mono<ZkLoginResult> registerWithZkLogin(ZkRegisterRequest request) {
+    public Mono<RegisterUserResponse> registerWithZkLogin(ZkRegisterRequest request) {
         log.info("Attempting zkLogin registration for user: {}", request.getUserName());
         validateUserInput(request.getUserName(), null);
         return findExistingUser(request.getUserName())
@@ -117,12 +113,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         log.info("Attempting zkLogin with JWT");
         return zkLoginService.loginViaZkLogin(request)
                 .flatMap(suiAddress -> Mono.fromCallable(() -> {
-                            User user = userRepository.findUserBySuiAddress(suiAddress)
-                                    .orElseThrow(() -> new IllegalArgumentException("User not found for address " + suiAddress));
-                            user.setIsLoggedIn(true);
-                            return userRepository.save(user);
-                        }).subscribeOn(Schedulers.boundedElastic())
-                        .thenReturn(user))
+                    User user = userRepository.findUserBySuiAddress(suiAddress)
+                            .orElseThrow(() -> new IllegalArgumentException("User not found for address " + suiAddress));
+                    user.setIsLoggedIn(true);
+                    return userRepository.save(user);
+                }).subscribeOn(Schedulers.boundedElastic()))
                 .map(user -> createLoginResponse(user, "ZK_LOGIN"))
                 .doOnNext(this::logLoginResponse)
                 .onErrorMap(IllegalArgumentException.class, e ->
@@ -136,7 +131,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
             user.setIsLoggedIn(false);
             userRepository.save(user);
-            return new LogoutUserResponse(user.getUsername(), "Logged out successfully");
+            return new LogoutUserResponse(user.getUserName(), "Logged out successfully");
         }).subscribeOn(Schedulers.boundedElastic());
     }
 
@@ -227,7 +222,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             User user = new User();
             user.setUserName(username);
             if (password != null) {
-                user.setPassword(passwordEncoder.encode(password characterizing));
+                user.setPassword(passwordEncoder.encode(password));
             }
             user.setRole(role != null ? role : Role.USER);
             user.setSuiAddress(suiAddress);
@@ -248,7 +243,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private Mono<String> verifyZkProofAndRegisterOrThrow(String zkProof, String userName, String publicKey) {
         log.info("Verifying zkProof: {}, publicKey: {}", zkProof, publicKey);
         String suiAddress = zkLoginService.registerViaZkProof(zkProof, userName, publicKey);
-        boolean isValidZkProof = zkLoginService.isValidZkProof(zkProof, publicKey);
+        boolean isValidZkProof = Boolean.TRUE.equals(zkLoginService.isValidZkProof(zkProof, publicKey).block());
 
         if (!isValidZkProof) {
             return Mono.error(new IllegalArgumentException("Invalid zkProof"));

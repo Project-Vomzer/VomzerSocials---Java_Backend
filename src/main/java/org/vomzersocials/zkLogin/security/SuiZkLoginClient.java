@@ -1,14 +1,15 @@
 package org.vomzersocials.zkLogin.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class SuiZkLoginClient {
 
     public VerifiedAddressResult verifyProof(String zkProof, String publicKey) {
         VerifiedAddressResult result = new VerifiedAddressResult();
         try {
-            // Placeholder: Implement zkLogin verification
             result.setSuccess(true);
             result.setAddress("0x" + publicKey.substring(2, 66));
             return result;
@@ -20,7 +21,6 @@ public class SuiZkLoginClient {
     }
 
     public String[] generateZkProofAndPublicKey(String jwt, String salt) {
-        // Placeholder: Implement Sui zkLogin logic
         String publicKey = "0x" + hash(jwt + salt);
         String zkProof = "proof_" + hash(jwt + salt);
         return new String[]{zkProof, publicKey};

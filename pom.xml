@@ -48,7 +48,6 @@
             <optional>true</optional>
         </dependency>
 
-
         <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -75,7 +74,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.11</version>
+            <version>1.5.13</version>
         </dependency>
 
         <!-- AWS SDK -->
@@ -99,9 +98,6 @@
             <artifactId>s3-transfer-manager</artifactId>
             <version>2.29.6</version>
         </dependency>
-
-
-
 
         <!-- Database Drivers -->
         <dependency>
@@ -188,14 +184,11 @@
             <scope>test</scope>
         </dependency>
 
-
         <!-- WebFlux (for WebClient, etc.) -->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
