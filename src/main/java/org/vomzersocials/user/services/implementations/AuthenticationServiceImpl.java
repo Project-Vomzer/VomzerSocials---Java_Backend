@@ -7,7 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.vomzersocials.user.dtos.responses.*;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
-import org.vomzersocials.zkLogin.security.VerifiedAddressResult;
+import org.vomzersocials.zkLogin.security.ZkLoginResult;
+import org.vomzersocials.zkLogin.services.ZkLoginResult;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import org.vomzersocials.user.data.models.User;
@@ -16,9 +17,11 @@ import org.vomzersocials.user.dtos.requests.*;
 import org.vomzersocials.zkLogin.services.ZkLoginService;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 import org.vomzersocials.user.enums.Role;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import static org.vomzersocials.user.utils.ValidationUtils.isValidPassword;
 import static org.vomzersocials.user.utils.ValidationUtils.isValidUsername;
@@ -44,11 +47,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Mono<RegisterUserResponse> registerWithStandardLogin(StandardRegisterRequest request) {
         log.info("Attempting standard registration for user: {}", request.getUserName());
-//        validateUserInput(request.getUserName(), request.getPassword());
+        validateUserInput(request.getUserName(), request.getPassword());
         return findExistingUser(request.getUserName())
                 .flatMap(existingUser -> {
                     if (existingUser.isPresent()) {
-
                         return Mono.error(new IllegalArgumentException("Username already exists"));
                     }
                     return walletApiClient.generateSuiAddress()
@@ -59,27 +61,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Mono<RegisterUserResponse> registerWithZkLogin(ZkRegisterRequest request) {
+    public Mono<ZkLoginResult> registerWithZkLogin(ZkRegisterRequest request) {
         log.info("Attempting zkLogin registration for user: {}", request.getUserName());
-//        validateUserInput(request.getUserName(), null);
+        validateUserInput(request.getUserName(), null);
         return findExistingUser(request.getUserName())
                 .flatMap(existingUser -> {
                     if (existingUser.isPresent()) {
                         return Mono.error(new IllegalArgumentException("Username already exists"));
                     }
-                    return Mono.fromCallable(() -> verifyZkProofAndRegisterOrThrow(
-                                    request.getZkProof(), request.getUserName(), request.getPublicKey()))
-                            .subscribeOn(Schedulers.boundedElastic())
-                            .flatMap(suiAddress -> createUser(request.getUserName(), null, suiAddress, request.getPublicKey(), Role.USER)
+                    return zkLoginService.registerViaZkLogin(request.getUserName(), request.getJwt())
+                            .flatMap(result -> createUser(
+                                    request.getUserName(),
+                                    null,
+                                    result.getSuiAddress(),
+                                    result.getPublicKey(),
+                                    Role.USER)
                                     .map(user -> registerNewUserResponse(request.getUserName(), user)));
                 })
-                .onErrorMap(IllegalArgumentException.class, e -> new IllegalArgumentException("zkRegistration failed: " + e.getMessage()));
+                .onErrorMap(IllegalArgumentException.class, e ->
+                        new IllegalArgumentException("zkRegistration failed: " + e.getMessage()));
     }
 
     @Override
     public Mono<RegisterUserResponse> registerAdmin(StandardRegisterRequest request) {
         log.info("Attempting admin registration for user: {}", request.getUserName());
-//        validateUserInput(request.getUserName(), request.getPassword());
+        validateUserInput(request.getUserName(), request.getPassword());
         return findExistingUser(request.getUserName())
                 .flatMap(existingUser -> {
                     if (existingUser.isPresent()) {
@@ -91,22 +97,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 })
                 .onErrorMap(IllegalArgumentException.class, e -> new IllegalArgumentException("Admin registration failed: " + e.getMessage()));
     }
-
-//    @Override
-//    public Mono<upgradeUserResponse> switchToAdmin(String username) {
-//        log.info("Attempting to switch user {} to admin role", username);
-//        return Mono.fromCallable(() -> {
-//                    User user = userRepository.findUserByUserName(username)
-//                            .orElseThrow(() -> new IllegalArgumentException("User not found"));
-//                    if (user.getRole() == Role.ZKSocials) {
-//                        throw new IllegalArgumentException("User is already an admin");
-//                    }
-//                    user.setRole(Role.ZKSocials);
-//                    userRepository.save(user);
-//                    return new upgradeUserResponse(user.getUserName(), user.getRole(), "User promoted to admin successfully");
-//                }).subscribeOn(Schedulers.boundedElastic())
-//                .onErrorMap(IllegalArgumentException.class, e -> new IllegalArgumentException("Role switch failed: " + e.getMessage()));
-//    }
 
     @Override
     public Mono<LoginResponse> loginWithStandardLogin(StandardLoginRequest request) {
@@ -124,16 +114,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Mono<LoginResponse> loginWithZkLogin(ZkLoginRequest request) {
-        log.info("Attempting zkLogin for user with publicKey: {}", request.getPublicKey());
-        return handleZkLogin(request)
-                .flatMap(user -> Mono.fromCallable(() -> {
+        log.info("Attempting zkLogin with JWT");
+        return zkLoginService.loginViaZkLogin(request)
+                .flatMap(suiAddress -> Mono.fromCallable(() -> {
+                            User user = userRepository.findUserBySuiAddress(suiAddress)
+                                    .orElseThrow(() -> new IllegalArgumentException("User not found for address " + suiAddress));
                             user.setIsLoggedIn(true);
                             return userRepository.save(user);
                         }).subscribeOn(Schedulers.boundedElastic())
                         .thenReturn(user))
-                .map(user -> createLoginResponse(user, request.getLoginMethod().name()))
+                .map(user -> createLoginResponse(user, "ZK_LOGIN"))
                 .doOnNext(this::logLoginResponse)
-                .onErrorMap(IllegalArgumentException.class, e -> new IllegalArgumentException("zkLogin failed: " + e.getMessage()));
+                .onErrorMap(IllegalArgumentException.class, e ->
+                        new IllegalArgumentException("zkLogin failed: " + e.getMessage()));
     }
 
     @Override
@@ -143,7 +136,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
             user.setIsLoggedIn(false);
             userRepository.save(user);
-            return new LogoutUserResponse(user.getUserName(), "Logged out successfully");
+            return new LogoutUserResponse(user.getUsername(), "Logged out successfully");
         }).subscribeOn(Schedulers.boundedElastic());
     }
 
@@ -172,9 +165,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Mono<TokenPair> refreshTokens(String refreshToken) {
-//        if (!jwtUtil.validateToken(refreshToken)) {
-//            return Mono.error(new IllegalArgumentException("Invalid refresh token"));
-//        }
         String username = jwtUtil.extractUsername(refreshToken);
         return Mono.fromCallable(() -> {
             User user = userRepository.findUserByUserName(username)
@@ -208,19 +198,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }).subscribeOn(Schedulers.boundedElastic());
     }
 
-    private Mono<User> handleZkLogin(ZkLoginRequest req) {
-        return Mono.fromCallable(() -> {
-            log.info("zkLogin with zkProof='{}', publicKey='{}'", req.getZkProof(), req.getPublicKey());
-            VerifiedAddressResult result = zkLoginService.loginViaZkProof(req.getZkProof(), req.getPublicKey());
-            if (result == null || !result.isSuccess()) {
-                throw new IllegalArgumentException("Invalid zk-proof or proof verification failed");
-            }
-            String address = result.getAddress();
-            return userRepository.findUserBySuiAddress(address)
-                    .orElseThrow(() -> new IllegalArgumentException("User not found for address " + address));
-        }).subscribeOn(Schedulers.boundedElastic());
-    }
-
     private LoginResponse createLoginResponse(User user, String loginMethod) {
         String accessToken = jwtUtil.generateAccessToken(user.getUserName(), List.of(user.getRole().name()));
         String refreshToken = jwtUtil.generateRefreshToken(user.getUserName());
@@ -245,29 +222,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
-    private Mono<User> createUser(String username,
-                                  String password,
-                                  String suiAddress,
-                                  String publicKey,
-                                  Role role) {
+    private Mono<User> createUser(String username, String password, String suiAddress, String publicKey, Role role) {
         return Mono.fromCallable(() -> {
             User user = new User();
             user.setUserName(username);
             if (password != null) {
-                user.setPassword(passwordEncoder.encode(password));
+                user.setPassword(passwordEncoder.encode(password characterizing));
             }
-            Role finalRole = (role != null ? role : Role.USER);
-            System.out.println("Chosen role is " + finalRole);
-            user.setRole(finalRole);
-
+            user.setRole(role != null ? role : Role.USER);
             user.setSuiAddress(suiAddress);
             user.setPublicKey(publicKey);
             user.setIsLoggedIn(false);
-            user.setDateOfCreation(LocalDateTime.now());
             return userRepository.save(user);
         }).subscribeOn(Schedulers.boundedElastic());
     }
-
 
     private RegisterUserResponse registerNewUserResponse(String username, User user) {
         RegisterUserResponse response = new RegisterUserResponse();
@@ -277,11 +245,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return response;
     }
 
-    private String verifyZkProofAndRegisterOrThrow(String zkProof, String userName, String publicKey) {
+    private Mono<String> verifyZkProofAndRegisterOrThrow(String zkProof, String userName, String publicKey) {
+        log.info("Verifying zkProof: {}, publicKey: {}", zkProof, publicKey);
         String suiAddress = zkLoginService.registerViaZkProof(zkProof, userName, publicKey);
-        if (suiAddress == null) {
-            throw new IllegalArgumentException("Invalid zk-proof or proof verification failed");
+        boolean isValidZkProof = zkLoginService.isValidZkProof(zkProof, publicKey);
+
+        if (!isValidZkProof) {
+            return Mono.error(new IllegalArgumentException("Invalid zkProof"));
         }
-        return suiAddress;
+        return Mono.just(suiAddress);
     }
 }

@@ -1,5 +1,39 @@
 POST http://localhost:8081/api/auth/register/zk
 Content-Type: application/json
+Content-Length: 61
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "janny",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-05-15T072613.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register/zk
+Content-Type: application/json
+Content-Length: 61
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "janny",
+  "zkProof": "",
+  "publicKey": ""
+}
+
+<> 2025-05-15T072608.400.json
+
+###
+
+POST http://localhost:8081/api/auth/register/zk
+Content-Type: application/json
 Content-Length: 87
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -859,46 +893,6 @@ Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWJ1bG91czEyMzQiLCJpYXQiOj
 }
 
 <> 2025-05-13T103927.500.json
-
-###
-
-POST http://localhost:8081/api/posts/create
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWJ1bG91czEyMzQiLCJpYXQiOjE3NDcxMjg5MzAsImV4cCI6MTc0NzEzMjUzMH0.YB6PuTKBLRMRyGitNUQl0_Gio9MNnmExJ7Nu4Fn5BzQ
-Content-Type: application/json
-Content-Length: 114
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWJ1bG91czEyMzQiLCJpYXQiOjE3NDcxMjg5MzAsImV4cCI6MTc0NzIxNTMzMH0.eUMRgvXGsczpiTImBWLNUDUrG1XjqJNYNRlyuJRNb70
-
-{
-  "author": {
-    "userName": "fabulous1234"
-  },
-  "content": "This is my first post! 🎉",
-  "mediaIds": []
-}
-
-<> 2025-05-13T103600.500.json
-
-###
-
-POST http://localhost:8081/api/auth/login
-Content-Type: application/json
-Content-Length: 127
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "username": "fabulous1234",
-  "password": "isAMan",
-  "loginMethod": "STANDARD_LOGIN",
-  "zkProof": "",
-  "publicKey": ""
-}
-
-<> 2025-05-13T103530.200.json
 
 ###
 

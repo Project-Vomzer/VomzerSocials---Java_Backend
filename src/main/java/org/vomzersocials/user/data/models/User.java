@@ -6,28 +6,23 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.vomzersocials.user.enums.Role;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User{
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
     @EqualsAndHashCode.Include
-    @ToString.Include
     private String id;
 
     @Column(name = "user_name", nullable = false, unique = true)
@@ -40,7 +35,15 @@ public class User{
 
     @Column(nullable = false, unique = true)
     private String suiAddress;
+
     private String publicKey;
+    private String privateKey;
+
+    @JsonIgnore
+    private String salt;
+
+    @Column(name = "jwt_subject_hash", unique = true)
+    private String jwtSubjectHash;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", length = 20, nullable = false)
@@ -67,7 +70,17 @@ public class User{
     @PrePersist
     protected void onCreate() {
         this.dateOfCreation = LocalDateTime.now();
+        if (this.isLoggedIn == null) {
+            this.isLoggedIn = false;
+        }
+        if (this.followerCount == 0) {
+            this.followerCount = 0;
+        }
+        if (this.followingCount == 0) {
+            this.followingCount = 0;
+        }
+        if (this.likeCount == 0) {
+            this.likeCount = 0;
+        }
     }
-
-
 }

@@ -2,8 +2,8 @@ package org.vomzersocials.zkLogin.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.vomzersocials.zkLogin.dtos.ZkLoginRequest;
 import org.vomzersocials.user.data.repositories.UserRepository;
+import org.vomzersocials.user.dtos.requests.ZkLoginRequest;
 import org.vomzersocials.user.springSecurity.JwtUtil;
 import org.vomzersocials.zkLogin.security.ZkLoginVerifier;
 import reactor.core.publisher.Mono;
