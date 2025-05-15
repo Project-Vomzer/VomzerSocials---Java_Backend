@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="removed backend dto validations for registration and login">
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="cors config updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/configs/WebSocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/springSecurity/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/springSecurity/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/utils/VomzerWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/cors/VomzerWebSocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/cors/VomzerWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/cors/VomzerWebSocketHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -348,15 +347,8 @@
       <workItem from="1747092696773" duration="9037000" />
       <workItem from="1747119935998" duration="32875000" />
       <workItem from="1747164057232" duration="26279000" />
-      <workItem from="1747219398033" duration="18192000" />
-    </task>
-    <task id="LOCAL-00010" summary="ZK Login AuthService Tests passing">
-      <option name="closed" value="true" />
-      <created>1744378124162</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1744378124162</updated>
+      <workItem from="1747219398033" duration="23343000" />
+      <workItem from="1747282850765" duration="1780000" />
     </task>
     <task id="LOCAL-00011" summary="ZK Login AuthService Tests passed">
       <option name="closed" value="true" />
@@ -742,7 +734,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747241466686</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="cors config updated">
+      <option name="closed" value="true" />
+      <created>1747249862916</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1747249862919</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -760,7 +760,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Media can be uploaded to Backblaze b2 which functions like Walrus" />
     <MESSAGE value="comment session done and tests passing" />
     <MESSAGE value="User can like and unlike a post&#10;User can follow and unfollow a user" />
     <MESSAGE value="Updated application.properties" />
@@ -785,7 +784,8 @@
     <MESSAGE value="cors config set" />
     <MESSAGE value="cors config set -  refactored" />
     <MESSAGE value="removed backend dto validations for registration and login" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed backend dto validations for registration and login" />
+    <MESSAGE value="cors config updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="cors config updated" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
