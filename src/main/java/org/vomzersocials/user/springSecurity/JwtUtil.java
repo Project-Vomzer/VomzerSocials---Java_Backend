@@ -26,6 +26,11 @@ public class JwtUtil {
     private long refreshTokenExpirationMs;
 
     private Key signingKey;
+    private final SuiZkLoginClient suiZkLoginClient;
+
+    public JwtUtil(SuiZkLoginClient suiZkLoginClient) {
+        this.suiZkLoginClient = suiZkLoginClient;
+    }
 
     @PostConstruct
     public void init() {
@@ -57,39 +62,106 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
+            if (token == null || token.isBlank()) {
+                log.warn("JWT token is empty");
+                return false;
+            }
             Jwts.parserBuilder()
                     .setSigningKey(signingKey)
                     .build()
                     .parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException e) {
-            log.error("JWT token is expired: {}", e.getMessage());
+            log.warn("JWT token is expired: {}", e.getMessage());
             return false;
         } catch (JwtException e) {
-            log.error("Invalid JWT token: {}", e.getMessage());
+            log.warn("Invalid JWT token: {}", e.getMessage());
+            return false;
+        } catch (Exception e) {
+            log.warn("Unexpected error validating JWT: {}", e.getMessage());
             return false;
         }
     }
 
     public String extractUsername(String token) {
+        try {
+            Claims claims = parseClaims(token);
+            String username = claims.getSubject();
+            if (username == null || username.isBlank()) {
+                throw new IllegalArgumentException("Username is empty");
+            }
+            return username;
+        } catch (Exception e) {
+            log.warn("Failed to extract username from JWT: {}", e.getMessage());
+            throw new IllegalArgumentException("Invalid token");
+        }
+    }
+
+    public List<String> extractRoles(String token) {
+        try {
+            Claims claims = parseClaims(token);
+            Object roles = claims.get("roles");
+            if (roles instanceof List<?>) {
+                return (List<String>) roles;
+            }
+            return List.of();
+        } catch (Exception e) {
+            log.warn("Failed to extract roles from JWT: {}", e.getMessage());
+            throw new IllegalArgumentException("Invalid token");
+        }
+    }
+
+    private Claims parseClaims(String token) {
+        if (token == null || token.isBlank()) {
+            throw new IllegalArgumentException("Token is empty");
+        }
         return Jwts.parserBuilder()
                 .setSigningKey(signingKey)
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
     }
 
-    public List<String> extractRoles(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(signingKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        Object roles = claims.get("roles");
-        if (roles instanceof List<?>) {
-            return (List<String>) roles;
+    public boolean validateZkLoginToken(String oauthToken) {
+        try {
+            if (oauthToken == null || oauthToken.isBlank()) {
+                log.warn("zkLogin OAuth token is empty");
+                return false;
+            }
+            // Placeholder: Replace with actual Sui zkLogin validation
+            boolean isValid = suiZkLoginClient.validateZkLogin(oauthToken);
+            if (isValid) {
+                log.info("zkLogin token validated successfully");
+                return true;
+            } else {
+                log.warn("Invalid zkLogin token");
+                return false;
+            }
+        } catch (Exception e) {
+            log.warn("Error validating zkLogin token: {}", e.getMessage());
+            return false;
         }
-        return List.of();
+    }
+
+    public TokenResponse generateTokensForLogin(String username, List<String> roles) {
+        String accessToken = generateAccessToken(username, roles);
+        String refreshToken = generateRefreshToken(username);
+        return new TokenResponse(accessToken, refreshToken);
+    }
+
+    public String refreshAccessToken(String refreshToken, List<String> roles) {
+        if (!validateToken(refreshToken)) {
+            throw new IllegalArgumentException("Invalid refresh token");
+        }
+        String username = extractUsername(refreshToken);
+        return generateAccessToken(username, roles);
+    }
+
+    public record TokenResponse(String accessToken, String refreshToken) {
+    }
+
+    // Mock interface for Sui zkLogin client
+    public interface SuiZkLoginClient {
+        boolean validateZkLogin(String oauthToken);
     }
 }

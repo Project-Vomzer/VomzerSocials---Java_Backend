@@ -71,7 +71,7 @@ public class ZkLoginService {
                                             userRepository.save(user);
 
                                             log.info("Registered user {} with Sui address: {}", userName, suiAddress);
-                                            return Mono.just(new ZkLoginResult(suiAddress, publicKey));
+                                            return Mono.just(new ZkLoginResult(suiAddress, publicKey, zkProof));
                                         });
                             });
                 });

@@ -9,7 +9,7 @@ import org.vomzersocials.user.enums.Role;
 @AllArgsConstructor
 
 public class LoginResponse {
-    private String username;
+    private String userName;
     private String message;
     private String accessToken;
     private String refreshToken;

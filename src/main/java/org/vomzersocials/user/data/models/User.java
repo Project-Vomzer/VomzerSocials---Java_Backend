@@ -37,7 +37,6 @@ public class User {
     private String suiAddress;
 
     private String publicKey;
-    private String privateKey;
 
     @JsonIgnore
     private String salt;

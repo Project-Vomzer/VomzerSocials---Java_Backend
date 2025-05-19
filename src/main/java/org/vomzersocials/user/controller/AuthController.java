@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -62,7 +63,7 @@ public class AuthController {
     public Mono<ResponseEntity<LoginResponse>> loginZk(@Valid @RequestBody ZkLoginRequest request) {
         return userService.loginUserViaZk(request)
                 .map(response -> {
-                    log.info("zkLogin successful for publicKey: {}", request.getJwt());
+                    log.info("zkLogin successful for JWT: {}", request.getJwt());
                     ResponseCookie cookie = ResponseCookie.from("refreshToken", response.getRefreshToken())
                             .httpOnly(true)
                             .secure(cookieSecure)
@@ -76,6 +77,7 @@ public class AuthController {
                 });
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register/admin")
     public Mono<ResponseEntity<RegisterUserResponse>> registerAdmin(
             @Valid @RequestBody StandardRegisterRequest request) {
@@ -113,6 +115,14 @@ public class AuthController {
                     log.info("zk registration successful for username: {}", request.getUserName());
                     return ResponseEntity.created(URI.create("/api/users/" + response.getUserName()))
                             .body(response);
+                })
+                .onErrorResume(error -> {
+                    HttpStatus httpStatus = (error instanceof IllegalArgumentException) ? HttpStatus.BAD_REQUEST : HttpStatus.INTERNAL_SERVER_ERROR;
+                    return Mono.just(ResponseEntity.status(httpStatus).body(
+                            RegisterUserResponse.builder()
+                                    .message(error.getMessage())
+                                    .build()
+                    ));
                 });
     }
 

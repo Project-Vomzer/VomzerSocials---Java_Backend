@@ -13,10 +13,12 @@ public class RegisterUserResponse {
     private Boolean isLoggedIn;
     private Role role;
     private String message;
+    private String suiAddress;
 
     public RegisterUserResponse(String userName, boolean b, String s) {
         this.userName = userName;
         this.isLoggedIn = b;
         this.message = s;
     }
+
 }

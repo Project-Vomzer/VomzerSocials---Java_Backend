@@ -50,10 +50,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         return Mono.error(new IllegalArgumentException("Username already exists"));
                     }
                     return walletApiClient.generateSuiAddress()
-                            .flatMap(address -> createUser(request.getUserName(), request.getPassword(), address, null, Role.USER)
-                                    .map(user -> registerNewUserResponse(request.getUserName(), user)));
+                            .flatMap(address -> createUser(
+                                    request.getUserName(),
+                                    request.getPassword(),
+                                    address,
+                                    null,
+                                    Role.USER
+                            ))
+                            .map(user -> registerNewUserResponse(request.getUserName(), user));
                 })
-                .onErrorMap(IllegalArgumentException.class, e -> new IllegalArgumentException("Registration failed: " + e.getMessage()));
+                .onErrorMap(IllegalArgumentException.class, e ->
+                        new IllegalArgumentException("Registration failed: " + e.getMessage()));
     }
 
     @Override
@@ -111,17 +118,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Mono<LoginResponse> loginWithZkLogin(ZkLoginRequest request) {
         log.info("Attempting zkLogin with JWT");
+        if (request.getJwt() == null || request.getJwt().isEmpty()) {
+            return Mono.error(new IllegalArgumentException("Invalid or missing JWT"));
+        }
         return zkLoginService.loginViaZkLogin(request)
-                .flatMap(suiAddress -> Mono.fromCallable(() -> {
-                    User user = userRepository.findUserBySuiAddress(suiAddress)
-                            .orElseThrow(() -> new IllegalArgumentException("User not found for address " + suiAddress));
+                .flatMap(suiAddress -> Mono.fromCallable(() -> userRepository.findUserBySuiAddress(suiAddress)
+                                .orElseThrow(() -> new IllegalArgumentException("User not found for address " + suiAddress)))
+                        .subscribeOn(Schedulers.boundedElastic()))
+                .flatMap(user -> {
+                    if (user.getIsLoggedIn()) {
+                        return Mono.error(new IllegalArgumentException("User is already logged in"));
+                    }
                     user.setIsLoggedIn(true);
                     return userRepository.save(user);
-                }).subscribeOn(Schedulers.boundedElastic()))
+                })
                 .map(user -> createLoginResponse(user, "ZK_LOGIN"))
                 .doOnNext(this::logLoginResponse)
                 .onErrorMap(IllegalArgumentException.class, e ->
-                        new IllegalArgumentException("zkLogin failed: " + e.getMessage()));
+                        new IllegalArgumentException("zkLogin failed: " + e.getMessage()))
+                .onErrorMap(Throwable.class, e ->
+                        new RuntimeException("Unexpected error during zkLogin: " + e.getMessage()));
     }
 
     @Override
@@ -208,9 +224,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private void logLoginResponse(LoginResponse resp) {
         try {
+            LoginResponse maskedResponse = new LoginResponse(
+                    resp.getUserName(),
+                    resp.getMessage(),
+                    "****",
+                    "****",
+                    resp.getRole(),
+                    resp.getLoginMethod()
+            );
             String json = new ObjectMapper()
                     .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(resp);
+                    .writeValueAsString(maskedResponse);
             log.info("LoginResponse JSON:\n{}", json);
         } catch (JsonProcessingException e) {
             log.error("Failed to serialize LoginResponse", e);
@@ -229,7 +253,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user.setPublicKey(publicKey);
             user.setIsLoggedIn(false);
             return userRepository.save(user);
-        }).subscribeOn(Schedulers.boundedElastic());
+        }).subscribeOn(Schedulers.boundedElastic()).block();
     }
 
     private RegisterUserResponse registerNewUserResponse(String username, User user) {
