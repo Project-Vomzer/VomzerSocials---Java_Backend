@@ -1,3 +1,20 @@
+POST http://localhost:8081/api/auth/login/standard
+Content-Type: application/json
+Content-Length: 90
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "userName": "cassavalesky",
+  "password": "garrionLord",
+  "loginMethod": "ZK_LOGIN"
+}
+
+<> 2025-05-21T153920.401.json
+
+###
+
 POST http://localhost:8081/api/auth/register/zk
 Content-Type: application/json
 Content-Length: 87
@@ -880,25 +897,6 @@ Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWJ1bG91czEyMzQiLCJpYXQiOj
 }
 
 <> 2025-05-13T103600.500.json
-
-###
-
-POST http://localhost:8081/api/auth/login
-Content-Type: application/json
-Content-Length: 127
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.0.1
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "username": "fabulous1234",
-  "password": "isAMan",
-  "loginMethod": "STANDARD_LOGIN",
-  "zkProof": "",
-  "publicKey": ""
-}
-
-<> 2025-05-13T103530.200.json
 
 ###
 

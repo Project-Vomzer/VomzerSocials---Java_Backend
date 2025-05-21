@@ -51,6 +51,10 @@ public class User{
     @Column(name = "salt")
     private String salt;
 
+
+    @Column(unique = true)
+    private String jwtSubjectHash;
+
     private int followerCount;
     private int followingCount;
 

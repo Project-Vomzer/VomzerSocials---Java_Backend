@@ -6,9 +6,6 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,8 +23,6 @@ import org.vomzersocials.user.springSecurity.JwtUtil;
 import org.vomzersocials.user.enums.Role;
 
 import java.util.*;
-
-import org.springframework.http.HttpMethod; // Correct import
 
 import static org.vomzersocials.user.utils.ValidationUtils.isValidPassword;
 import static org.vomzersocials.user.utils.ValidationUtils.isValidUsername;
@@ -399,7 +394,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return Mono.fromCallable(() -> {
             log.debug("Searching for user with userId: {}", userId);
             try {
-                Optional<User> user = userRepository.findByUserId(userId);
+                Optional<User> user = userRepository.findById(userId);
                 log.debug("Found user for userId {}: {}", userId, user.isPresent() ? user.get() : "not found");
                 return user;
             } catch (Exception e) {

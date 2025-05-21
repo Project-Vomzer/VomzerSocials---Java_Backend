@@ -4,23 +4,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
-import org.springframework.web.cors.reactive.CorsWebFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.http.HttpMethod;
-
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static org.springframework.security.config.Customizer.withDefaults;
 
 
 @Configuration
@@ -37,7 +36,7 @@ public class SecurityConfig {
     }
 
 //    @Bean
-//    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+//    public  SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
 //        return http
 //                .csrf().disable()
 //                .authorizeExchange()
@@ -46,6 +45,63 @@ public class SecurityConfig {
 //                .and()
 //                .build();
 //    }
+
+//    @Bean
+//    public @NonNull SecurityWebFilterChain securityWebFilterChain(
+//            ServerHttpSecurity http,
+//            JwtAuthenticationFilter jwtFilter
+//    ) {
+//        http
+//                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+//                .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))
+//                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+//
+//                .authorizeExchange(auth -> auth
+//                        .pathMatchers(HttpMethod.GET, "/", "/index.html", "/static/**", "/favicon.ico").permitAll()
+//                        .pathMatchers(HttpMethod.OPTIONS).permitAll()
+//                        .pathMatchers("/api/auth/**").permitAll()
+//                        .pathMatchers("/api/auth/admin/**").hasAuthority("ZKSocials")
+//                        .anyExchange().authenticated()
+//                )
+//                .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+//
+//        return http.build();
+//    }
+
+    @Bean
+    public CorsWebFilter corsWebFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "http://localhost:5174"
+                ));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsWebFilter(source);
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
+                )
+                .httpBasic(withDefaults())
+                .formLogin(withDefaults());
+
+        return http.build();
+    }
+
+
+
 
     @Bean
     public @NonNull SecurityWebFilterChain securityWebFilterChain(
@@ -69,22 +125,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public CorsWebFilter corsWebFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "http://localhost:5174"
-                ));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-
-        return new CorsWebFilter(source);
-    }
 
     @Bean
     public @NonNull JwtAuthenticationFilter jwtAuthenticationFilter() {

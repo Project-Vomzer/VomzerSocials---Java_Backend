@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -157,7 +156,7 @@ public class ZkLoginService {
         return Mono.fromCallable(() -> {
             log.debug("Searching for user with userId: {}", userId);
             try {
-                Optional<User> user = userRepository.findByUserId(userId);
+                Optional<User> user = userRepository.findById(userId);
                 log.debug("Found user for userId {}: {}", userId, user.isPresent() ? user.get() : "not found");
                 return user;
             } catch (Exception e) {
