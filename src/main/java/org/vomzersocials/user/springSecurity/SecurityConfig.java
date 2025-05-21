@@ -36,11 +36,16 @@ public class SecurityConfig {
         this.jwtUtil = jwtUtil;
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-        return http.build();
-    }
+//    @Bean
+//    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+//        return http
+//                .csrf().disable()
+//                .authorizeExchange()
+//                .pathMatchers("/api/**").authenticated()
+//                .anyExchange().permitAll()
+//                .and()
+//                .build();
+//    }
 
     @Bean
     public @NonNull SecurityWebFilterChain securityWebFilterChain(
