@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="cors config updated">
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="applications.properties config corrected">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/cors/VomzerWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/cors/VomzerWebSocketHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -42,8 +40,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;git@github.com:Project-Vomzer/VomzerSocials---Java_Backend.git&quot;,
-    &quot;accountId&quot;: &quot;21f70173-cba1-45e4-adbd-60a833f4fa22&quot;
+    &quot;url&quot;: &quot;https://github.com/Project-Vomzer/VomzerSocials---Java_Backend.git&quot;,
+    &quot;accountId&quot;: &quot;a8fe3cfd-8fc9-4aab-aa04-a1fca2d8c522&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -82,6 +80,9 @@
   &quot;keyToString&quot;: {
     &quot;Application.SecretKeyGenerator.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.Main | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.Main | #2.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #10.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #11.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #13.executor&quot;: &quot;Run&quot;,
@@ -184,12 +185,12 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;data.sources.detected.do.not.suggest.again&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;john&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#30 on zklogin-setup&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_directory_selection&quot;: &quot;C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse/src/test/java/org/vomzersocials/user/services/implementations&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL USER/Desktop/VomzerSocials-SuiHackerHouse&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL USER/Desktop/New folder/VomzerSocials---Java_Backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -212,10 +213,13 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.vomzersocials.user.exceptions" />
       <recent name="org.vomzersocials.user.dtos.responses" />
       <recent name="org.vomzersocials.user.dtos.requests" />
-      <recent name="org.vomzersocials.user.exceptions" />
       <recent name="org.vomzersocials.user.data.models" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL USER\Desktop\New folder\VomzerSocials---Java_Backend\src\main\resources" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -246,13 +250,13 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.Main">
-    <configuration name="generated-requests | #21" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="21" requestIdentifier="#21" runType="Run single request">
+    <configuration name="Main | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/Main.http" requestIdentifier="#1" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #22" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="22" requestIdentifier="#22" runType="Run single request">
+    <configuration name="Main | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/Main.http" index="2" requestIdentifier="#2" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #24" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="24" requestIdentifier="#24" runType="Run single request">
+    <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" requestIdentifier="#1" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="generated-requests | #25" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="25" requestIdentifier="#25" runType="Run single request">
@@ -260,6 +264,14 @@
     </configuration>
     <configuration name="generated-requests | #27" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="27" requestIdentifier="#27" runType="Run single request">
       <method v="2" />
+    </configuration>
+    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="VomzerSocials-SuiHackerHouse" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.vomzersocials.Main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -277,11 +289,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.Main | #2" />
+        <item itemvalue="HTTP Request.Main | #1" />
+        <item itemvalue="HTTP Request.generated-requests | #1" />
         <item itemvalue="HTTP Request.generated-requests | #27" />
         <item itemvalue="HTTP Request.generated-requests | #25" />
-        <item itemvalue="HTTP Request.generated-requests | #24" />
-        <item itemvalue="HTTP Request.generated-requests | #22" />
-        <item itemvalue="HTTP Request.generated-requests | #21" />
       </list>
     </recent_temporary>
   </component>
@@ -349,38 +361,13 @@
       <workItem from="1747164057232" duration="26279000" />
       <workItem from="1747219398033" duration="23343000" />
       <workItem from="1747282850765" duration="1780000" />
-    </task>
-    <task id="LOCAL-00011" summary="ZK Login AuthService Tests passed">
-      <option name="closed" value="true" />
-      <created>1744378412228</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1744378412228</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Walrus client service integrated&#10;Implementation in progress">
-      <option name="closed" value="true" />
-      <created>1745464372263</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1745464372263</updated>
-    </task>
-    <task id="LOCAL-00013" summary="S3Presigner configured in the media service">
-      <option name="closed" value="true" />
-      <created>1745470053737</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1745470053737</updated>
-    </task>
-    <task id="LOCAL-00014" summary="Docker errors">
-      <option name="closed" value="true" />
-      <created>1745486695676</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1745486695677</updated>
+      <workItem from="1747403475352" duration="2809000" />
+      <workItem from="1747492346711" duration="885000" />
+      <workItem from="1747569080011" duration="1276000" />
+      <workItem from="1747636185968" duration="13593000" />
+      <workItem from="1747807263434" duration="26418000" />
+      <workItem from="1747857960041" duration="7026000" />
+      <workItem from="1747900405918" duration="3627000" />
     </task>
     <task id="LOCAL-00015" summary="Still battling docker">
       <option name="closed" value="true" />
@@ -742,7 +729,39 @@
       <option name="project" value="LOCAL" />
       <updated>1747249862919</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Zk Login setup&#10;Trying to run">
+      <option name="closed" value="true" />
+      <created>1747828032333</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1747828032334</updated>
+    </task>
+    <task id="LOCAL-00061" summary="security config issues still pressing&#10;Progress being made">
+      <option name="closed" value="true" />
+      <created>1747832272909</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1747832272909</updated>
+    </task>
+    <task id="LOCAL-00062" summary="finally built the project with no errors">
+      <option name="closed" value="true" />
+      <created>1747838583198</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1747838583198</updated>
+    </task>
+    <task id="LOCAL-00063" summary="applications.properties config corrected">
+      <option name="closed" value="true" />
+      <created>1747896369302</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1747896369304</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -760,10 +779,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="comment session done and tests passing" />
-    <MESSAGE value="User can like and unlike a post&#10;User can follow and unfollow a user" />
-    <MESSAGE value="Updated application.properties" />
-    <MESSAGE value="Post controller issues" />
     <MESSAGE value="Dockerfile upgrade" />
     <MESSAGE value="User A can follow User B and verse versa" />
     <MESSAGE value="Follow relation mapping and services done" />
@@ -785,7 +800,11 @@
     <MESSAGE value="cors config set -  refactored" />
     <MESSAGE value="removed backend dto validations for registration and login" />
     <MESSAGE value="cors config updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="cors config updated" />
+    <MESSAGE value="Zk Login setup&#10;Trying to run" />
+    <MESSAGE value="security config issues still pressing&#10;Progress being made" />
+    <MESSAGE value="finally built the project with no errors" />
+    <MESSAGE value="applications.properties config corrected" />
+    <option name="LAST_COMMIT_MESSAGE" value="applications.properties config corrected" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

@@ -40,11 +40,20 @@ public class User{
 
     @Column(nullable = false, unique = true)
     private String suiAddress;
+
+    @Column(name = "public_key")
     private String publicKey;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", length = 20, nullable = false)
     private Role role;
+
+    @Column(name = "salt")
+    private String salt;
+
+
+    @Column(unique = true)
+    private String jwtSubjectHash;
 
     private int followerCount;
     private int followingCount;
@@ -64,10 +73,10 @@ public class User{
     @CreationTimestamp
     private LocalDateTime dateOfCreation;
 
-    @PrePersist
-    protected void onCreate() {
-        this.dateOfCreation = LocalDateTime.now();
-    }
+//    @PrePersist
+//    protected void onCreate() {
+//        this.dateOfCreation = LocalDateTime.now();
+//    }
 
 
 }

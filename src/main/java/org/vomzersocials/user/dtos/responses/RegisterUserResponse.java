@@ -3,20 +3,35 @@ package org.vomzersocials.user.dtos.responses;
 import lombok.*;
 import org.vomzersocials.user.enums.Role;
 
+import java.util.Map;
+
 @Setter
 @Getter
-@AllArgsConstructor
+//@RequiredArgsConstructor
 @NoArgsConstructor
 @Builder
 public class RegisterUserResponse {
-    private String userName;
-    private Boolean isLoggedIn;
-    private Role role;
+    private boolean success;
     private String message;
+    private String suiAddress;
+    private String username;
+    private int statusCode;
+    private Map<String, Object> responseBody;
 
-    public RegisterUserResponse(String userName, boolean b, String s) {
-        this.userName = userName;
-        this.isLoggedIn = b;
-        this.message = s;
+
+    public RegisterUserResponse(boolean b, String loginSuccessful, String suiAddress, String userName) {
+        this.success = b;
+        this.message = loginSuccessful;
+        this.suiAddress = suiAddress;
+        this.username = userName;
+    }
+
+    public RegisterUserResponse(boolean isSuccess, String registrationSuccessful, String suiAddress, String userName, int value, Map<String, Object> walletDetails) {
+        this.success = isSuccess;
+        this.message = registrationSuccessful;
+        this.suiAddress = suiAddress;
+        this.username = userName;
+        this.statusCode = value;
+        this.responseBody = walletDetails;
     }
 }

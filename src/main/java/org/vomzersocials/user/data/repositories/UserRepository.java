@@ -7,13 +7,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.vomzersocials.user.data.models.User;
-import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-    User findUserById(String userId);
+    Optional<User> findById(String id);
     @Modifying
     @Transactional
     @Query("UPDATE User u SET u.suiAddress = :suiAddress WHERE u.id = :id")
@@ -22,4 +21,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findUserByUserName(String userName);
     Optional<User> findUserBySuiAddress(String suiAddress);
 
+    String findByJwtSubjectHash(String jwtSubjectHash);
+
+    User findUserById(String userId);
 }
