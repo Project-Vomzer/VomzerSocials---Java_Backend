@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="applications.properties config corrected">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="applications.properties config corrected" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -368,6 +366,7 @@
       <workItem from="1747807263434" duration="26418000" />
       <workItem from="1747857960041" duration="7026000" />
       <workItem from="1747900405918" duration="3627000" />
+      <workItem from="1747918339257" duration="606000" />
     </task>
     <task id="LOCAL-00015" summary="Still battling docker">
       <option name="closed" value="true" />
