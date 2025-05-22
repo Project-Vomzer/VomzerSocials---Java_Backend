@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="finally built the project with no errors">
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +44,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Project-Vomzer/VomzerSocials---Java_Backend.git&quot;,
-    &quot;accountId&quot;: &quot;21f70173-cba1-45e4-adbd-60a833f4fa22&quot;
+    &quot;accountId&quot;: &quot;a8fe3cfd-8fc9-4aab-aa04-a1fca2d8c522&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -80,6 +83,8 @@
   &quot;keyToString&quot;: {
     &quot;Application.SecretKeyGenerator.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.Main | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.Main | #2.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #10.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #11.executor&quot;: &quot;Run&quot;,
@@ -183,7 +188,7 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;data.sources.detected.do.not.suggest.again&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;zklogin-setup&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#30 on zklogin-setup&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -248,13 +253,13 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.Main">
+    <configuration name="Main | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/Main.http" requestIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="Main | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/Main.http" index="2" requestIdentifier="#2" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" requestIdentifier="#1" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="generated-requests | #22" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="22" requestIdentifier="#22" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="generated-requests | #24" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="24" requestIdentifier="#24" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="generated-requests | #25" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="25" requestIdentifier="#25" runType="Run single request">
@@ -287,11 +292,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.Main | #2" />
+        <item itemvalue="HTTP Request.Main | #1" />
         <item itemvalue="HTTP Request.generated-requests | #1" />
         <item itemvalue="HTTP Request.generated-requests | #27" />
         <item itemvalue="HTTP Request.generated-requests | #25" />
-        <item itemvalue="HTTP Request.generated-requests | #24" />
-        <item itemvalue="HTTP Request.generated-requests | #22" />
       </list>
     </recent_temporary>
   </component>
@@ -363,7 +368,8 @@
       <workItem from="1747492346711" duration="885000" />
       <workItem from="1747569080011" duration="1276000" />
       <workItem from="1747636185968" duration="13593000" />
-      <workItem from="1747807263434" duration="25492000" />
+      <workItem from="1747807263434" duration="26418000" />
+      <workItem from="1747857960041" duration="5643000" />
     </task>
     <task id="LOCAL-00014" summary="Docker errors">
       <option name="closed" value="true" />

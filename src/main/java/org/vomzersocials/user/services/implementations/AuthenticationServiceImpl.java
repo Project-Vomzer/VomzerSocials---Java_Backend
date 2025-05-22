@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.vomzersocials.user.dtos.responses.*;
+import org.vomzersocials.user.enums.LoginMethod;
 import org.vomzersocials.user.services.interfaces.AuthenticationService;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -35,7 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final ZkLoginService zkLoginService;
     private final WalletApiClient walletApiClient;
     private final JwtUtil jwtUtil;
-    private final RestTemplate restTemplate;
+//    private final RestTemplate restTemplate;
     private final WebClient webClient;
 
 
@@ -53,7 +54,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.zkLoginService = zkLoginService;
         this.walletApiClient = walletApiClient;
         this.jwtUtil = jwtUtil;
-        this.restTemplate = restTemplate;
+//        this.restTemplate = restTemplate;
         this.webClient = webClientBuilder.build();
     }
 
@@ -285,12 +286,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Mono<LoginResponse> loginWithStandardLogin(StandardLoginRequest request) {
         log.info("Attempting standard login for user: {}", request.getUserName());
+        request.setLoginMethod(LoginMethod.STANDARD_LOGIN);
         return handleStandardLogin(request)
                 .flatMap(user -> Mono.fromCallable(() -> {
                             user.setIsLoggedIn(true);
                             return userRepository.save(user);
                         }).subscribeOn(Schedulers.boundedElastic())
                         .thenReturn(user))
+
                 .map(user -> createLoginResponse(user, request.getLoginMethod().name()))
                 .doOnNext(this::logLoginResponse)
                 .onErrorMap(IllegalArgumentException.class, e -> new IllegalArgumentException("Login failed: " + e.getMessage()));
