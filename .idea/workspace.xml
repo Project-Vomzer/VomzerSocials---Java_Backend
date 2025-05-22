@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="finally built the project with no errors">
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/vomzersocials/user/services/implementations/AuthenticationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="d0133c80-18fd-47c9-a12d-39c4456ad703" name="Changes" comment="applications.properties config corrected" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -369,15 +364,7 @@
       <workItem from="1747569080011" duration="1276000" />
       <workItem from="1747636185968" duration="13593000" />
       <workItem from="1747807263434" duration="26418000" />
-      <workItem from="1747857960041" duration="5643000" />
-    </task>
-    <task id="LOCAL-00014" summary="Docker errors">
-      <option name="closed" value="true" />
-      <created>1745486695676</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1745486695677</updated>
+      <workItem from="1747857960041" duration="6023000" />
     </task>
     <task id="LOCAL-00015" summary="Still battling docker">
       <option name="closed" value="true" />
@@ -763,7 +750,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747838583198</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="applications.properties config corrected">
+      <option name="closed" value="true" />
+      <created>1747896369302</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1747896369304</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -781,7 +776,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Post controller issues" />
     <MESSAGE value="Dockerfile upgrade" />
     <MESSAGE value="User A can follow User B and verse versa" />
     <MESSAGE value="Follow relation mapping and services done" />
@@ -806,7 +800,8 @@
     <MESSAGE value="Zk Login setup&#10;Trying to run" />
     <MESSAGE value="security config issues still pressing&#10;Progress being made" />
     <MESSAGE value="finally built the project with no errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="finally built the project with no errors" />
+    <MESSAGE value="applications.properties config corrected" />
+    <option name="LAST_COMMIT_MESSAGE" value="applications.properties config corrected" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
