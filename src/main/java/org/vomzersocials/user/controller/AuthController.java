@@ -22,12 +22,13 @@ import reactor.core.scheduler.Schedulers;
 import java.net.URI;
 import java.time.Duration;
 
-@CrossOrigin(origins = "${cors.allowed-origins:http://localhost:3000}")
+@CrossOrigin(origins = "${cors.allowed-origins:http://localhost:5173,http://localhost:5174}")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
+
 
     private final UserService userService;
     private final JwtUtil jwtUtil;
@@ -62,7 +63,6 @@ public class AuthController {
     public Mono<ResponseEntity<LoginResponse>> loginZk(@Valid @RequestBody ZkLoginRequest request) {
         return userService.loginUserViaZk(request)
                 .map(response -> {
-                    log.info("zkLogin successful for publicKey: {}", request.getPublicKey());
                     ResponseCookie cookie = ResponseCookie.from("refreshToken", response.getRefreshToken())
                             .httpOnly(true)
                             .secure(cookieSecure)
@@ -82,7 +82,7 @@ public class AuthController {
         return userService.registerAdmin(request)
                 .map(response -> {
                     log.info("Admin registration successful for username: {}", request.getUserName());
-                    return ResponseEntity.created(URI.create("/api/users/" + response.getUserName()))
+                    return ResponseEntity.created(URI.create("/api/users/" + response.getUsername()))
                             .body(response);
                 })
                 .onErrorResume(e -> {
@@ -101,7 +101,7 @@ public class AuthController {
         return userService.registerNewUserViaStandardRegistration(request)
                 .map(response -> {
                     log.info("Standard registration successful for username: {}", request.getUserName());
-                    return ResponseEntity.created(URI.create("/api/users/" + response.getUserName()))
+                    return ResponseEntity.created(URI.create("/api/users/" + response.getUsername()))
                             .body(response);
                 });
     }
@@ -111,7 +111,7 @@ public class AuthController {
         return userService.registerNewUserViaZk(request)
                 .map(response -> {
                     log.info("zk registration successful for username: {}", request.getUserName());
-                    return ResponseEntity.created(URI.create("/api/users/" + response.getUserName()))
+                    return ResponseEntity.created(URI.create("/api/users/" + response.getUsername()))
                             .body(response);
                 });
     }
@@ -196,7 +196,6 @@ public class AuthController {
                 .flatMap(user -> tokenService.createToken(request.getUserName())
                         .map(token -> {
                             log.info("Password reset token created for user: {}", request.getUserName());
-                            // TODO: Send token to user (e.g., via notification system, not email)
                             return ResponseEntity.ok("Password reset token generated. Check your notifications.");
                         }))
                 .onErrorMap(IllegalArgumentException.class, e -> new IllegalArgumentException("Password reset request failed: " + e.getMessage()));

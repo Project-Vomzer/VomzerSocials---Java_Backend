@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-
     int updateUserFollowCount(FollowUserRequest request, FollowType followType, boolean isIncrement);
     Optional<User> findById(String followingId);
     void saveAll(List<User> users);

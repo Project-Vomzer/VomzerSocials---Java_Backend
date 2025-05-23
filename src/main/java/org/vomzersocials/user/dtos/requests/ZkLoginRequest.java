@@ -7,12 +7,11 @@ import org.vomzersocials.user.enums.LoginMethod;
 
 @Data
 public class ZkLoginRequest {
-    @NotEmpty(message = "zkProof cannot be empty")
-    private String zkProof;
+//    @NotEmpty(message = "Username cannot be empty")
+//    private String userName;
 
     @NotEmpty(message = "Public key cannot be empty")
-    private String publicKey;
+    private String jwt;
 
-    private LoginMethod loginMethod = LoginMethod.ZK_LOGIN;
 }
 

@@ -20,8 +20,5 @@ public interface MediaRepository extends JpaRepository<Media, UUID> {
     Media findMediaByFilename(String filename);
     void deleteByUrl(String mediaUrl);
     Media findMediaById(UUID id);
-
     Optional<Object> findByFilename(String filename);
-
-//    Object findByFilename(String );
 }

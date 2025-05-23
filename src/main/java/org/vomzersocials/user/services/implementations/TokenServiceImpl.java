@@ -35,13 +35,6 @@ public class TokenServiceImpl implements TokenService {
     }
 
     private String generateToken() {
-//        StringBuilder token = new StringBuilder();
-//        for (int count = 0; count < 5; count++) {
-//            SecureRandom secureRandom = new SecureRandom();
-//            int numbers = secureRandom.nextInt(1, 9);
-//            token.append(numbers);
-//        }
-//        return String.valueOf(token);
             SecureRandom secureRandom = new SecureRandom();
             byte[] randomBytes = new byte[32];
             secureRandom.nextBytes(randomBytes);

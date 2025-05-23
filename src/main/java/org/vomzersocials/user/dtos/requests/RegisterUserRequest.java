@@ -12,7 +12,6 @@ public class RegisterUserRequest {
     @JsonAlias({"username", "userName"})
     private String userName;
     private String password;
-//    private Role role;
     private String zkProof;
     private String publicKey;
 }

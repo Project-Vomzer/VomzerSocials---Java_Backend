@@ -85,13 +85,13 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(UUID.fromString(commentId))
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
 
-        deleteTrailingCommentsToavoidHavingOrphanedComments(comment);
+        deleteTrailingCommentsToAvoidHavingOrphanedComments(comment);
     }
 
-    private void deleteTrailingCommentsToavoidHavingOrphanedComments(Comment comment) {
+    private void deleteTrailingCommentsToAvoidHavingOrphanedComments(Comment comment) {
         List<Comment> replies = commentRepository.findByParentComment(comment);
         for (Comment reply : replies) {
-            deleteTrailingCommentsToavoidHavingOrphanedComments(reply);
+            deleteTrailingCommentsToAvoidHavingOrphanedComments(reply);
         }
         commentRepository.delete(comment);
     }
