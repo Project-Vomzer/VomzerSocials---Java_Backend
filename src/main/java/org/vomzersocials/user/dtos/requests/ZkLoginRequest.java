@@ -1,14 +1,16 @@
 package org.vomzersocials.user.dtos.requests;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import org.vomzersocials.user.enums.LoginMethod;
 
 
-@Setter
-@Getter
+@Data
 public class ZkLoginRequest {
-    @NotEmpty(message = "JWT cannot be empty")
+//    @NotEmpty(message = "Username cannot be empty")
+//    private String userName;
+
+    @NotEmpty(message = "Public key cannot be empty")
     private String jwt;
 
 }

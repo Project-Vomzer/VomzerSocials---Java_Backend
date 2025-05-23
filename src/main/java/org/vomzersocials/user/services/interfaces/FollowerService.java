@@ -1,11 +1,10 @@
 package org.vomzersocials.user.services.interfaces;
 
 import org.vomzersocials.user.dtos.requests.FollowUserRequest;
-import reactor.core.publisher.Mono;
 
 public interface FollowerService {
-    Mono<Void> followUser(FollowUserRequest request);
-    Mono<Void> unfollowUser(FollowUserRequest request);
-    Mono<Boolean> isFollowing(FollowUserRequest request);
-    Mono<Void> toggleFollow(FollowUserRequest request);
+    void followUser(FollowUserRequest followUserRequest);
+    void unfollowUser(FollowUserRequest followUserRequest);
+    boolean isFollowing(FollowUserRequest followUserRequest);
+    void toggleFollow(FollowUserRequest request);
 }

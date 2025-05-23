@@ -1,11 +1,11 @@
 package org.vomzersocials.user.springSecurity;
 
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface AuthenticationEntryPoint {
-    Mono<Void> commence (ServerWebExchange exchange, AuthenticationException authException);
+    void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException;
 }

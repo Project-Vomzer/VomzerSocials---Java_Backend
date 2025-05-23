@@ -1,4 +1,4 @@
-//package org.vomzersocials.zkLogin.security;
+package org.vomzersocials.zkLogin.security;//package org.vomzersocials.zkLogin.security;
 //
 //import com.fasterxml.jackson.databind.JsonNode;
 //import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +34,7 @@
 //    @BeforeEach
 //    public void setUp() {
 //        objectMapper = new ObjectMapper();
-//        client = new SuiZkLoginClient(objectMapper, webClientBuilder);
+//        client = new SuiZkLoginClient(objectMapper, webClientBuilder, 2);
 //        // fake base URL
 //        ReflectionTestUtils.setField(client, "suiRpcUrl", "http://fake-rpc");
 //

@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ import reactor.core.scheduler.Schedulers;
 import java.net.URI;
 import java.time.Duration;
 
-@CrossOrigin(origins = "${cors.allowed-origins:http://localhost:3000}")
+@CrossOrigin(origins = "${cors.allowed-origins:http://localhost:5173,http://localhost:5174 }")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -63,7 +62,7 @@ public class AuthController {
     public Mono<ResponseEntity<LoginResponse>> loginZk(@Valid @RequestBody ZkLoginRequest request) {
         return userService.loginUserViaZk(request)
                 .map(response -> {
-                    log.info("zkLogin successful for JWT: {}", request.getJwt());
+//                    log.info("zkLogin successful for publicKey: {}", request.getPublicKey());
                     ResponseCookie cookie = ResponseCookie.from("refreshToken", response.getRefreshToken())
                             .httpOnly(true)
                             .secure(cookieSecure)
@@ -77,14 +76,13 @@ public class AuthController {
                 });
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register/admin")
     public Mono<ResponseEntity<RegisterUserResponse>> registerAdmin(
             @Valid @RequestBody StandardRegisterRequest request) {
         return userService.registerAdmin(request)
                 .map(response -> {
                     log.info("Admin registration successful for username: {}", request.getUserName());
-                    return ResponseEntity.created(URI.create("/api/users/" + response.getUserName()))
+                    return ResponseEntity.created(URI.create("/api/users/" + response.getUsername()))
                             .body(response);
                 })
                 .onErrorResume(e -> {
@@ -103,7 +101,7 @@ public class AuthController {
         return userService.registerNewUserViaStandardRegistration(request)
                 .map(response -> {
                     log.info("Standard registration successful for username: {}", request.getUserName());
-                    return ResponseEntity.created(URI.create("/api/users/" + response.getUserName()))
+                    return ResponseEntity.created(URI.create("/api/users/" + response.getUsername()))
                             .body(response);
                 });
     }
@@ -113,16 +111,8 @@ public class AuthController {
         return userService.registerNewUserViaZk(request)
                 .map(response -> {
                     log.info("zk registration successful for username: {}", request.getUserName());
-                    return ResponseEntity.created(URI.create("/api/users/" + response.getUserName()))
+                    return ResponseEntity.created(URI.create("/api/users/" + response.getUsername()))
                             .body(response);
-                })
-                .onErrorResume(error -> {
-                    HttpStatus httpStatus = (error instanceof IllegalArgumentException) ? HttpStatus.BAD_REQUEST : HttpStatus.INTERNAL_SERVER_ERROR;
-                    return Mono.just(ResponseEntity.status(httpStatus).body(
-                            RegisterUserResponse.builder()
-                                    .message(error.getMessage())
-                                    .build()
-                    ));
                 });
     }
 
