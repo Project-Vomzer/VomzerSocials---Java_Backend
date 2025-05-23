@@ -109,8 +109,6 @@ public class PostController {
     public Mono<ResponseEntity<RepostResponse>> repost(
             @Valid @RequestBody RepostRequest request,
             @RequestHeader("Authorization") String authHeader) {
-
-        //                    log.info("Repost successful for postId: {} by userId: {}", request.getPostId(), userId);
         return validateAndExtractUserId(authHeader)
                 .flatMap(userId -> postService.repost(request, userId))
                 .map(ResponseEntity::ok)

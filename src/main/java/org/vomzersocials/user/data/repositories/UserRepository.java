@@ -20,8 +20,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByPublicKey(String publicKey);
     Optional<User> findUserByUserName(String userName);
     Optional<User> findUserBySuiAddress(String suiAddress);
-
     String findByJwtSubjectHash(String jwtSubjectHash);
-
     User findUserById(String userId);
 }

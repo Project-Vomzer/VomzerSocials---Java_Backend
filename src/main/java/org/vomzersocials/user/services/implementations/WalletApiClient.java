@@ -92,35 +92,4 @@ public class WalletApiClient {
         }
     }
 
-//    BRING BACK FORMER METHOD WHEN I INTEGRATE THE WALLET GENERATOR NODE APP
-//private Mono<String> parseResponse(String rawResponse) {
-//    try {
-//        JsonNode root = objectMapper.readTree(rawResponse);
-//        if (root.has("error")) {
-//            return Mono.error(new ServiceUnavailableException(root.get("error").asText()));
-//        }
-//        JsonNode addressNode = root.path("data").path("address");
-//        if (addressNode.isMissingNode()) {
-//            addressNode = root.path("address");
-//        }
-//        if (!addressNode.isTextual()) {
-//            log.error("Invalid address format. Response length: {}", rawResponse.length());
-//            return Mono.error(new IllegalStateException("Invalid address format"));
-//        }
-//
-//        String address = addressNode.asText();
-//        // Allow either the 0x... hex (66 chars) OR the sui_... format
-//        boolean isHex = address.startsWith("0x") && address.length() == 66;
-//        boolean isSuiPrefix = address.startsWith("sui_");
-//        if (!isHex && !isSuiPrefix) {
-//            log.error("Invalid Sui address format: {}", address);
-//            return Mono.error(new IllegalStateException("Invalid Sui address: " + address));
-//        }
-//
-//        return Mono.just(address);
-//    } catch (JsonProcessingException e) {
-//        return Mono.error(new IllegalStateException("Invalid API response format", e));
-//    }
-//}
-
 }

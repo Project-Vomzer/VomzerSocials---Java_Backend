@@ -6,12 +6,8 @@ import reactor.core.publisher.Mono;
 
 public interface AuthenticationService {
     Mono<RegisterUserResponse> registerAdmin(StandardRegisterRequest request);
-
     Mono<RegisterUserResponse> registerWithStandardLogin(StandardRegisterRequest request);
     Mono<RegisterUserResponse> registerWithZkLogin(ZkRegisterRequest request);
-
-//    Mono<upgradeUserResponse> switchToAdmin(String username);
-
     Mono<LoginResponse> loginWithStandardLogin(StandardLoginRequest request);
     Mono<LoginResponse> loginWithZkLogin(ZkLoginRequest request);
     Mono<LogoutUserResponse> logoutUser(LogoutRequest request);

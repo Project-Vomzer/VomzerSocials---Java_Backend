@@ -9,7 +9,6 @@ import lombok.*;
 @ToString
 public class ZkLoginResult {
     private String suiAddress;
-    //    private String zkProof;
     private String publicKey;
 
 }

@@ -178,7 +178,6 @@ public class ZkLoginService {
         return suiZkLoginClient.generateZkProofAndPublicKey(jwt, salt);
     }
 
-//    @Cacheable(value = "jwtSubjectHashes", key = "#jwt")
     private String hashJwtSubject(String jwt) {
         try {
             String subject = Jwts.parserBuilder()

@@ -40,12 +40,10 @@ public class JwtAuthenticationFilter implements WebFilter {
                 path.equals("/api/health")) {
             return chain.filter(exchange);
         }
-
         String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return chain.filter(exchange);
         }
-
         String token = authHeader.substring(7);
         if (!jwtUtil.validateToken(token)) {
             log.warn("Invalid JWT token for request: {}", path);
@@ -56,7 +54,6 @@ public class JwtAuthenticationFilter implements WebFilter {
                     ))
             );
         }
-
         String username = jwtUtil.extractUsername(token);
         List<String> roles = jwtUtil.extractRoles(token);
         List<SimpleGrantedAuthority> authorities = roles.stream()
